@@ -1,0 +1,3 @@
+Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Users/Admin/Documents/GitHub/Pong_2/Content/File.spritefont","C:/Users/Admin/Documents/GitHub/Pong_2/Content/bin/Windows/text.xnb","FontDescriptionProcessor","SpriteFontContent",2008,21521,0,2874855
+"C:/Users/Admin/Documents/GitHub/Pong_2/Content/Namnlspixel.png","C:/Users/Admin/Documents/GitHub/Pong_2/Content/bin/Windows/Namnlspixel.xnb","TextureProcessor","Texture2DContent",124,421,0,3163578
