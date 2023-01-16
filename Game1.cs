@@ -6,6 +6,11 @@ namespace Pong_2;
 
 public class Game1 : Game
 {
+    //Y
+    public const int WINDOW_HEIGHT = 800;
+    //X
+    public const int WINDOW_WHITE = 1200;
+    public int toutch = 0;
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
@@ -13,32 +18,34 @@ public class Game1 : Game
 
     SpriteFont font;
 
-    Rectangle leftpadel = new Rectangle(50, 100,15,100);
 
-    Rectangle rightpadel = new Rectangle(740, 100,15,100);
-    
-    Rectangle bol = new Rectangle(395, 235,15,15);
+    Rectangle bol = new Rectangle(WINDOW_WHITE/2, 235,15,15);
 
-    Rectangle strek = new Rectangle(395, 5,2,798);
+    Rectangle strek = new Rectangle(WINDOW_WHITE/2, 5,2,798);
 
 
     int padelspeedR = 3;
     int padelspeedL = 3;
 
-    int bolspeedX = 2;
-    int bolspeedY = 2;
+    int bolspeedX = 4;
+    int bolspeedY = 4;
 
 
     int poengL = 0;
 
     int poengR = 0;
 
+    Padel lp = new Padel(50, 5,Keys.W, Keys.S);
+    Padel rp = new Padel(WINDOW_WHITE-60, 2,Keys.Up,Keys.Down);
+
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
-    }
+        _graphics.PreferredBackBufferHeight = WINDOW_HEIGHT;
+        _graphics.PreferredBackBufferWidth = WINDOW_WHITE;
+    }   
 
     protected override void Initialize()
     {
@@ -66,55 +73,52 @@ public class Game1 : Game
 
         KeyboardState kstate = Keyboard.GetState();
 
-        if  (kstate.IsKeyDown(Keys.W) && leftpadel.Y >= 0)
-                leftpadel.Y-=padelspeedL;
+
         
-        if  (kstate.IsKeyDown(Keys.S) && leftpadel.Y <= 380)
-                leftpadel.Y+=padelspeedL;
-
-        if  (kstate.IsKeyDown(Keys.Up) && rightpadel.Y >= 0)
-                rightpadel.Y-=padelspeedR;
-
-        if  (kstate.IsKeyDown(Keys.Down) && rightpadel.Y <= 380)
-                rightpadel.Y+=padelspeedR;
+        
         
         bol.Y += bolspeedY;
         bol.X += bolspeedX;
 
-        if(bol.Y <= 0 || bol.Y+bol.Height >= 480 )
+        if(bol.Y <= 0 || bol.Y+bol.Height >= WINDOW_HEIGHT )
             bolspeedY *= -1;
 
         if(bol.X <= 0 )
         {
         poengR ++;
-        bol.X = 395;
-        bol.Y = 235;
+        bol.X = WINDOW_WHITE-405;
+        bol.Y = WINDOW_HEIGHT-245;
         bolspeedX *= -1;
         }
 
 
-        if(bol.X+bol.Height >= 800)
+        if(bol.X+bol.Height >= WINDOW_WHITE)
         {
         poengL++;
-        bol.X = 395;
-        bol.Y = 235;
+        bol.X = WINDOW_WHITE-405;
+        bol.Y = WINDOW_HEIGHT-245;
         bolspeedX *= -1;
         }
 
-
-        if(leftpadel.Intersects(bol))
+        //boll rör padel
+        if(lp.Intersects(bol))
+        {
             bolspeedX *= -1;
+            toutch = 0;
+        }
 
         if(rightpadel.Intersects(bol))
+        {
             bolspeedX *= -1;
+            toutch = 1;
+        }   
 
-
-
-        if(bol.Y >= rightpadel.Y && rightpadel.Y <=380 && bol.X >= 395)
+        //Dator
+        if(bol.Y >= rp.Y && rp.Y <=WINDOW_WHITE/2 && bol.X >= WINDOW_HEIGHT-85)
             rightpadel.Y += padelspeedR;
 
-        if(bol.Y <= rightpadel.Y && rightpadel.Y >=0 && bol.X >= 395)
-            rightpadel.Y -= padelspeedR;
+        if(bol.Y <= rp.Y && rp.Y >=0 && bol.X >= WINDOW_HEIGHT-85)
+            rp.Y -= padelspeedR;
 
 
         
@@ -128,12 +132,12 @@ public class Game1 : Game
         GraphicsDevice.Clear(Color.Black);
 
         _spriteBatch.Begin();
-       _spriteBatch.Draw(pixel, leftpadel, Color .White);
-       _spriteBatch.Draw(pixel, rightpadel, Color .White);
+       _spriteBatch.Draw(pixel, Padel.lp, Color .White);
+       _spriteBatch.Draw(pixel, Padel.rp, Color .White);
        _spriteBatch.Draw(pixel, bol, Color .White);
         _spriteBatch.Draw(pixel, strek, Color .White);
         _spriteBatch.DrawString(font,poengL.ToString(), new Vector2 (80,0), Color.White);
-        _spriteBatch.DrawString(font,poengR.ToString(), new Vector2 (700,0), Color.White);
+        _spriteBatch.DrawString(font,poengR.ToString(), new Vector2 (WINDOW_WHITE-100,0), Color.White);
         _spriteBatch.End();
 
         // TODO: Add your drawing code here

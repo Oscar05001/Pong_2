@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "jjcEtVrFgYBUOdGQT0shOMKZrheP4zMJ6BylfEaCGnsbfCcBh2reBOt/DeeY3bt5DwQCfTnvF8Yfyn44f+i8AQ==",
+  "dgSpecHash": "0ACCZMhnQxq6NsKDlIW+uoMMEEEwxZkNkRsw+/esv/wzf8UfrmH2N1M6nICO9rNggEq/AjNk2DUFTlhC5B8D6Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Admin\\Documents\\GitHub\\Pong_2\\Pong_2.csproj",
+  "projectFilePath": "C:\\Users\\Admin\\Documents\\GitHub\\ok\\Pong_2\\Pong_2.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Admin\\.nuget\\packages\\libuv\\1.9.1\\libuv.1.9.1.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.codeanalysis.analyzers\\1.1.0\\microsoft.codeanalysis.analyzers.1.1.0.nupkg.sha512",

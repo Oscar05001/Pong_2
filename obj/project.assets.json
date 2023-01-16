@@ -7537,11 +7537,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\Admin\\Documents\\GitHub\\Pong_2\\Pong_2.csproj",
+      "projectUniqueName": "C:\\Users\\Admin\\Documents\\GitHub\\ok\\Pong_2\\Pong_2.csproj",
       "projectName": "Pong_2",
-      "projectPath": "c:\\Users\\Admin\\Documents\\GitHub\\Pong_2\\Pong_2.csproj",
+      "projectPath": "C:\\Users\\Admin\\Documents\\GitHub\\ok\\Pong_2\\Pong_2.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\Admin\\Documents\\GitHub\\Pong_2\\obj\\",
+      "outputPath": "C:\\Users\\Admin\\Documents\\GitHub\\ok\\Pong_2\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
