@@ -19,7 +19,7 @@ public class Game1 : Game
     SpriteFont font;
 
 
-    Rectangle bol = new Rectangle(WINDOW_WHITE/2, 235,15,15);
+    public static Rectangle bol = new Rectangle(WINDOW_WHITE/2, 235,15,15);
 
     Rectangle strek = new Rectangle(WINDOW_WHITE/2, 5,2,798);
 
@@ -35,8 +35,8 @@ public class Game1 : Game
 
     int poengR = 0;
 
-    Padel lp = new Padel(50, 5,Keys.W, Keys.S);
-    Padel rp = new Padel(WINDOW_WHITE-60, 2,Keys.Up,Keys.Down);
+    Padel lp;
+    Padel rp;
 
     public Game1()
     {
@@ -61,8 +61,8 @@ public class Game1 : Game
 
         pixel = Content.Load<Texture2D>("Namnlspixel");
         font = Content.Load<SpriteFont>("File");
-
-
+        lp = new Padel(pixel, 50, 5,Keys.W, Keys.S, Keys.T);
+        rp = new Padel(pixel, WINDOW_WHITE-60, 2,Keys.Up,Keys.Down,Keys.None, true);
         // TODO: use this.Content to load your game content here
     }
 
@@ -100,25 +100,23 @@ public class Game1 : Game
         bolspeedX *= -1;
         }
 
+        lp.Update();
+        rp.Update();
+
         //boll rör padel
-        if(lp.Intersects(bol))
+        if(lp.Paddle.Intersects(bol))
         {
             bolspeedX *= -1;
             toutch = 0;
         }
 
-        if(rightpadel.Intersects(bol))
+        if(rp.Paddle.Intersects(bol))
         {
             bolspeedX *= -1;
             toutch = 1;
         }   
 
-        //Dator
-        if(bol.Y >= rp.Y && rp.Y <=WINDOW_WHITE/2 && bol.X >= WINDOW_HEIGHT-85)
-            rightpadel.Y += padelspeedR;
-
-        if(bol.Y <= rp.Y && rp.Y >=0 && bol.X >= WINDOW_HEIGHT-85)
-            rp.Y -= padelspeedR;
+        
 
 
         
@@ -132,8 +130,8 @@ public class Game1 : Game
         GraphicsDevice.Clear(Color.Black);
 
         _spriteBatch.Begin();
-       _spriteBatch.Draw(pixel, Padel.lp, Color .White);
-       _spriteBatch.Draw(pixel, Padel.rp, Color .White);
+        lp.Draw(_spriteBatch);
+        rp.Draw(_spriteBatch);
        _spriteBatch.Draw(pixel, bol, Color .White);
         _spriteBatch.Draw(pixel, strek, Color .White);
         _spriteBatch.DrawString(font,poengL.ToString(), new Vector2 (80,0), Color.White);
