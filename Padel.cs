@@ -15,8 +15,10 @@ namespace Pong_2
 
         Rectangle padel;
         int ySpeed = 5;
+        public static int bolvar;
 
-        bool ai = false;
+        public bool ai = false;
+
 
         public int Speed{
             set{ySpeed=value;}
@@ -29,7 +31,7 @@ namespace Pong_2
         
         public Padel( Texture2D pixel, int x, int speed, Keys up, Keys down,Keys toggle, bool ai = false){
             padel = new Rectangle(x, (int)(Game1.WINDOW_HEIGHT*0.5)-50,15,100);
-            ySpeed = speed;
+            this.ySpeed = speed;
             this.up = up;
             this.down = down;
             this.pixel = pixel;
@@ -54,19 +56,36 @@ namespace Pong_2
 
         private void AIController(){
             //Dator
-                if(Game1.bol.Y >= Paddle.Y && Paddle.Y <= Game1.WINDOW_WHITE/2 && Game1.bol.X >= Game1.WINDOW_HEIGHT-85)
-                    ChangeY(ySpeed);
 
-                if(Game1.bol.Y <= Paddle.Y && Paddle.Y >=0 && Game1.bol.X >= Game1.WINDOW_HEIGHT-85)
-                    ChangeY(-ySpeed);
+                
+
+                if(Game1.bolspeedX>0&&Game1.bol.X>Game1.WINDOW_WHITE/2){
+                    bolvar = Game1.bol.Y;
+                }
+                else{
+                    bolvar = Game1.WINDOW_HEIGHT/2;
+
+                }
+
+
+                if(bolvar >= Paddle.Y+50 && Paddle.Y <= Game1.WINDOW_HEIGHT-100 && Game1.bol.X >= Game1.WINDOW_WHITE/2)
+                    ChangeY(Game1.padelspeedR);
+
+                if(bolvar <= Paddle.Y+50 && Paddle.Y >=0 && Game1.bol.X >= Game1.WINDOW_WHITE/2)
+                    ChangeY(-Game1.padelspeedR);
         }
+
+
+
+
+
 
         private void HumanController(KeyboardState kstate)
         {
                 if  (kstate.IsKeyDown(up) && padel.Y >= 0)
-                    padel.Y-= ySpeed;
+                    padel.Y-= Game1.padelspeedL;
                 if  (kstate.IsKeyDown(down) && padel.Y <= Game1.WINDOW_HEIGHT-100)
-                    padel.Y+=ySpeed;
+                    padel.Y+=Game1.padelspeedL;
         }
 
         public void Draw(SpriteBatch spriteBatch){
