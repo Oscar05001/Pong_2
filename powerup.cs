@@ -13,8 +13,10 @@ namespace Pong_2
     {
         Random vilken = new Random();
         int num = vilken.Next(0,101);
-        if(num>=0&&num<=20)
+        if(num>=0&&num<=50)
             Speed(vem);
+        else if(num>=51&&num<=100)
+            Game1.SpawnMiten();
 
         
 
@@ -36,6 +38,8 @@ namespace Pong_2
 
 
     }
+
+    
 
 
     }

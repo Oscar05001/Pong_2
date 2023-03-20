@@ -3,12 +3,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
-using System.Timers;
+using System.Collections.Generic;
 
 namespace Pong_2;
 
 public class Game1 : Game
 {
+    float timer = 180;
     //Y
     public const int WINDOW_HEIGHT = 800;
     //X
@@ -16,9 +17,10 @@ public class Game1 : Game
     public int toutch = 0;
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+    List<Mittengubbe> mitengubar = new List<Mittengubbe>();
     
     Texture2D pixel;
-
+    Texture2D coin;
     SpriteFont font;
 
     
@@ -37,21 +39,18 @@ public class Game1 : Game
     public  static int padelspeedM = 8;
     int powerx;
     int powery;
-    int time = 0;
+    
     int ompower = 1;
     int hurmångamit = 1;
+
+    public bool ärdöd;
    
     public static int bolspeedX = 4;
     int bolspeedY = 4;
     public static int bolkommer = 1;
 
     Random rnd = new Random();
-    
-    Random ti = new Random();
-    
-    
-    
-    Random powertid = new Random();
+    float timerpower;
 
 
     int poengL = 0;
@@ -84,7 +83,7 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-
+        coin = Content.Load<Texture2D>("Coin");
         pixel = Content.Load<Texture2D>("Namnlspixel");
         font = Content.Load<SpriteFont>("File");
         lp = new Padel(pixel, 50, padelspeedL,Keys.W, Keys.S,Keys.None);
@@ -115,7 +114,9 @@ public class Game1 : Game
 
         mi.Y += padelspeedM;
 
-       
+        
+
+       timerpower -= 1f/60f;
 
         //Ändra bol Y
         if(bol.Y <= 0 || bol.Y+bol.Height >= WINDOW_HEIGHT ){
@@ -198,31 +199,55 @@ public class Game1 : Game
         
         //power up
         if(ompower==1){
-        Random rx = new Random();
-        Random ry = new Random();
-        //time = ti.Next(1000,10000);
-        powerx = rx.Next(50,1101);
-        powery = ry.Next(0,801);
-        //Timer powertid = new Timer(time);
-        //powertid.AutoReset = true;
-        //powertid.Start();
-        power.X=powerx;
-        power.Y=powery;
+        timerpower = (float)rnd.Next(5,40);
+        powerx = rnd.Next(50,1101);
+        powery = rnd.Next(0,761);
         ompower = 0;
         
         }
 
+        if(timerpower>0){
+            power.Y=WINDOW_HEIGHT+50;
+            power.X=powerx;
 
-        power.X=powerx;
-        power.Y=powery;
-       
-        
 
-        
+        }
+        else{
+            
+            power.Y=powery;
+            power.X=powerx;
+
+        }
         
 
     	//
        
+        RemovMiten();
+
+       
+
+    }
+
+    public static void SpawnMiten(){
+        
+        mitengubar.Add(new Mitengubar(pixel));
+
+
+    }
+
+    public static void RemovMiten(){
+        
+        for (int i = 0; i < mitengubar.Count; i++)
+        {
+            if(mitengube[i].ärdöd)
+            {
+                mitengubar.RemoveAt(i);  // l D D L
+
+            }
+
+
+        }
+
 
     }
 
@@ -237,14 +262,14 @@ public class Game1 : Game
         _spriteBatch.Begin();
         lp.Draw(_spriteBatch);
         rp.Draw(_spriteBatch);
-
+        _spriteBatch.Draw(pixel, strek, Color .White);
         _spriteBatch.Draw(pixel, bol, Color .Red);
         
-        _spriteBatch.Draw(pixel, strek, Color .White);
-        _spriteBatch.Draw(pixel, mi, Color .Yellow);
-        _spriteBatch.Draw(pixel, power, Color .Yellow);
         
-        _spriteBatch.DrawString(font,padelspeedL.ToString(), new Vector2 (150,0), Color.White);
+        _spriteBatch.Draw(pixel, mi, Color .Yellow);
+        _spriteBatch.Draw(coin,power,Color.Yellow);
+        
+        _spriteBatch.DrawString(font,timerpower.ToString(), new Vector2 (150,0), Color.White);
         _spriteBatch.DrawString(font,poengL.ToString(), new Vector2 (80,0), Color.White);
         _spriteBatch.DrawString(font,poengR.ToString(), new Vector2 (WINDOW_WHITE-100,0), Color.White);
         _spriteBatch.End();
