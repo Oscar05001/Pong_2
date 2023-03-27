@@ -7601,26 +7601,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Admin\\.nuget\\packages\\": {}
+    "C:\\Users\\ludde\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Admin\\Documents\\GitHub\\ok\\Pong_2\\Pong_2.csproj",
+      "projectUniqueName": "C:\\Users\\ludde\\OneDrive\\Dokument\\GitHub\\Pong_2\\Pong_2.csproj",
       "projectName": "Pong_2",
-      "projectPath": "C:\\Users\\Admin\\Documents\\GitHub\\ok\\Pong_2\\Pong_2.csproj",
-      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Admin\\Documents\\GitHub\\ok\\Pong_2\\obj\\",
+      "projectPath": "C:\\Users\\ludde\\OneDrive\\Dokument\\GitHub\\Pong_2\\Pong_2.csproj",
+      "packagesPath": "C:\\Users\\ludde\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ludde\\OneDrive\\Dokument\\GitHub\\Pong_2\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\ludde\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0-windows"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

@@ -9,6 +9,13 @@ namespace Pong_2
         Texture2D pixel;
         Rectangle mittengubbar;
 
+
+        public Rectangle Mittengubar{
+            get{return mittengubbar;}
+            set{mittengubbar = value;}
+        }
+        
+
         float timerpower;
         int speed;
         int inspeed;
@@ -16,13 +23,15 @@ namespace Pong_2
                 
 
         Random rnd = new Random();
+        
 
 
         public Mittengubbe(Texture2D pixel, int speed,float timerpower){
-            mittengubbar = new Rectangle(rnd.Next(50,Game1.WINDOW_WHITE-50),10,15,100);
+            
+            mittengubbar = new Rectangle(rnd.Next(100,(Game1.WINDOW_WHITE)-100),10,15,100);
             
             this.pixel = pixel;
-            this.speed = inspeed;
+            this.speed = speed;
             this.timerpower = timerpower;
             
            
@@ -41,11 +50,15 @@ namespace Pong_2
             speed *= -1;
         }
 
+        
 
         
 
+        mittengubbar.Y += speed;
+        timerpower -= 1f/60f;
 
-
+        if(timerpower<0)
+        aredod = true;
 
         }
 
@@ -53,9 +66,7 @@ namespace Pong_2
             spriteBatch.Draw(pixel,mittengubbar,Color.Yellow);
         }
 
-        public void ChangeY(int value){
-            mittengubbar.Y += value;
-        }
+        
         
 
     }

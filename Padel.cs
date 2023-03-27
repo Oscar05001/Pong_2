@@ -19,25 +19,33 @@ namespace Pong_2
 
         public bool ai = false;
 
+        public static int color = 0;
 
-        public int Speed{
-            set{ySpeed=value;}
-        }
+        
+        public bool vem;
+        
+
+
+        
 
         public Rectangle Paddle{
             get{return padel;}
             set{padel = value;}
         }
         
-        public Padel( Texture2D pixel, int x, int speed, Keys up, Keys down,Keys toggle, bool ai = false){
+        // true left , falce right
+        public Padel( Texture2D pixel, int x, bool vem, Keys up, Keys down,Keys toggle){
             padel = new Rectangle(x, (int)(Game1.WINDOW_HEIGHT*0.5)-50,15,100);
-            this.ySpeed = speed;
+            this.vem = vem;
             this.up = up;
             this.down = down;
             this.pixel = pixel;
-            this.ai = ai;
             this.toggle = toggle;
+            
+            
         }
+
+
 
         public void Update(){
             KeyboardState kstate = Keyboard.GetState();
@@ -52,6 +60,21 @@ namespace Pong_2
                 ai = !ai;
 
             oldState = kstate;
+
+            if(vem==true){
+                if(ySpeed>Game1.padelspeedLstart)
+                    color = 1;
+                else
+                    color = 0;
+            }
+
+            if(vem==false){
+                if(ySpeed>Game1.padelspeedRstart)
+                    color = 1;
+                else
+                    color = 0;
+            }
+
         }
 
         private void AIController(){
@@ -82,14 +105,31 @@ namespace Pong_2
 
         private void HumanController(KeyboardState kstate)
         {
-                if  (kstate.IsKeyDown(up) && padel.Y >= 0)
-                    padel.Y-= Game1.padelspeedL;
-                if  (kstate.IsKeyDown(down) && padel.Y <= Game1.WINDOW_HEIGHT-100)
-                    padel.Y+=Game1.padelspeedL;
+                if(vem==true){
+                    if  (kstate.IsKeyDown(up) && padel.Y >= 0)
+                        padel.Y-= Game1.padelspeedL;
+                    if  (kstate.IsKeyDown(down) && padel.Y <= Game1.WINDOW_HEIGHT-100)
+                        padel.Y+=Game1.padelspeedL;
+
+                }
+
+                if(vem==false){
+                    if  (kstate.IsKeyDown(up) && padel.Y >= 0)
+                        padel.Y-= Game1.padelspeedR;
+                    if  (kstate.IsKeyDown(down) && padel.Y <= Game1.WINDOW_HEIGHT-100)
+                        padel.Y+=Game1.padelspeedR;
+
+                }
         }
+    
 
         public void Draw(SpriteBatch spriteBatch){
+            if(color==0){
             spriteBatch.Draw(pixel,padel,Color.White);
+            }
+            if(color==1){
+            spriteBatch.Draw(pixel,padel,Color.Red);
+            }
         }
 
         public void ChangeY(int value){

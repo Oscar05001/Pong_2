@@ -134,3 +134,4 @@ C:\Users\Admin\Documents\GitHub\ok\Pong_2\bin\Debug\net6.0-windows\runtimes\win-
 C:\Users\Admin\Documents\GitHub\ok\Pong_2\bin\Debug\net6.0-windows\runtimes\win-x86\native\SDL2.dll
 C:\Users\Admin\Documents\GitHub\ok\Pong_2\bin\Debug\net6.0-windows\runtimes\win-x86\native\soft_oal.dll
 C:\Users\Admin\Documents\GitHub\ok\Pong_2\bin\Debug\net6.0-windows\Content\Coin.xnb
+C:\Users\ludde\OneDrive\Dokument\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\Coin.xnb
