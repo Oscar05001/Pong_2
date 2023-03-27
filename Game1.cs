@@ -17,9 +17,11 @@ public class Game1 : Game
     public int toutch = 0;
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
-    public List<Mittengubbe> mittengubbar = new List<Mittengubbe>();
+    public static List<Mittengubbe> mittengubbar = new List<Mittengubbe>();
     
-    Texture2D pixel;
+    KeyboardState oldState;
+    Keys O = Keys.O;
+    static Texture2D pixel;
     Texture2D coin;
     SpriteFont font;
 
@@ -50,7 +52,7 @@ public class Game1 : Game
     public static int bolkommer = 1;
 
     Random rnd = new Random();
-    public float timerpower;
+    public static float timerpower;
 
 
     int poengL = 0;
@@ -221,15 +223,22 @@ public class Game1 : Game
         
 
     	//
-       
-        RemovMiten();
 
+        if(oldState.IsKeyUp(O) && kstate.IsKeyDown(O) )
+        SpawnMiten();
+       
+        //RemovMiten();
+
+        foreach (var mittengubbe in mittengubbar)
+        {
+            mittengubbe.Update();
+        }
        
 
     }
 
-    public void SpawnMiten(){
-        
+    public static void SpawnMiten(){    
+
         mittengubbar.Add(new Mittengubbe(pixel,padelspeedM,timerpower));
 
 
@@ -272,6 +281,11 @@ public class Game1 : Game
         _spriteBatch.DrawString(font,timerpower.ToString(), new Vector2 (150,0), Color.White);
         _spriteBatch.DrawString(font,poengL.ToString(), new Vector2 (80,0), Color.White);
         _spriteBatch.DrawString(font,poengR.ToString(), new Vector2 (WINDOW_WHITE-100,0), Color.White);
+
+        foreach (var mittengubbe in mittengubbar)
+        {
+            mittengubbe.Draw(_spriteBatch);
+        }
         _spriteBatch.End();
 
         // TODO: Add your drawing code here

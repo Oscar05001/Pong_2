@@ -19,7 +19,7 @@ namespace Pong_2
 
 
         public Mittengubbe(Texture2D pixel, int speed,float timerpower){
-            mittengubbar = new Rectangle(rnd.Next(50,Game1.WINDOW_WHITE-50),0,15,100);
+            mittengubbar = new Rectangle(rnd.Next(50,Game1.WINDOW_WHITE-50),10,15,100);
             
             this.pixel = pixel;
             this.speed = inspeed;
@@ -41,6 +41,8 @@ namespace Pong_2
             speed *= -1;
         }
 
+
+        
 
 
 
