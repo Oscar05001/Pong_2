@@ -17,7 +17,7 @@ public class Game1 : Game
     public int toutch = 0;
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
-    List<Mittengubbe> mitengubar = new List<Mittengubbe>();
+    public List<Mittengubbe> mittengubbar = new List<Mittengubbe>();
     
     Texture2D pixel;
     Texture2D coin;
@@ -50,7 +50,7 @@ public class Game1 : Game
     public static int bolkommer = 1;
 
     Random rnd = new Random();
-    float timerpower;
+    public float timerpower;
 
 
     int poengL = 0;
@@ -228,20 +228,20 @@ public class Game1 : Game
 
     }
 
-    public static void SpawnMiten(){
+    public void SpawnMiten(){
         
-        mitengubar.Add(new Mitengubar(pixel));
+        mittengubbar.Add(new Mittengubbe(pixel,padelspeedM,timerpower));
 
 
     }
 
-    public static void RemovMiten(){
+    public void RemovMiten(){
         
-        for (int i = 0; i < mitengubar.Count; i++)
+        for (int i = 0; i < mittengubbar.Count; i++)
         {
-            if(mitengube[i].ärdöd)
+            if(mittengubbar[i].aredod)
             {
-                mitengubar.RemoveAt(i);  // l D D L
+                mittengubbar.RemoveAt(i); 
 
             }
 

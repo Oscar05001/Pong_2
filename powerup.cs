@@ -16,8 +16,11 @@ namespace Pong_2
         if(num>=0&&num<=50)
             Speed(vem);
         else if(num>=51&&num<=100)
-            Game1.SpawnMiten();
+        {
 
+            
+        }
+            
         
 
 
