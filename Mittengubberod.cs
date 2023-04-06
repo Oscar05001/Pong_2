@@ -2,6 +2,8 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+
+
 namespace Pong_2
 {
     public class Mittengubberod
@@ -9,6 +11,7 @@ namespace Pong_2
         
         Texture2D pixel;
         Rectangle mittengubbarrod;
+        
 
 
         public Rectangle Mittengubbarrod{
@@ -22,6 +25,7 @@ namespace Pong_2
         int speedx;
         int inspeed;
         public bool aredod;
+        bool settingwindoon = false;
                 
 
         Random rnd = new Random();
@@ -37,11 +41,13 @@ namespace Pong_2
             this.speedx = speed;
             this.timerpower = timerpower;
             
+            
            
         }
 
         public void Update()
         {
+           
 
         if (mittengubbarrod.Y <= 0 ){
         speedy = rnd.Next(2,10);
@@ -52,6 +58,9 @@ namespace Pong_2
             speedy += inspeed;
             speedy *= -1;
         }
+
+        if(mittengubbarrod.Intersects(Game1.bol))
+            speedy *= -1;
 
         if (mittengubbarrod.X <= 200 ){
         speedx = rnd.Next(2,5);
@@ -66,14 +75,18 @@ namespace Pong_2
 
         
 
-        
+        if(SettingScreen.settingwindoon == false)
+        {
         mittengubbarrod.X += speedx;
         mittengubbarrod.Y += speedy;
-
         timerpower -= 1f/60f;
+        }
+
 
         if(timerpower<0)
         aredod = true;
+
+        
 
         }
 

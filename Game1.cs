@@ -2,13 +2,24 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Text.Json;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Pong_2;
 
 public class Game1 : Game
 {
+    PaddelLeft lp;
+    PaddelRight rp;
+    Powerup power;
+    SettingScreen settscreen;
+    private SaveandLode settings;
+    private const string PATH = "setting.json";
+    
+
+
     //Y
     public const int WINDOW_HEIGHT = 800;
     //X
@@ -20,35 +31,43 @@ public class Game1 : Game
 
     public static List<Mittengubberod> mittengubbarrod = new List<Mittengubberod>();
     
-    KeyboardState oldState;
+    
+    KeyboardState bldState;
     Keys O = Keys.O;
+
+    
     static Texture2D pixel;
     Texture2D coin;
     SpriteFont font;
+    
+    //SpriteFont meny;
 
     
     //(X,Y,Bred,Höjd)
-    public static Rectangle bol = new Rectangle(WINDOW_WHITE/2, WINDOW_HEIGHT/2,15,15);
+    public static Rectangle bol = new Rectangle((WINDOW_WHITE/2)-7, WINDOW_HEIGHT/2,15,15);
 
-    
 
     Rectangle strek = new Rectangle(WINDOW_WHITE/2, 5,2,798);
 
-    Rectangle mi = new Rectangle(WINDOW_WHITE/2-6, (int)(Game1.WINDOW_HEIGHT*0.5)-50,15,100);
+    public static Rectangle mi = new Rectangle(WINDOW_WHITE/2-6, (int)(Game1.WINDOW_HEIGHT*0.5)-50,15,100);
 
     //Padel speed
-    public  static int padelspeedR;
-    public  static int padelspeedL;
-    public  static int padelspeedM = 8;
-    int speedmid = padelspeedM;
+    public  static double padelspeedR;
+    public  static double padelspeedL;
+    public  static double padelspeedM;
+
+    int speedmid = 8;
+    int randommidspeed;
+
+    
+    
 
 
 
-    public  static  int padelspeedRstart = 5;
-    public  static  int padelspeedLstart = 5;
+    public static double speedboostL;
+    public static double speedboostR;
 
-    public static int speedboostL;
-    public static int speedboostR;
+    public static bool savemeny = false;
 
     
     
@@ -61,13 +80,13 @@ public class Game1 : Game
     Random rnd = new Random();
 
 
-    int poengL = 0;
+    public static int poengL = 0;
 
-    int poengR = 0;
+    public static int poengR = 0;
 
-    Padel lp;
-    Padel rp;
-    Powerup power;
+    
+
+    
     
     
     
@@ -77,8 +96,10 @@ public class Game1 : Game
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
-        _graphics.PreferredBackBufferHeight = WINDOW_HEIGHT;
-        _graphics.PreferredBackBufferWidth = WINDOW_WHITE;
+
+        _graphics.PreferredBackBufferHeight = Game1.WINDOW_HEIGHT;
+        _graphics.PreferredBackBufferWidth = Game1.WINDOW_WHITE;
+        
         
     }   
 
@@ -93,14 +114,43 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+        settings = new SaveandLode()
+        {
+        Scren_WHITE = 800,
+        Scren_HEIGHT = 1200,
+        Paddelspeedboost = 1, 
+        MittenPaddelspeedboost = 1,
+        Bolspeedboost = 1,
+        PaddelLeftStartSpeed = 5, 
+        PaddelRightStartSpeed = 5,
+        BolStartSpeed = 4,
+        PaddelMittenStartSpeed = 8, 
+
+        };
+
+        
+        
+        
+        
+
+        
+
         coin = Content.Load<Texture2D>("Coin");
         pixel = Content.Load<Texture2D>("Namnlspixel");
         font = Content.Load<SpriteFont>("File");
+        //meny = Content.Load<SpriteFont>("Meny");
 
 
-        lp = new Padel(pixel, 50, true,Keys.W, Keys.S,Keys.Y);
-        rp = new Padel(pixel, WINDOW_WHITE-60, false,Keys.Up,Keys.Down,Keys.T);
-        power = new Powerup(coin);
+        lp = new PaddelLeft(pixel, 50,Keys.W, Keys.S,Keys.Y,Keys.P);
+        rp = new PaddelRight(pixel, WINDOW_WHITE-60,Keys.Up,Keys.Down,Keys.T,Keys.P);
+        power = new Powerup(coin,pixel);
+        settscreen = new SettingScreen(pixel,font);
+
+        settings = Load();
+        lp.LoadContent();
+        rp.LoadContent();
+        settscreen.LoadContent();
+        
         
         
         
@@ -112,27 +162,61 @@ public class Game1 : Game
     {
         //Exit (rör ej)
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+        {
+            
             Exit();
+        }
 
-        KeyboardState kstate = Keyboard.GetState();
+        if(savemeny==true){
+            lp.LoadContent();
+            rp.LoadContent();
+            settings = Load();
+
+            savemeny = false;
+
+        }
+            
+
+        
+
+        KeyboardState jstate = Keyboard.GetState();
 
         // TODO: Add your update logic here
 
         base.Update(gameTime);
 
-        padelspeedL = padelspeedLstart;
+
+
+        //Set speed allting
+        padelspeedL = settings.PaddelLeftStartSpeed;
         padelspeedL += speedboostL;
+        padelspeedL *= settings.Paddelspeedboost;
 
-        padelspeedR = padelspeedRstart;
+        padelspeedR = settings.PaddelRightStartSpeed;
         padelspeedR += speedboostR;
-    
+        padelspeedR *= settings.Paddelspeedboost;
+
+        padelspeedM = settings.PaddelMittenStartSpeed;
+        padelspeedM *= settings.MittenPaddelspeedboost;
+
         
-        //Speed
-        bol.Y += bolspeedY;
-        bol.X += bolspeedX;
+        
 
-        mi.Y += speedmid;
 
+        
+
+
+
+
+        if (!SettingScreen.settingwindoon){
+
+    
+            //Kör bol mid paddel
+            bol.Y += bolspeedY;
+            bol.X += bolspeedX;
+
+            mi.Y += speedmid;
+        }
         
 
        
@@ -149,9 +233,11 @@ public class Game1 : Game
         if(bol.X <= 0 )
         {
         poengR ++;
+        bolspeedX = -5;
         bol.X = WINDOW_WHITE/2;
         bol.Y = WINDOW_HEIGHT/2;
         bolspeedX *= -1;
+        mi.Y = 2;
         
         }
 
@@ -159,9 +245,11 @@ public class Game1 : Game
         if(bol.X+bol.Height >= WINDOW_WHITE)
         {
         poengL++;
+        bolspeedX = 5;
         bol.X = WINDOW_WHITE/2;
         bol.Y = WINDOW_HEIGHT/2;
         bolspeedX *= -1;
+        mi.Y = 2;
         
         }
 
@@ -169,13 +257,15 @@ public class Game1 : Game
 
         //Mid padel
         if (mi.Y <= 0 ){
-            speedmid = rnd.Next(2,10);
+            randommidspeed = rnd.Next(2,10);
+            speedmid = randommidspeed + (int)settings.MittenPaddelspeedboost;
             
             
         }
 
         if ( mi.Y+mi.Height >= WINDOW_HEIGHT ){
-            speedmid = rnd.Next(2,10);
+            randommidspeed = rnd.Next(2,10);
+            speedmid = randommidspeed;
             speedmid *= -1;
             
         }
@@ -189,19 +279,39 @@ public class Game1 : Game
         //boll rör padel ädnar X
         if(lp.Paddle.Intersects(bol) )
         {
+            bolspeedX -= 1;
             bolspeedX *= -1;
             toutch = 0;
+            float väntatimer = 2;
+                while(väntatimer>0)
+                {
+                    väntatimer -= 1f/60f;
+
+                }
         }
 
         if(rp.Paddle.Intersects(bol))
         {
+            bolspeedX += 1;
             bolspeedX *= -1;
             toutch = 1;
+            float väntatimer = 2;
+                while(väntatimer>0)
+                {
+                    väntatimer -= 1f/60f;
+
+                }
         }
 
         if(mi.Intersects(bol))
         {
             bolspeedX *= -1;
+            float väntatimer = 2;
+                while(väntatimer>0)
+                {
+                    väntatimer -= 1f/60f;
+
+                }
             
         }  
 
@@ -211,8 +321,15 @@ public class Game1 : Game
             if(mittengubbe.Mittengubar.Intersects(bol))
             {
                 bolspeedX *= -1;
-                
+
+                float väntatimer = 1;
+                while(väntatimer>0)
+                {
+                    väntatimer -= 1f/60f;
+
+                }
             } 
+           
         }
 
         foreach (var mittengubberod in mittengubbarrod)
@@ -220,6 +337,13 @@ public class Game1 : Game
             if(mittengubberod.Mittengubbarrod.Intersects(bol))
             {
                 bolspeedX *= -1;
+
+                float väntatimer = 1;
+                while(väntatimer>0)
+                {
+                    väntatimer -= 1f/60f;
+
+                }
                 
             } 
 
@@ -240,7 +364,7 @@ public class Game1 : Game
         {
             Powerup.ompower = 1;
             
-           Powerup.Powerupsen(toutch);
+           Powerup.Powerupsen(toutch,pixel,(int)padelspeedM);
             
         } 
         
@@ -248,20 +372,24 @@ public class Game1 : Game
 
     	
 
-        if(oldState.IsKeyUp(O) && kstate.IsKeyDown(O) )
-            Powerup.Powerupsen(toutch);
-       
-            oldState = kstate;
+        if(bldState.IsKeyUp(O) && jstate.IsKeyDown(O)){
+            Powerup.SpawnRod(pixel,(int)padelspeedM);
+            Powerup.SpawnMiten(pixel,(int)padelspeedM);
+            
+        }
+            bldState = jstate;
 
-            RemovMiten();
-            RemovRod();
+            
+
+        
         
 
-
+        //Update andr obijekt
 
         lp.Update();
         rp.Update();
         power.Update();
+        settscreen.Update();
 
         foreach (var mittengubbe in mittengubbar)
         {
@@ -275,67 +403,37 @@ public class Game1 : Game
 
     }
 
-    public static void SpawnMiten(){    
+    public static void Resetround(){
+        bolspeedX = 5;
+        bol.X = (WINDOW_WHITE/2)-7;
+        bol.Y = WINDOW_HEIGHT/2;
+        mi.Y = 2;
 
+    }
 
-        
-        Random rnd = new Random();
-        
-        mittengubbar.Add(new Mittengubbe(pixel,padelspeedM,(float)rnd.Next(10,30)));
-
+    public static void Resetpoint(){
+        poengL = 0;
+        poengR = 0;
 
     }
 
     
-
-    public static void SpawnRod(){    
-
-
         
-        Random rnd = new Random();
+    
+
+   
+
+
+    
+
+    private SaveandLode Load()
+    {
+        var fileconten = File.ReadAllText(PATH);
         
-        mittengubbarrod.Add(new Mittengubberod(pixel,padelspeedM,(float)rnd.Next(5,20)));
+        return JsonSerializer.Deserialize<SaveandLode>(fileconten);
 
-
+    
     }
-
-
-
-
-
-    public void RemovMiten(){
-        
-        for (int i = 0; i < mittengubbar.Count; i++)
-        {
-            if(mittengubbar[i].aredod)
-            {
-                mittengubbar.RemoveAt(i); 
-                i--;
-
-            }
-
-
-        }
-
-
-    }
-    public void RemovRod(){
-        
-        for (int i = 0; i < mittengubbarrod.Count; i++)
-        {
-            if(mittengubbarrod[i].aredod)
-            {
-                mittengubbarrod.RemoveAt(i); 
-                i--;
-
-            }
-
-
-        }
-
-
-    }
-
 
 
 
@@ -347,22 +445,28 @@ public class Game1 : Game
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.Black);
+        
 
         _spriteBatch.Begin();
         lp.Draw(_spriteBatch);
         rp.Draw(_spriteBatch);
-        power.Draw(_spriteBatch);
 
-
-        _spriteBatch.Draw(pixel, strek, Color .White);
+        _spriteBatch.Draw(pixel, strek, Color .White);  
         _spriteBatch.Draw(pixel, bol, Color .Red);
+        
+        power.Draw(_spriteBatch);
     
         _spriteBatch.Draw(pixel, mi, Color .Yellow);
+
+        
+
         
         
-        _spriteBatch.DrawString(font,speedboostL.ToString(), new Vector2 (120,0), Color.White);
+        //_spriteBatch.DrawString(font,speedboostL.ToString(), new Vector2 (120,0), Color.White);
         _spriteBatch.DrawString(font,poengL.ToString(), new Vector2 (80,0), Color.White);
         _spriteBatch.DrawString(font,poengR.ToString(), new Vector2 (WINDOW_WHITE-100,0), Color.White);
+
+        
 
         foreach (var mittengubbe in mittengubbar)
         {
@@ -372,6 +476,8 @@ public class Game1 : Game
         {
             mittengubberod.Draw(_spriteBatch);
         }
+
+        settscreen.Draw(_spriteBatch);
 
         _spriteBatch.End();
 
