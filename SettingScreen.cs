@@ -17,6 +17,7 @@ namespace Pong_2
         Rectangle setting;
         Rectangle whitescreen;
         Rectangle blackscreen;
+        MouseState mouse;
         private SaveandLode settings;
         
 
@@ -50,6 +51,10 @@ namespace Pong_2
         double paddelBoostSetting = 1;
         double paddelMidBoostSetting = 1;
 
+        int mouseXstratPos;
+        int mouseYstartPos;
+        bool screenmove = false;
+
         public Rectangle Setting{
             get{return setting;}
             set{setting = value;}
@@ -79,19 +84,48 @@ namespace Pong_2
            
             KeyboardState kstate = Keyboard.GetState();
 
+            mouse = Mouse.GetState();
+
+            if(whitescreen.Contains(mouse.Position) && (int)mouse.LeftButton==1&&screenmove==false&&settingwindoon==true){
+                mouseXstratPos = mouse.Position.X-whitescreen.X;
+                mouseYstartPos = mouse.Position.Y-whitescreen.Y;
+                screenmove = true;
+                
+
+            }
+
+            if(screenmove==true && (int)mouse.LeftButton==1){
+                whitescreen.X = mouse.Position.X-mouseXstratPos;
+                whitescreen.Y = mouse.Position.Y-mouseYstartPos;
+            }
+            else{
+                screenmove = false;
+            
+            }
+
+
             if(settingwindoon==false){
                 vilkenRutaX = 1;
                 vilkenRutaY = 1;
             }
 
-            if(vilkenRutaX == 1)
-                setting.X = 210;
-            else if(vilkenRutaX == 2)
-                setting.X = 300;
-            else if(vilkenRutaX == 3)
-                setting.X = 390;
-            else if(vilkenRutaX == 4)
-                setting.X = 470;
+
+
+            blackscreen.X = whitescreen.X+2;
+            blackscreen.Y = whitescreen.Y+2;
+
+            if(vilkenRutaX == 1){
+                setting.Y = whitescreen.Y+30;
+                setting.X = whitescreen.X+30;}
+            else if(vilkenRutaX == 2){
+                setting.Y = whitescreen.Y+30;
+                setting.X = whitescreen.X+120;}
+            else if(vilkenRutaX == 3){
+                setting.Y = whitescreen.Y+30;
+                setting.X = whitescreen.X+210;}
+            else if(vilkenRutaX == 4){
+                setting.Y = whitescreen.Y+30;
+                setting.X = whitescreen.X+295;}
 
             
 
@@ -139,15 +173,15 @@ namespace Pong_2
  
                 }
                 
-                if(vilkenRutaX == 2 && vilkenRutaY == 2 && paddelLeftStartSpeedSetting<10){
+                if(vilkenRutaX == 2 && vilkenRutaY == 2 && paddelLeftStartSpeedSetting<15){
                     paddelLeftStartSpeedSetting += 1;
                 }
 
-                if(vilkenRutaX == 2 && vilkenRutaY == 3 && paddelRightStartSpeedSetting<10){
+                if(vilkenRutaX == 2 && vilkenRutaY == 3 && paddelRightStartSpeedSetting<15){
                     paddelRightStartSpeedSetting += 1;
                 }
 
-                if(vilkenRutaX == 2 && vilkenRutaY == 4 && paddelMidStartSpeedSetting<10){
+                if(vilkenRutaX == 2 && vilkenRutaY == 4 && paddelMidStartSpeedSetting<20){
                     paddelMidStartSpeedSetting += 1;
                 }
 
@@ -214,9 +248,12 @@ namespace Pong_2
                     settings.PaddelMittenStartSpeed = paddelMidStartSpeedSetting;
                     settings.Paddelspeedboost = paddelBoostSetting;
                     settings.MittenPaddelspeedboost = paddelMidBoostSetting;
+                    settings.SettingScreenX = whitescreen.X;
+                    settings.SettingScreenY = whitescreen.Y;
                     Save(settings);
                     Game1.savemeny= true;
                     LoadContent();
+                    
                 }
 
             }
@@ -226,14 +263,21 @@ namespace Pong_2
 
 
             if(oldState.IsKeyUp(P) && kstate.IsKeyDown(P)){
-            if(settingwindoon==false){
-                paddelLeftStartSpeedSetting = settings.PaddelLeftStartSpeed;
-                paddelRightStartSpeedSetting = settings.PaddelRightStartSpeed;
-                paddelMidStartSpeedSetting = settings.PaddelMittenStartSpeed;
-                paddelBoostSetting = settings.Paddelspeedboost;
-                paddelMidBoostSetting = settings.MittenPaddelspeedboost;
-                
-            }
+                if(settingwindoon==false){
+                    paddelLeftStartSpeedSetting = settings.PaddelLeftStartSpeed;
+                    paddelRightStartSpeedSetting = settings.PaddelRightStartSpeed;
+                    paddelMidStartSpeedSetting = settings.PaddelMittenStartSpeed;
+                    paddelBoostSetting = settings.Paddelspeedboost;
+                    paddelMidBoostSetting = settings.MittenPaddelspeedboost;
+                    whitescreen.X = settings.SettingScreenX;
+                    whitescreen.Y = settings.SettingScreenY;
+                    
+                }
+                else{
+                    settings.SettingScreenX = whitescreen.X;
+                    settings.SettingScreenY = whitescreen.Y;
+
+                }
             
             settingwindoon = !settingwindoon;
              }
@@ -279,43 +323,43 @@ namespace Pong_2
                 spriteBatch.Draw(pixel,setting,Color.White );
 
                 if(vilkenRutaX==1)
-                    spriteBatch.DrawString(font,("Game"), new Vector2 (214,228), Color.Black);
+                    spriteBatch.DrawString(font,("Game"), new Vector2 (whitescreen.X+34,whitescreen.Y+28), Color.Black);
                 else
-                    spriteBatch.DrawString(font,("Game"), new Vector2 (214,228), Color.White);
+                    spriteBatch.DrawString(font,("Game"), new Vector2 (whitescreen.X+34,whitescreen.Y+28), Color.White);
                 
                 if(vilkenRutaX==2)
-                    spriteBatch.DrawString(font,("Setting"), new Vector2 (301,228), Color.Black);
+                    spriteBatch.DrawString(font,("Setting"), new Vector2 (whitescreen.X+121,whitescreen.Y+28), Color.Black);
                 else
-                    spriteBatch.DrawString(font,("Setting"), new Vector2 (301,228), Color.White);
+                    spriteBatch.DrawString(font,("Setting"), new Vector2 (whitescreen.X+121,whitescreen.Y+28), Color.White);
 
                 if(vilkenRutaX==3)
-                    spriteBatch.DrawString(font,("Boost"), new Vector2 (398,228), Color.Black);
+                    spriteBatch.DrawString(font,("Boost"), new Vector2 (whitescreen.X+218,whitescreen.Y+28), Color.Black);
                 else
-                    spriteBatch.DrawString(font,("Boost"), new Vector2 (398,228), Color.White);
+                    spriteBatch.DrawString(font,("Boost"), new Vector2 (whitescreen.X+218,whitescreen.Y+28), Color.White);
 
 
                 if(vilkenRutaX==4)
-                    spriteBatch.DrawString(font,("Save"), new Vector2 (476,228), Color.Black);
+                    spriteBatch.DrawString(font,("Save"), new Vector2 (whitescreen.X+306,whitescreen.Y+28), Color.Black);
                 else
-                    spriteBatch.DrawString(font,("Save"), new Vector2 (476,228), Color.White);
+                    spriteBatch.DrawString(font,("Save"), new Vector2 (whitescreen.X+306,whitescreen.Y+28), Color.White);
 
                 //Game
                 if(vilkenRutaX==1){
 
                     if(vilkenRutaY==2)
-                        spriteBatch.DrawString(font,("<Reset point>"), new Vector2 (205,270), Color.White);
+                        spriteBatch.DrawString(font,("<Reset point>"), new Vector2 (whitescreen.X+25,whitescreen.Y+70), Color.White);
                     else
-                        spriteBatch.DrawString(font,("Reset point"), new Vector2 (214,270), Color.White);
+                        spriteBatch.DrawString(font,("Reset point"), new Vector2 (whitescreen.X+34,whitescreen.Y+70), Color.White);
                     
                     if(vilkenRutaY==3)
-                        spriteBatch.DrawString(font,("<Reset round>"), new Vector2 (205,300), Color.White);
+                        spriteBatch.DrawString(font,("<Reset round>"), new Vector2 (whitescreen.X+25,whitescreen.Y+100), Color.White);
                     else
-                        spriteBatch.DrawString(font,("Reset round"), new Vector2 (214,300), Color.White);
+                        spriteBatch.DrawString(font,("Reset round"), new Vector2 (whitescreen.X+34,whitescreen.Y+100), Color.White);
                     
                     if(vilkenRutaY==4)
-                        spriteBatch.DrawString(font,("<Clear mid>"), new Vector2 (205,330), Color.White);
+                        spriteBatch.DrawString(font,("<Clear mid>"), new Vector2 (whitescreen.X+25,whitescreen.Y+130), Color.White);
                     else
-                        spriteBatch.DrawString(font,("Clear mid"), new Vector2 (214,330), Color.White);
+                        spriteBatch.DrawString(font,("Clear mid"), new Vector2 (whitescreen.X+34,whitescreen.Y+130), Color.White);
 
                 }
 
@@ -323,33 +367,33 @@ namespace Pong_2
                 if(vilkenRutaX==2){
 
                     if(vilkenRutaY==2)
-                        spriteBatch.DrawString(font,("Left paddel start speed <" + Convert.ToString(Convert.ToInt32(paddelLeftStartSpeedSetting)) + ">"), new Vector2 (205,270), Color.White);
+                        spriteBatch.DrawString(font,("Left paddel start speed <" + Convert.ToString(Convert.ToInt32(paddelLeftStartSpeedSetting)) + ">"), new Vector2 (whitescreen.X+25,whitescreen.Y+70), Color.White);
                     else
-                        spriteBatch.DrawString(font,("Left paddel start speed " + Convert.ToString(Convert.ToInt32(paddelLeftStartSpeedSetting))), new Vector2 (214,270), Color.White);
+                        spriteBatch.DrawString(font,("Left paddel start speed " + Convert.ToString(Convert.ToInt32(paddelLeftStartSpeedSetting))), new Vector2 (whitescreen.X+34,whitescreen.Y+70), Color.White);
                     
                     if(vilkenRutaY==3)
-                        spriteBatch.DrawString(font,("Right paddel start speed <" + Convert.ToString(Convert.ToInt32(paddelRightStartSpeedSetting)) + ">"), new Vector2 (205,300), Color.White);
+                        spriteBatch.DrawString(font,("Right paddel start speed <" + Convert.ToString(Convert.ToInt32(paddelRightStartSpeedSetting)) + ">"), new Vector2 (whitescreen.X+25,whitescreen.Y+100), Color.White);
                     else
-                        spriteBatch.DrawString(font,("Right paddel start speed " + Convert.ToString(Convert.ToInt32(paddelRightStartSpeedSetting))), new Vector2 (214,300), Color.White);
+                        spriteBatch.DrawString(font,("Right paddel start speed " + Convert.ToString(Convert.ToInt32(paddelRightStartSpeedSetting))), new Vector2 (whitescreen.X+34,whitescreen.Y+100), Color.White);
                     
                     if(vilkenRutaY==4)
-                        spriteBatch.DrawString(font,("Midel paddel start speed <" + Convert.ToString(Convert.ToInt32(paddelMidStartSpeedSetting)) + ">"), new Vector2 (205,330), Color.White);
+                        spriteBatch.DrawString(font,("Midel paddel start speed <" + Convert.ToString(Convert.ToInt32(paddelMidStartSpeedSetting)) + ">"), new Vector2 (whitescreen.X+25,whitescreen.Y+130), Color.White);
                     else
-                        spriteBatch.DrawString(font,("Midel paddel start speed " + Convert.ToString(Convert.ToInt32(paddelMidStartSpeedSetting))), new Vector2 (214,330), Color.White);
+                        spriteBatch.DrawString(font,("Midel paddel start speed " + Convert.ToString(Convert.ToInt32(paddelMidStartSpeedSetting))), new Vector2 (whitescreen.X+34,whitescreen.Y+130), Color.White);
                 }
 
                 //Boost
                 if(vilkenRutaX==3){
 
                     if(vilkenRutaY==2)
-                        spriteBatch.DrawString(font,("Paddel boost <" + Convert.ToString(Convert.ToDouble(paddelBoostSetting)) + ">"), new Vector2 (205,270), Color.White);
+                        spriteBatch.DrawString(font,("Paddel boost <" + Convert.ToString(Convert.ToDouble(paddelBoostSetting)) + ">"), new Vector2 (whitescreen.X+25,whitescreen.Y+70), Color.White);
                     else
-                        spriteBatch.DrawString(font,("Paddel boost " + Convert.ToString(Convert.ToDouble(paddelBoostSetting))), new Vector2 (214,270), Color.White);
+                        spriteBatch.DrawString(font,("Paddel boost " + Convert.ToString(Convert.ToDouble(paddelBoostSetting))), new Vector2 (whitescreen.X+34,whitescreen.Y+70), Color.White);
                     
                     if(vilkenRutaY==3)
-                        spriteBatch.DrawString(font,("Miten paddel boost <" + Convert.ToString(Convert.ToDouble(paddelMidBoostSetting)) + ">"), new Vector2 (205,300), Color.White);
+                        spriteBatch.DrawString(font,("Miten paddel boost <" + Convert.ToString(Convert.ToDouble(paddelMidBoostSetting)) + ">"), new Vector2 (whitescreen.X+25,whitescreen.Y+100), Color.White);
                     else
-                        spriteBatch.DrawString(font,("Mitten paddel boost " + Convert.ToString(Convert.ToDouble(paddelMidBoostSetting))), new Vector2 (214,300), Color.White);
+                        spriteBatch.DrawString(font,("Mitten paddel boost " + Convert.ToString(Convert.ToDouble(paddelMidBoostSetting))), new Vector2 (whitescreen.X+34,whitescreen.Y+100), Color.White);
                     
         
                 }

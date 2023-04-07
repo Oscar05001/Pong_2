@@ -17,6 +17,8 @@ public class Game1 : Game
     SettingScreen settscreen;
     private SaveandLode settings;
     private const string PATH = "setting.json";
+
+    MouseState mouse;
     
 
 
@@ -27,9 +29,13 @@ public class Game1 : Game
     public int toutch = 0;
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+
+
     public static List<Mittengubbe> mittengubbar = new List<Mittengubbe>();
 
     public static List<Mittengubberod> mittengubbarrod = new List<Mittengubberod>();
+
+    public static List<Bolarna> bolarna = new List<Bolarna>();
     
     
     KeyboardState bldState;
@@ -55,6 +61,7 @@ public class Game1 : Game
     public  static double padelspeedR;
     public  static double padelspeedL;
     public  static double padelspeedM;
+    public static double bolspeed;
 
     int speedmid = 8;
     int randommidspeed;
@@ -66,6 +73,7 @@ public class Game1 : Game
 
     public static double speedboostL;
     public static double speedboostR;
+    public static double speedboostbolar;
 
     public static bool savemeny = false;
 
@@ -74,8 +82,8 @@ public class Game1 : Game
     
    
     public static int bolspeedX = 4;
-    int bolspeedY = 4;
-    public static int bolkommer = 1;
+    public static int bolspeedY = 4;
+    
 
     Random rnd = new Random();
 
@@ -141,8 +149,8 @@ public class Game1 : Game
         //meny = Content.Load<SpriteFont>("Meny");
 
 
-        lp = new PaddelLeft(pixel, 50,Keys.W, Keys.S,Keys.Y,Keys.P);
-        rp = new PaddelRight(pixel, WINDOW_WHITE-60,Keys.Up,Keys.Down,Keys.T,Keys.P);
+        lp = new PaddelLeft(pixel, 50,Keys.W, Keys.S,Keys.T,Keys.P);
+        rp = new PaddelRight(pixel, WINDOW_WHITE-60,Keys.Up,Keys.Down,Keys.Y,Keys.P);
         power = new Powerup(coin,pixel);
         settscreen = new SettingScreen(pixel,font);
 
@@ -150,8 +158,13 @@ public class Game1 : Game
         lp.LoadContent();
         rp.LoadContent();
         settscreen.LoadContent();
-        
-        
+
+
+        foreach (var bolen in bolarna)
+        {
+            bolen.LoadContent();
+        }
+
         
         
         
@@ -163,14 +176,26 @@ public class Game1 : Game
         //Exit (rör ej)
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
         {
-            
+            Save(settings);
             Exit();
         }
+
+        mouse = Mouse.GetState();
+
+        if(bolarna.Count<1){
+            bolarna.Add(new Bolarna(pixel));
+        }
+        
 
         if(savemeny==true){
             lp.LoadContent();
             rp.LoadContent();
             settings = Load();
+
+            foreach (var bolen in bolarna)
+            {
+                bolen.LoadContent();
+            }
 
             savemeny = false;
 
@@ -224,7 +249,7 @@ public class Game1 : Game
         //Ändra bol Y
         if(bol.Y <= 0 || bol.Y+bol.Height >= WINDOW_HEIGHT ){
             bolspeedY *= -1;
-            bolkommer *= -1;
+            
         }
 
     
@@ -258,14 +283,14 @@ public class Game1 : Game
         //Mid padel
         if (mi.Y <= 0 ){
             randommidspeed = rnd.Next(2,10);
-            speedmid = randommidspeed + (int)settings.MittenPaddelspeedboost;
+            speedmid = randommidspeed * (int)settings.MittenPaddelspeedboost;
             
             
         }
 
         if ( mi.Y+mi.Height >= WINDOW_HEIGHT ){
             randommidspeed = rnd.Next(2,10);
-            speedmid = randommidspeed;
+            speedmid = randommidspeed * (int)settings.MittenPaddelspeedboost;
             speedmid *= -1;
             
         }
@@ -364,7 +389,7 @@ public class Game1 : Game
         {
             Powerup.ompower = 1;
             
-           Powerup.Powerupsen(toutch,pixel,(int)padelspeedM);
+           Powerup.Powerupsen(toutch,pixel);
             
         } 
         
@@ -373,8 +398,8 @@ public class Game1 : Game
     	
 
         if(bldState.IsKeyUp(O) && jstate.IsKeyDown(O)){
-            Powerup.SpawnRod(pixel,(int)padelspeedM);
-            Powerup.SpawnMiten(pixel,(int)padelspeedM);
+            Powerup.SpawnRod(pixel);
+            Powerup.SpawnMiten(pixel);
             
         }
             bldState = jstate;
@@ -398,6 +423,14 @@ public class Game1 : Game
         foreach (var mittengubberod in mittengubbarrod)
         {
             mittengubberod.Update();
+
+            
+        }
+        foreach (var bolen in bolarna)
+        {
+
+            bolen.Update();
+
         }
        
 
@@ -414,6 +447,16 @@ public class Game1 : Game
     public static void Resetpoint(){
         poengL = 0;
         poengR = 0;
+
+    }
+
+    private void Save(SaveandLode saves)
+    {
+        string serializedText = JsonSerializer.Serialize<SaveandLode>(saves);
+        Trace.WriteLine(serializedText);
+        File.WriteAllText(PATH,serializedText);
+
+
 
     }
 
@@ -462,7 +505,7 @@ public class Game1 : Game
 
         
         
-        //_spriteBatch.DrawString(font,speedboostL.ToString(), new Vector2 (120,0), Color.White);
+        _spriteBatch.DrawString(font,bolspeedX.ToString(), new Vector2 (120,0), Color.White);
         _spriteBatch.DrawString(font,poengL.ToString(), new Vector2 (80,0), Color.White);
         _spriteBatch.DrawString(font,poengR.ToString(), new Vector2 (WINDOW_WHITE-100,0), Color.White);
 
@@ -475,6 +518,10 @@ public class Game1 : Game
         foreach (var mittengubberod in mittengubbarrod)
         {
             mittengubberod.Draw(_spriteBatch);
+        }
+        foreach (var bolen in bolarna)
+        {
+            bolen.Draw(_spriteBatch);
         }
 
         settscreen.Draw(_spriteBatch);

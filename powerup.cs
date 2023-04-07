@@ -117,7 +117,7 @@ namespace Pong_2
 
 
         //Lp=0 Rp=1
-    public static void Powerupsen(int vem,Texture2D pixel,int speed)
+    public static void Powerupsen(int vem,Texture2D pixel)
     {
         
 
@@ -128,9 +128,9 @@ namespace Pong_2
         if(num>=0&&num<=100)
             Speed(vem,(float)vilken.Next(20,30));
         if(num>=210&&num<=400)
-            SpawnMiten(pixel,speed);
+            SpawnMiten(pixel);
         if(num>=1000&&num<=2000)
-            SpawnRod(pixel,speed);
+            SpawnRod(pixel);
 
 
 
@@ -168,11 +168,11 @@ namespace Pong_2
 
     //mittengubbe
 
-    public static void SpawnMiten(Texture2D pixel,int speed){    
+    public static void SpawnMiten(Texture2D pixel){    
 
         Random rnd = new Random();
         
-        Game1.mittengubbar.Add(new Mittengubbe(pixel,speed,(float)rnd.Next(10,30)));
+        Game1.mittengubbar.Add(new Mittengubbe(pixel,(float)rnd.Next(10,30)));
     }
 
     public void RemovMiten(){
@@ -198,13 +198,13 @@ namespace Pong_2
     }
 
 
-    public static void SpawnRod(Texture2D pixel,int speed){    
+    public static void SpawnRod(Texture2D pixel){    
 
 
         
         Random rnd = new Random();
         
-        Game1.mittengubbarrod.Add(new Mittengubberod(pixel,speed,(float)rnd.Next(5,20)));
+        Game1.mittengubbarrod.Add(new Mittengubberod(pixel,(float)rnd.Next(5,20)));
 
 
     }

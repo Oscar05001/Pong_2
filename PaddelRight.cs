@@ -21,6 +21,7 @@ namespace Pong_2
 
         Rectangle padel;
         private SaveandLode settings;
+        MouseState mouse;
         
         public static int bolvar;
 
@@ -55,14 +56,26 @@ namespace Pong_2
 
 
         public void Update(){
+            
             KeyboardState kstate = Keyboard.GetState();
+
+            mouse = Mouse.GetState();
             
             if(SettingScreen.settingwindoon==false){
+                
                 if(!ai){
 
                     HumanController(kstate);
+
                 }
                 else{
+                if((int)mouse.RightButton == 1){
+            
+            
+                    MouseController(mouse);
+
+                }
+                else
                     AIController();
                 }
             }
@@ -120,6 +133,16 @@ namespace Pong_2
             if  (kstate.IsKeyDown(down) && padel.Y <= Game1.WINDOW_HEIGHT-100)
                 ChangeY((int)Game1.padelspeedR);
 
+        }
+
+        private void MouseController(MouseState mouse)
+        {
+                
+            if  (mouse.Position.Y < padel.Y+(padel.Height/2)&& padel.Y >= 0)
+                ChangeY(-(int)Game1.padelspeedL);
+            if  (mouse.Position.Y > padel.Y+(padel.Height/2) && padel.Y <= Game1.WINDOW_HEIGHT-padel.Height)
+                ChangeY((int)Game1.padelspeedL);
+                
         }
 
         public void ChangeY(int value){

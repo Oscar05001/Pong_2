@@ -23,23 +23,23 @@ namespace Pong_2
         float timerpower;
         int speedy;
         int speedx;
-        int inspeed;
+        double inspeed;
         public bool aredod;
-        bool settingwindoon = false;
                 
 
         Random rnd = new Random();
         
 
 
-        public Mittengubberod(Texture2D pixel, int speed,float timerpower){
+        public Mittengubberod(Texture2D pixel,float timerpower){
             
             mittengubbarrod = new Rectangle(rnd.Next(100,(Game1.WINDOW_WHITE)-100),10,15,100);
             
             this.pixel = pixel;
-            this.speedy = speed;
-            this.speedx = speed;
             this.timerpower = timerpower;
+            this.inspeed = Game1.padelspeedM;
+            this.speedx = (int)inspeed;
+            this.speedy = (int)inspeed;
             
             
            
@@ -47,28 +47,36 @@ namespace Pong_2
 
         public void Update()
         {
+        
+        inspeed = Game1.padelspeedM; 
+        
+        
            
 
         if (mittengubbarrod.Y <= 0 ){
         speedy = rnd.Next(2,10);
+        speedy += (int)inspeed;
         }
 
         if ( mittengubbarrod.Y+mittengubbarrod.Height >= Game1.WINDOW_HEIGHT ){
             speedy = rnd.Next(2,10);
-            speedy += inspeed;
+            speedy += (int)inspeed;
             speedy *= -1;
         }
 
-        if(mittengubbarrod.Intersects(Game1.bol))
-            speedy *= -1;
+        if(mittengubbarrod.Intersects(Game1.bol)){
+            speedx *= -1;
+            speedx += (int)inspeed;
+        }
 
         if (mittengubbarrod.X <= 200 ){
         speedx = rnd.Next(2,5);
+        speedx += (int)inspeed;
         }
 
         if ( mittengubbarrod.X >= Game1.WINDOW_WHITE-200 ){
             speedx = rnd.Next(2,5);
-            speedx += inspeed;
+            speedx += (int)inspeed;
             speedx *= -1;
         }
 

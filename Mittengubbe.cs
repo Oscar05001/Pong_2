@@ -20,7 +20,7 @@ namespace Pong_2
 
         float timerpower;
         int speed;
-        int inspeed;
+        double inspeed;
         public bool aredod;
 
         
@@ -29,13 +29,14 @@ namespace Pong_2
         Random rnd = new Random();
         
 
-        public Mittengubbe(Texture2D pixel, int speed,float timerpower){
+        public Mittengubbe(Texture2D pixel,float timerpower){
             
             mittengubbar = new Rectangle(rnd.Next(100,(Game1.WINDOW_WHITE)-100),10,15,100);
             
             this.pixel = pixel;
-            this.speed = speed;
             this.timerpower = timerpower;
+            this.inspeed = Game1.padelspeedM;
+            this.speed = (int)inspeed;
             
             
            
@@ -43,15 +44,17 @@ namespace Pong_2
 
         public void Update()
         {
-            
+
+        inspeed = Game1.padelspeedM; 
 
         if (mittengubbar.Y <= 0 ){
         speed = rnd.Next(2,10);
+        speed += (int)inspeed;
         }
 
         if ( mittengubbar.Y+mittengubbar.Height >= Game1.WINDOW_HEIGHT ){
             speed = rnd.Next(2,10);
-            speed += inspeed;
+            speed += (int)inspeed;
             speed *= -1;
         }
 
