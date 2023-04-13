@@ -22,13 +22,21 @@ namespace Pong_2
 
         int powerx;
         int powery;
-        int speedx = 1;
+        int speedx = 2;
         int speedy = 1;
+        private static float leftspeedboosttimer;
+        private static float rightspeedboosttimer;
+        private static float leftlengdtimer;
+        private static float rightlengdtimer;
+
+        public static int leftspeedboost;
+        public static int rigtspeedboost;
+
 
 
         public static int ompower = 1;
         
-        public static float timerpower;
+        private static float timerpower;
 
         Random rnd = new Random();
 
@@ -37,7 +45,7 @@ namespace Pong_2
 
 
     public Powerup(Texture2D coin,Texture2D pixel){
-        power = new Rectangle(500, 500,45,45);
+        power = new Rectangle(500, 500,55,55);
 
         this.pixel = pixel;
         this.coin = coin;
@@ -47,8 +55,18 @@ namespace Pong_2
 
     public void Update(){
         
-        if(SettingScreen.settingwindoon==false)
+        if(SettingScreen.settingwindoon==false){
+        //när den kommer fram
         timerpower -= 1f/60f;
+
+        //speed boost tid
+        leftspeedboosttimer -= 1f/60f;
+        rightspeedboosttimer -= 1f/60f;
+
+        //Längd förståring tid
+        leftlengdtimer -= 1f/60f;
+        rightlengdtimer -= 1f/60f;
+        }
         
         //power up
         if(ompower==1){
@@ -80,6 +98,29 @@ namespace Pong_2
                 
 
             }
+
+            //Reset efter tid är slut
+            if(leftspeedboosttimer <= 0)
+            {
+                leftspeedboost = 0;
+            }
+            
+            if(rightspeedboosttimer <= 0)
+            {
+                rigtspeedboost = 0;
+            }
+
+            if(leftlengdtimer <= 0)
+            {
+                PaddelLeft.hurstor = 100;
+            }
+            
+            if(rightlengdtimer <= 0)
+            {
+                PaddelRight.hurstor = 100;
+            }
+            
+
         }
 
 
@@ -107,6 +148,7 @@ namespace Pong_2
 
         RemovMiten();
         RemovRod();
+
         if(Game1.mittengubbar.Count==0&&Game1.mittengubbarrod.Count==0)
             SettingScreen.clearmid = false;
 
@@ -125,41 +167,56 @@ namespace Pong_2
 
         Random vilken = new Random();
         int num = vilken.Next(0,101);
-        if(num>=0&&num<=100)
-            Speed(vem,(float)vilken.Next(20,30));
-        if(num>=210&&num<=400)
+        if(num>=0&&num<=30)
+            Speed(vem);
+        if(num>=30&&num<=50)
+            Lengre(vem);
+        if(num>=51&&num<=80)
+            SpawnVeg(pixel,vem);
+        if(num>=81&&num<=90)
             SpawnMiten(pixel);
-        if(num>=1000&&num<=2000)
+        if(num>=90&&num<=100)
             SpawnRod(pixel);
 
 
 
-        
+       
 
     }
     
 
 
-    private static void Speed(int vem,float tid)
+    private static void Speed(int vem)
     {
         
         Random vspeed = new Random();
+        float tid = (float)vspeed.Next(10,30);
         int hspeed = vspeed.Next(6,10);
-        if(vem==0)
-            Game1.speedboostL = hspeed;
-        
-        if (vem==1)
-            Game1.speedboostR = hspeed;
-
-        while(tid>0)
-        {
-            tid -= 1f/60f;
+        if(vem==0){
+            leftspeedboost = hspeed;
+            leftspeedboosttimer = tid;
         }
-        if(vem==0)
-            Game1.speedboostL = 0;
+        if (vem==1){
+            rigtspeedboost = hspeed;
+            rightspeedboosttimer = tid;
+        }
+
+    }
+
+    private static void Lengre(int vem)
+    {
         
-        if (vem==1)
-            Game1.speedboostR = 0;
+        Random vspeed = new Random();
+        float tid = (float)vspeed.Next(10,30);
+        int hspeed = vspeed.Next(100,201);
+        if(vem==0){
+            PaddelLeft.hurstor = hspeed;
+            leftlengdtimer = tid;
+        }
+        if (vem==1){
+            PaddelRight.hurstor = hspeed;
+            rightlengdtimer = tid;
+        }
 
         
 
@@ -171,9 +228,24 @@ namespace Pong_2
     public static void SpawnMiten(Texture2D pixel){    
 
         Random rnd = new Random();
+
+
+        Game1.mittengubbar.Add(new Mittengubbe(pixel,(float)rnd.Next(20,40),3));
+
         
-        Game1.mittengubbar.Add(new Mittengubbe(pixel,(float)rnd.Next(10,30)));
     }
+
+    public static void SpawnVeg(Texture2D pixel,int vem){    
+
+        Random rnd = new Random();
+
+
+        
+        Game1.mittengubbar.Add(new Mittengubbe(pixel,(float)rnd.Next(20,30),vem));
+
+        
+    }
+
 
     public void RemovMiten(){
         
@@ -204,7 +276,7 @@ namespace Pong_2
         
         Random rnd = new Random();
         
-        Game1.mittengubbarrod.Add(new Mittengubberod(pixel,(float)rnd.Next(5,20)));
+        Game1.mittengubbarrod.Add(new Mittengubberod(pixel,(float)rnd.Next(15,30)));
 
 
     }
@@ -232,6 +304,7 @@ namespace Pong_2
         public void Draw(SpriteBatch spriteBatch){
             
             spriteBatch.Draw(coin,power,Color.Yellow);
+            
         }
 
 

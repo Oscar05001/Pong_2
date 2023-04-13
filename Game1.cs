@@ -11,9 +11,9 @@ namespace Pong_2;
 
 public class Game1 : Game
 {
-    PaddelLeft lp;
-    PaddelRight rp;
-    Powerup power;
+    public static PaddelLeft lp;
+    public static PaddelRight rp;
+    public static Powerup power;
     SettingScreen settscreen;
     private SaveandLode settings;
     private const string PATH = "setting.json";
@@ -25,7 +25,7 @@ public class Game1 : Game
     //Y
     public const int WINDOW_HEIGHT = 800;
     //X
-    public const int WINDOW_WHITE = 1200;
+    public const int WINDOW_WHITE = 1400;
     public int toutch = 0;
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
@@ -53,7 +53,7 @@ public class Game1 : Game
     public static Rectangle bol = new Rectangle((WINDOW_WHITE/2)-7, WINDOW_HEIGHT/2,15,15);
 
 
-    Rectangle strek = new Rectangle(WINDOW_WHITE/2, 5,2,798);
+    Rectangle strek = new Rectangle(WINDOW_WHITE/2, 5,2,WINDOW_HEIGHT-2);
 
     public static Rectangle mi = new Rectangle(WINDOW_WHITE/2-6, (int)(Game1.WINDOW_HEIGHT*0.5)-50,15,100);
 
@@ -65,6 +65,8 @@ public class Game1 : Game
 
     int speedmid = 8;
     int randommidspeed;
+
+    
 
     
     
@@ -160,9 +162,15 @@ public class Game1 : Game
         settscreen.LoadContent();
 
 
+
+
         foreach (var bolen in bolarna)
         {
             bolen.LoadContent();
+        }
+
+        if(bolarna.Count<1){
+            bolarna.Add(new Bolarna(pixel));
         }
 
         
@@ -182,9 +190,7 @@ public class Game1 : Game
 
         mouse = Mouse.GetState();
 
-        if(bolarna.Count<1){
-            bolarna.Add(new Bolarna(pixel));
-        }
+       
         
 
         if(savemeny==true){
@@ -215,68 +221,22 @@ public class Game1 : Game
         //Set speed allting
         padelspeedL = settings.PaddelLeftStartSpeed;
         padelspeedL += speedboostL;
+        padelspeedL += Powerup.leftspeedboost;
         padelspeedL *= settings.Paddelspeedboost;
 
         padelspeedR = settings.PaddelRightStartSpeed;
         padelspeedR += speedboostR;
+        padelspeedR += Powerup.rigtspeedboost;
         padelspeedR *= settings.Paddelspeedboost;
 
         padelspeedM = settings.PaddelMittenStartSpeed;
         padelspeedM *= settings.MittenPaddelspeedboost;
 
-        
-        
-
+        mi.Y += speedmid;
 
         
-
-
-
-
-        if (!SettingScreen.settingwindoon){
-
-    
-            //Kör bol mid paddel
-            bol.Y += bolspeedY;
-            bol.X += bolspeedX;
-
-            mi.Y += speedmid;
-        }
         
 
-       
-
-        //Ändra bol Y
-        if(bol.Y <= 0 || bol.Y+bol.Height >= WINDOW_HEIGHT ){
-            bolspeedY *= -1;
-            
-        }
-
-    
-       
-
-        if(bol.X <= 0 )
-        {
-        poengR ++;
-        bolspeedX = -5;
-        bol.X = WINDOW_WHITE/2;
-        bol.Y = WINDOW_HEIGHT/2;
-        bolspeedX *= -1;
-        mi.Y = 2;
-        
-        }
-
-
-        if(bol.X+bol.Height >= WINDOW_WHITE)
-        {
-        poengL++;
-        bolspeedX = 5;
-        bol.X = WINDOW_WHITE/2;
-        bol.Y = WINDOW_HEIGHT/2;
-        bolspeedX *= -1;
-        mi.Y = 2;
-        
-        }
 
 
 
@@ -295,105 +255,6 @@ public class Game1 : Game
             
         }
 
-
-
-        
-        
-        
-
-        //boll rör padel ädnar X
-        if(lp.Paddle.Intersects(bol) )
-        {
-            bolspeedX -= 1;
-            bolspeedX *= -1;
-            toutch = 0;
-            float väntatimer = 2;
-                while(väntatimer>0)
-                {
-                    väntatimer -= 1f/60f;
-
-                }
-        }
-
-        if(rp.Paddle.Intersects(bol))
-        {
-            bolspeedX += 1;
-            bolspeedX *= -1;
-            toutch = 1;
-            float väntatimer = 2;
-                while(väntatimer>0)
-                {
-                    väntatimer -= 1f/60f;
-
-                }
-        }
-
-        if(mi.Intersects(bol))
-        {
-            bolspeedX *= -1;
-            float väntatimer = 2;
-                while(väntatimer>0)
-                {
-                    väntatimer -= 1f/60f;
-
-                }
-            
-        }  
-
-
-        foreach (var mittengubbe in mittengubbar)
-        {
-            if(mittengubbe.Mittengubar.Intersects(bol))
-            {
-                bolspeedX *= -1;
-
-                float väntatimer = 1;
-                while(väntatimer>0)
-                {
-                    väntatimer -= 1f/60f;
-
-                }
-            } 
-           
-        }
-
-        foreach (var mittengubberod in mittengubbarrod)
-        {
-            if(mittengubberod.Mittengubbarrod.Intersects(bol))
-            {
-                bolspeedX *= -1;
-
-                float väntatimer = 1;
-                while(väntatimer>0)
-                {
-                    väntatimer -= 1f/60f;
-
-                }
-                
-            } 
-
-
-
-
-        }
-        
-
-
-
-
-        
-
-
-                 
-        if(power.Power.Intersects(bol))
-        {
-            Powerup.ompower = 1;
-            
-           Powerup.Powerupsen(toutch,pixel);
-            
-        } 
-        
-        
 
     	
 
@@ -436,13 +297,7 @@ public class Game1 : Game
 
     }
 
-    public static void Resetround(){
-        bolspeedX = 5;
-        bol.X = (WINDOW_WHITE/2)-7;
-        bol.Y = WINDOW_HEIGHT/2;
-        mi.Y = 2;
-
-    }
+    
 
     public static void Resetpoint(){
         poengL = 0;
@@ -491,11 +346,10 @@ public class Game1 : Game
         
 
         _spriteBatch.Begin();
-        lp.Draw(_spriteBatch);
-        rp.Draw(_spriteBatch);
+        
 
         _spriteBatch.Draw(pixel, strek, Color .White);  
-        _spriteBatch.Draw(pixel, bol, Color .Red);
+        
         
         power.Draw(_spriteBatch);
     
@@ -523,6 +377,8 @@ public class Game1 : Game
         {
             bolen.Draw(_spriteBatch);
         }
+        lp.Draw(_spriteBatch);
+        rp.Draw(_spriteBatch);
 
         settscreen.Draw(_spriteBatch);
 

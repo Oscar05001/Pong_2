@@ -24,8 +24,11 @@ namespace Pong_2
         MouseState mouse;
         
         public static int bolvar;
+        public static int hurstor = 100;
+        public static int hurbred = 15;
 
-        public bool ai = false;
+
+        public bool ai = true;
 
         public static int color = 0;
 
@@ -33,7 +36,7 @@ namespace Pong_2
         
         
 
-
+        
         
 
         public Rectangle Paddle{
@@ -78,6 +81,17 @@ namespace Pong_2
                 else
                     AIController();
                 }
+
+                if  (hurstor < padel.Height)
+                    ChangeH(-1);
+                if  (hurstor > padel.Height)
+                    ChangeH(1);
+
+                if  (hurbred < padel.Width)
+                    ChangeW(-1);
+                if  (hurbred > padel.Width)
+                    ChangeW(1);
+            
             }
             if(oldState.IsKeyUp(toggle) && kstate.IsKeyDown(toggle))
                 ai = !ai;
@@ -91,6 +105,8 @@ namespace Pong_2
             
             if(Game1.padelspeedR>settings.PaddelRightStartSpeed)
                 color = 1;
+            else if(ai)
+                color = 2;
             else
                 color = 0;
             
@@ -101,24 +117,39 @@ namespace Pong_2
             //Dator
 
             //Ai höger
-            
-            if(Game1.bolspeedX>0 && Game1.bol.X>Game1.WINDOW_WHITE/2){
-                bolvar = Game1.bol.Y;
-            }
-            else
-                bolvar = Game1.WINDOW_HEIGHT/2;
-            
-            if(Game1.bolspeedX<0 && Game1.bol.X<Game1.WINDOW_WHITE/2){
-                bolvar = Game1.WINDOW_HEIGHT/2;
 
+            foreach (var bolar in Game1.bolarna)
+            {   
+
+
+                if(Bolarna.bolspeedX>0 && Bolarna.bolarna.X >Game1.WINDOW_WHITE/2){
+                    bolvar = Bolarna.bolarna.Y;
+                }
+                else
+                    bolvar = Game1.WINDOW_HEIGHT/2;
+                
+                if(Bolarna.bolspeedX<0 && Bolarna.bolarna.X<Game1.WINDOW_WHITE/2){
+                    bolvar = Game1.WINDOW_HEIGHT/2;
+
+                }
+                
+                if(bolvar >= Paddle.Y + Paddle.Height/2 && Paddle.Y <= Game1.WINDOW_HEIGHT-padel.Height)
+                    ChangeY((int)Game1.padelspeedR);
+
+                if(bolvar <= Paddle.Y + Paddle.Height/2 && Paddle.Y >=0)
+                    ChangeY((int)-Game1.padelspeedR);
+
+
+                
             }
+
+            
+
+            
+            
             
         
-            if(bolvar >= Paddle.Y + Paddle.Height/2 && Paddle.Y <= Game1.WINDOW_HEIGHT-100)
-                ChangeY((int)Game1.padelspeedR);
-
-            if(bolvar <= Paddle.Y + Paddle.Height/2 && Paddle.Y >=0)
-                ChangeY((int)-Game1.padelspeedR);
+            
                 
       
                 
@@ -149,6 +180,14 @@ namespace Pong_2
             padel.Y += value;
         }
 
+        public void ChangeH(int value){
+            padel.Height += value;
+        }
+
+        public void ChangeW(int value){
+            padel.Width += value;
+        }
+
         public  void LoadContent(){
             settings = Load();
             
@@ -174,6 +213,9 @@ namespace Pong_2
             }
             if(color==1){
             spriteBatch.Draw(pixel,padel,Color.Red);
+            }
+            if(color==2){
+            spriteBatch.Draw(pixel,padel,Color.Green);
             }
         }
 

@@ -71,7 +71,8 @@ namespace Pong_2
 
         }
 
-        public void Update(){
+        public void Update()
+        {
             KeyboardState lstate = Keyboard.GetState();
 
             KeyboardState rstate = Keyboard.GetState();
@@ -86,12 +87,12 @@ namespace Pong_2
 
             mouse = Mouse.GetState();
 
+            //rutan går efter musen när mna ska flyta den
             if(whitescreen.Contains(mouse.Position) && (int)mouse.LeftButton==1&&screenmove==false&&settingwindoon==true){
                 mouseXstratPos = mouse.Position.X-whitescreen.X;
                 mouseYstartPos = mouse.Position.Y-whitescreen.Y;
                 screenmove = true;
                 
-
             }
 
             if(screenmove==true && (int)mouse.LeftButton==1){
@@ -102,6 +103,18 @@ namespace Pong_2
                 screenmove = false;
             
             }
+            //
+
+            //ifal rutan utanför rutan gå in i rutan 
+            if (whitescreen.Y > Game1.WINDOW_HEIGHT-50){
+                whitescreen.Y = 100;
+            }
+
+            if (whitescreen.X > Game1.WINDOW_WHITE-50){
+                whitescreen.X = 100;
+            }
+            //
+
 
 
             if(settingwindoon==false){
@@ -114,6 +127,7 @@ namespace Pong_2
             blackscreen.X = whitescreen.X+2;
             blackscreen.Y = whitescreen.Y+2;
 
+            //styra den lilla vit rutan i den stora rutan
             if(vilkenRutaX == 1){
                 setting.Y = whitescreen.Y+30;
                 setting.X = whitescreen.X+30;}
@@ -126,11 +140,11 @@ namespace Pong_2
             else if(vilkenRutaX == 4){
                 setting.Y = whitescreen.Y+30;
                 setting.X = whitescreen.X+295;}
-
+            //
             
 
 
-            
+            //styr run i settings menyn
             if(lldState.IsKeyUp(Left) && lstate.IsKeyDown(Left) && vilkenRutaX > 1){
                 
                 if(vilkenRutaY == 1){
@@ -197,7 +211,10 @@ namespace Pong_2
             }
 
                 rldState = rstate;
+            
 
+
+            
             if(uldState.IsKeyUp(Up) && ustate.IsKeyDown(Up) && vilkenRutaY > 1 && vilkenRutaX !=4){
                 vilkenRutaY -= 1;
                 
@@ -219,19 +236,19 @@ namespace Pong_2
                     vilkenRutaY += 1;
                 }
                 
-                
-            
             }
 
                 nldState = nstate;
-
+            //
+            
+            //gör någonting när man trycket på enter
             if(eldState.IsKeyUp(Enter) && estate.IsKeyDown(Enter)){
                 if(vilkenRutaX == 1 && vilkenRutaY == 2){
                     Game1.Resetpoint();
                 }
 
                 if(vilkenRutaX == 1 && vilkenRutaY == 3){
-                    Game1.Resetround();
+                    Bolarna.Resetround();
                 }
 
                 if(vilkenRutaX == 1 && vilkenRutaY == 4){
@@ -260,8 +277,9 @@ namespace Pong_2
                 
 
                 eldState = estate;
+            //
 
-
+            //pausar och startar menyn
             if(oldState.IsKeyUp(P) && kstate.IsKeyDown(P)){
                 if(settingwindoon==false){
                     paddelLeftStartSpeedSetting = settings.PaddelLeftStartSpeed;
@@ -279,10 +297,12 @@ namespace Pong_2
 
                 }
             
-            settingwindoon = !settingwindoon;
+                settingwindoon = !settingwindoon;
              }
 
             oldState = kstate;
+
+            //
 
 
         }
@@ -321,7 +341,8 @@ namespace Pong_2
                 spriteBatch.Draw(pixel,whitescreen,Color.White);
                 spriteBatch.Draw(pixel,blackscreen,Color.Black );
                 spriteBatch.Draw(pixel,setting,Color.White );
-
+                
+                //kategorier
                 if(vilkenRutaX==1)
                     spriteBatch.DrawString(font,("Game"), new Vector2 (whitescreen.X+34,whitescreen.Y+28), Color.Black);
                 else
