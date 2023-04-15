@@ -91,12 +91,12 @@ namespace Pong_2
         inspeed = Game1.padelspeedM; 
 
         if (mittengubbar.Y <= 0 ){
-        speed = rnd.Next(2,10);
+        speed = rnd.Next(2,8);
         speed += (int)inspeed;
         }
 
         if ( mittengubbar.Y+mittengubbar.Height >= Game1.WINDOW_HEIGHT ){
-            speed = rnd.Next(2,10);
+            speed = rnd.Next(2,8);
             speed += (int)inspeed;
             speed *= -1;
         }

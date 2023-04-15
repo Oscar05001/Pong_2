@@ -1,3 +1,3 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/Users/ludde/OneDrive/Dokument/GitHub/Pong_2/Content/Coin.fx","C:/Users/ludde/OneDrive/Dokument/GitHub/Pong_2/Content/bin/DesktopGL/Content/Coin.xnb","EffectProcessor","CompiledEffectContent",888,1295,0,3221089
-"C:/Users/ludde/OneDrive/Dokument/GitHub/Pong_2/Content/Coin.png","C:/Users/ludde/OneDrive/Dokument/GitHub/Pong_2/Content/bin/DesktopGL/Content/Coin.xnb","TextureProcessor","Texture2DContent",408,6485,0,0340394
+"C:/Users/ludde/OneDrive/Dokument/GitHub/Pong_2/Content/Coin.fx","C:/Users/ludde/OneDrive/Dokument/GitHub/Pong_2/Content/bin/DesktopGL/Content/Coin.xnb","EffectProcessor","CompiledEffectContent",888,1295,0,3648492
+"C:/Users/ludde/OneDrive/Dokument/GitHub/Pong_2/Content/Coin.png","C:/Users/ludde/OneDrive/Dokument/GitHub/Pong_2/Content/bin/DesktopGL/Content/Coin.xnb","TextureProcessor","Texture2DContent",408,6485,0,0352307

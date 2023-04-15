@@ -226,15 +226,18 @@ public class Game1 : Game
 
         padelspeedR = settings.PaddelRightStartSpeed;
         padelspeedR += speedboostR;
-        padelspeedR += Powerup.rigtspeedboost;
+        padelspeedR += Powerup.rightspeedboost;
         padelspeedR *= settings.Paddelspeedboost;
 
         padelspeedM = settings.PaddelMittenStartSpeed;
         padelspeedM *= settings.MittenPaddelspeedboost;
 
-        mi.Y += speedmid;
-
         
+
+        if (!SettingScreen.settingwindoon){
+            mi.Y += speedmid;
+
+        }
         
 
 
@@ -242,14 +245,16 @@ public class Game1 : Game
 
         //Mid padel
         if (mi.Y <= 0 ){
-            randommidspeed = rnd.Next(2,10);
+            randommidspeed = rnd.Next(4,8);
+            mi.Height = rnd.Next(70,151);
             speedmid = randommidspeed * (int)settings.MittenPaddelspeedboost;
             
             
         }
 
         if ( mi.Y+mi.Height >= WINDOW_HEIGHT ){
-            randommidspeed = rnd.Next(2,10);
+            randommidspeed = rnd.Next(4,8);
+            mi.Height = rnd.Next(70,151);
             speedmid = randommidspeed * (int)settings.MittenPaddelspeedboost;
             speedmid *= -1;
             
@@ -257,13 +262,19 @@ public class Game1 : Game
 
 
     	
+        foreach (var bolen in bolarna)
+        {
 
-        if(bldState.IsKeyUp(O) && jstate.IsKeyDown(O)){
-            Powerup.SpawnRod(pixel);
-            Powerup.SpawnMiten(pixel);
+            if(bldState.IsKeyUp(O) && jstate.IsKeyDown(O)){
             
-        }
+                Powerup.Powerupsen(Bolarna.toutch,pixel);  
+            
+            }
             bldState = jstate;
+
+        }
+
+        
 
             
 
@@ -351,7 +362,7 @@ public class Game1 : Game
         _spriteBatch.Draw(pixel, strek, Color .White);  
         
         
-        power.Draw(_spriteBatch);
+        power.Draw(_spriteBatch,font);
     
         _spriteBatch.Draw(pixel, mi, Color .Yellow);
 
@@ -359,7 +370,7 @@ public class Game1 : Game
 
         
         
-        _spriteBatch.DrawString(font,bolspeedX.ToString(), new Vector2 (120,0), Color.White);
+        
         _spriteBatch.DrawString(font,poengL.ToString(), new Vector2 (80,0), Color.White);
         _spriteBatch.DrawString(font,poengR.ToString(), new Vector2 (WINDOW_WHITE-100,0), Color.White);
 

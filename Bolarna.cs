@@ -1,9 +1,9 @@
 using System;
-using System.IO;
-using System.Text.Json;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Text.Json;
+using System.IO;
 
 namespace Pong_2
 {
@@ -14,7 +14,8 @@ namespace Pong_2
         Texture2D pixel;
         public static Rectangle bolarna;
 
-        Powerup powerup;
+        
+
         
         private SaveandLode settings;
         private const string PATH = "setting.json";
@@ -28,9 +29,14 @@ namespace Pong_2
 
         public static int bolspeedX = 4;
         public static int bolspeedY = 4;
-        public static int toutch = 0;
+        public static int toutch = 4;
         public static bool vetej = false;
-            
+
+        private float väntatimermid;
+        private float väntatimermidrod;
+        private float väntatimerleftpadel;
+        private float väntatimerrightpdel;
+        private float väntatimerensammid;
         Random rnd = new Random();
 
         //(X,Y,Bred,Höjd)
@@ -63,6 +69,11 @@ namespace Pong_2
             kubeL.Height = Game1.lp.Paddle.Height;
             kubeL.Width = Game1.lp.Paddle.Width+20;
 
+            väntatimermid -= 1f/60f;
+            väntatimermidrod -= 1f/60f;
+            väntatimerleftpadel -= 1f/60f;
+            väntatimerrightpdel -= 1f/60f;
+            väntatimerensammid -= 1f/60f;
 
             if (!SettingScreen.settingwindoon){
 
@@ -77,6 +88,7 @@ namespace Pong_2
             //Ändra bol Y
             if(bolarna.Y <= 0 || bolarna.Y+bolarna.Height >= Game1.WINDOW_HEIGHT ){
                 bolspeedY *= -1;
+                
                 
             }
 
@@ -93,6 +105,7 @@ namespace Pong_2
                 bolarna.Y = Game1.WINDOW_HEIGHT/2;
                 bolspeedX *= -1;
                 Game1.mi.Y = 2;
+                toutch = 4;
                 
             }
 
@@ -104,69 +117,59 @@ namespace Pong_2
                 bolarna.Y = Game1.WINDOW_HEIGHT/2;
                 bolspeedX *= -1;
                 Game1.mi.Y = 2;
+                toutch = 4;
         
             }
 
 
             //boll rör padel ädnar X
-            if(bolarna.Intersects(kubeR))
-            {
-                bolspeedX += 1;
+            if(bolarna.Intersects(kubeR)&&väntatimerrightpdel <= 0)
+            {   
+                if(toutch==0)
+                    bolspeedX += 1;
                 bolspeedX *= -1;
                 toutch = 1;
+                väntatimerrightpdel = 0.2f;
                 
             }
 
-            if(bolarna.Intersects(kubeL))
+            if(bolarna.Intersects(kubeL)&&väntatimerleftpadel <= 0)
             {
-                bolspeedX -= 1;
+                if(toutch==1)
+                    bolspeedX -= 1;
                 bolspeedX *= -1;
                 toutch = 0;
+                väntatimerleftpadel = 0.2f;
                 
             }
 
-            if(bolarna.Intersects(Game1.mi))
+            if(bolarna.Intersects(Game1.mi)&&väntatimerensammid<=0)
             {
                 bolspeedX *= -1;
-                float väntatimer = 2;
-                    while(väntatimer>0)
-                    {
-                        väntatimer -= 1f/60f;
-
-                    }
                 
+                väntatimerensammid = 0.2f;
+                    
             }  
 
 
 
             foreach (var mittengubbe in Game1.mittengubbar)
             {
-                if(mittengubbe.Mittengubar.Intersects(bolarna))
+                if(mittengubbe.Mittengubar.Intersects(bolarna)&&väntatimermidrod<=0)
                 {
                     bolspeedX *= -1;
 
-                    float väntatimer = 1;
-                    while(väntatimer>0)
-                    {
-                        väntatimer -= 1f/60f;
+                    väntatimermidrod = 0.2f;
 
-                    }
-                } 
-            
+                }
             }
 
             foreach (var mittengubberod in Game1.mittengubbarrod)
             {
-                if(mittengubberod.Mittengubbarrod.Intersects(bolarna))
+                if(mittengubberod.Mittengubbarrod.Intersects(bolarna)&&väntatimermid<=0)
                 {
                     bolspeedX *= -1;
-
-                    float väntatimer = 1;
-                    while(väntatimer>0)
-                    {
-                        väntatimer -= 1f/60f;
-
-                    }
+                    väntatimermid = 0.2f; 
                     
                 } 
 
@@ -174,6 +177,7 @@ namespace Pong_2
 
 
             }
+            //
 
 
 
@@ -192,6 +196,7 @@ namespace Pong_2
                 bolarna.X = (Game1.WINDOW_WHITE/2)-7;
                 bolarna.Y = Game1.WINDOW_HEIGHT/2;
                 Game1.mi.Y = 2;
+                toutch = 4;
 
                 vetej = false;
             }
@@ -236,6 +241,8 @@ namespace Pong_2
         public void Draw(SpriteBatch spriteBatch){
             
             spriteBatch.Draw(pixel, bolarna , Color .Blue);
+
+            
             
             
 

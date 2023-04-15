@@ -28,9 +28,20 @@ namespace Pong_2
         private static float rightspeedboosttimer;
         private static float leftlengdtimer;
         private static float rightlengdtimer;
+        private static float leftkorttimer;
+        private static float rightkorttimer;
 
-        public static int leftspeedboost;
-        public static int rigtspeedboost;
+
+        private static int leftlengre;
+        private static int rightlengre;
+        private static int leftkort;
+        private static int rightkort;
+
+
+        public static int leftspeedboost {get; private set;}
+        public static int rightspeedboost {get; private set;}
+        public static int leftlengd {get; private set;}
+        public static int rightlengd {get; private set;}
 
 
 
@@ -66,12 +77,17 @@ namespace Pong_2
         //Längd förståring tid
         leftlengdtimer -= 1f/60f;
         rightlengdtimer -= 1f/60f;
+
+        //Längd förminskning tid
+        leftkorttimer -= 1f/60f;
+        rightkorttimer -= 1f/60f;
+
         }
         
         //power up
         if(ompower==1){
             timerpower = (float)rnd.Next(5,10);
-            powerx = rnd.Next(50,Game1.WINDOW_WHITE-100);
+            powerx = rnd.Next(100,Game1.WINDOW_WHITE-100);
             powery = rnd.Next(0,Game1.WINDOW_HEIGHT-Power.Height);
             ompower = 0;
         
@@ -99,6 +115,17 @@ namespace Pong_2
 
             }
 
+            leftlengd = 100;
+            leftlengd += leftlengre;
+            leftlengd -= leftkort;
+
+            rightlengd = 100; 
+            rightlengd += rightlengre;
+            rightlengd -= rightkort;
+
+            PaddelLeft.hurstor = leftlengd;
+            PaddelRight.hurstor = rightlengd;
+
             //Reset efter tid är slut
             if(leftspeedboosttimer <= 0)
             {
@@ -107,17 +134,29 @@ namespace Pong_2
             
             if(rightspeedboosttimer <= 0)
             {
-                rigtspeedboost = 0;
+                rightspeedboost = 0;
             }
 
+            //Reset lång till 0 när tid slut
             if(leftlengdtimer <= 0)
             {
-                PaddelLeft.hurstor = 100;
+               leftlengre = 0; 
             }
             
             if(rightlengdtimer <= 0)
             {
-                PaddelRight.hurstor = 100;
+                rightlengre = 0;
+            }
+
+            //Reset kort till 0 nä tid slut
+            if(leftkorttimer <= 0)
+            {
+               leftkort = 0; 
+            }
+            
+            if(rightkorttimer <= 0)
+            {
+                rightkort= 0;
             }
             
 
@@ -137,11 +176,11 @@ namespace Pong_2
         
         //Kör X
 
-        if (power.X <= 100 ){
+        if (power.X <= 70 ){
             speedx *= -1;
         }
 
-        if ( power.X+power.Height >= Game1.WINDOW_WHITE-100){
+        if ( power.X+power.Height >= Game1.WINDOW_WHITE-70){
             speedx *= -1;
         }
 
@@ -167,10 +206,12 @@ namespace Pong_2
 
         Random vilken = new Random();
         int num = vilken.Next(0,101);
-        if(num>=0&&num<=30)
+        if(num>=0&&num<=20)
             Speed(vem);
-        if(num>=30&&num<=50)
+        if(num>=20&&num<=40)
             Lengre(vem);
+        if(num>=41&&num<=50)
+            Kortare(vem);
         if(num>=51&&num<=80)
             SpawnVeg(pixel,vem);
         if(num>=81&&num<=90)
@@ -197,7 +238,7 @@ namespace Pong_2
             leftspeedboosttimer = tid;
         }
         if (vem==1){
-            rigtspeedboost = hspeed;
+            rightspeedboost = hspeed;
             rightspeedboosttimer = tid;
         }
 
@@ -206,16 +247,35 @@ namespace Pong_2
     private static void Lengre(int vem)
     {
         
-        Random vspeed = new Random();
-        float tid = (float)vspeed.Next(10,30);
-        int hspeed = vspeed.Next(100,201);
+        Random rnd = new Random();
+        float tid = (float)rnd.Next(10,30);
+        int lengd = rnd.Next(100,201);
         if(vem==0){
-            PaddelLeft.hurstor = hspeed;
+            leftlengre = lengd;
             leftlengdtimer = tid;
         }
         if (vem==1){
-            PaddelRight.hurstor = hspeed;
+            rightlengre = lengd;
             rightlengdtimer = tid;
+        }
+
+        
+
+    }
+
+    private static void Kortare(int vem)
+    {
+        
+        Random rnd = new Random();
+        float tid = (float)rnd.Next(5,15);
+        int lengd = rnd.Next(20,70);
+        if(vem==1){
+            leftkort = lengd;
+            leftkorttimer = tid;
+        }
+        if (vem==0){
+            rightkort = lengd;
+            rightkorttimer = tid;
         }
 
         
@@ -226,23 +286,24 @@ namespace Pong_2
     //mittengubbe
 
     public static void SpawnMiten(Texture2D pixel){    
+        
 
-        Random rnd = new Random();
-
-
-        Game1.mittengubbar.Add(new Mittengubbe(pixel,(float)rnd.Next(20,40),3));
-
+        if(Game1.mittengubbar.Count<=100){
+            Random rnd = new Random();
+            Game1.mittengubbar.Add(new Mittengubbe(pixel,(float)rnd.Next(30,50),3));
+        }
         
     }
 
     public static void SpawnVeg(Texture2D pixel,int vem){    
 
-        Random rnd = new Random();
 
 
-        
-        Game1.mittengubbar.Add(new Mittengubbe(pixel,(float)rnd.Next(20,30),vem));
 
+        if(Game1.mittengubbarrod.Count<=100){
+            Random rnd = new Random();        
+            Game1.mittengubbar.Add(new Mittengubbe(pixel,(float)rnd.Next(20,40),vem));
+        }
         
     }
 
@@ -301,10 +362,32 @@ namespace Pong_2
 
 
 
-        public void Draw(SpriteBatch spriteBatch){
+        public void Draw(SpriteBatch spriteBatch,SpriteFont font){
             
             spriteBatch.Draw(coin,power,Color.Yellow);
+            spriteBatch.DrawString(font,"Kortare "+leftkort.ToString(), new Vector2 (120,0), Color.White);
+            spriteBatch.DrawString(font,"Lengre "+leftlengre.ToString(), new Vector2 (120,20), Color.White);
+            spriteBatch.DrawString(font,"Speedboost "+leftspeedboost.ToString(), new Vector2 (120,40), Color.White);
             
+
+            spriteBatch.DrawString(font,"Kortare "+rightkort.ToString(), new Vector2 (250,0), Color.White);
+            spriteBatch.DrawString(font,"Lengre "+rightlengre.ToString(), new Vector2 (250,20), Color.White);
+            spriteBatch.DrawString(font,"Speedboost "+rightspeedboost.ToString(), new Vector2 (250,40), Color.White);
+
+            foreach (var bolen in Game1.bolarna)
+            {
+
+                spriteBatch.DrawString(font,"Vem "+Bolarna.toutch.ToString(), new Vector2 (120,60), Color.White);
+
+            }
+
+            foreach (var bolen in Game1.bolarna)
+            {
+
+                spriteBatch.DrawString(font,"SpeedX "+Bolarna.bolspeedX.ToString(), new Vector2 (250,60), Color.White);
+
+            }
+                
         }
 
 

@@ -54,20 +54,24 @@ namespace Pong_2
            
 
         if (mittengubbarrod.Y <= 0 ){
-        speedy = rnd.Next(2,10);
+        speedy = rnd.Next(2,8);
         speedy += (int)inspeed;
         }
 
         if ( mittengubbarrod.Y+mittengubbarrod.Height >= Game1.WINDOW_HEIGHT ){
-            speedy = rnd.Next(2,10);
+            speedy = rnd.Next(2,8);
             speedy += (int)inspeed;
             speedy *= -1;
         }
 
-        if(mittengubbarrod.Intersects(Game1.bol)){
-            speedx *= -1;
-            speedx += (int)inspeed;
+        foreach (var bolen in Game1.bolarna)
+        {
+            if(mittengubbarrod.Intersects(bolen.Bollarna)){
+                speedx *= -1;
+                speedx += (int)inspeed;
         }
+        }
+       
 
         if (mittengubbarrod.X <= 200 ){
         speedx = rnd.Next(2,5);
