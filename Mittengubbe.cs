@@ -18,17 +18,19 @@ namespace Pong_2
         }
         
 
-        float timerpower;
-        int speed;
-        double inspeed;
-        public bool aredod;
+        private float timerpower;
+        private int speed;
+        private double inspeed;
+        public bool aredod{get; private set;}
+        
+        
         //0 Left 1 Right
-        int vem;
+        private int vem;
         
         
-        int x;
-        int y;
-        int h;
+        private int x;
+        private int y;
+        private int h;
 
         
                 
@@ -43,26 +45,27 @@ namespace Pong_2
             
 
             if(vem != 3)
-            {
+            {   
+                h = 200;
                 if(vem == 0)
                 {
-                    x = rnd.Next(100,(Game1.WINDOW_WHITE/2)-20);
-                    y = rnd.Next(0,(Game1.WINDOW_HEIGHT)-100);
+                    x = rnd.Next(Game1.ARENA_LEFT_WALL+120,(Game1.ARENA_RIGHT_WALL/2)-20);
+                    y = rnd.Next(Game1.ARENA_ROOF,(Game1.ARENA_FLORE)-200);
 
                 }
                 else
                 {
-                    x = rnd.Next((Game1.WINDOW_WHITE/2)+20,Game1.WINDOW_WHITE-120);
-                    y = rnd.Next(0,(Game1.WINDOW_HEIGHT)-100);
+                    x = rnd.Next((Game1.ARENA_RIGHT_WALL/2)+20,Game1.ARENA_RIGHT_WALL-120);
+                    y = rnd.Next(Game1.ARENA_ROOF,(Game1.ARENA_FLORE)-200);
 
                 }
 
-                h = 200;
+                
 
             }
             else
             {
-               x =  rnd.Next(100,(Game1.WINDOW_WHITE)-100);
+               x =  rnd.Next(Game1.ARENA_LEFT_WALL+120,(Game1.ARENA_RIGHT_WALL)-120);
                h = 100;
 
             }
@@ -90,12 +93,12 @@ namespace Pong_2
        
         inspeed = Game1.padelspeedM; 
 
-        if (mittengubbar.Y <= 0 ){
+        if (mittengubbar.Y <= Game1.ARENA_ROOF ){
         speed = rnd.Next(2,8);
         speed += (int)inspeed;
         }
 
-        if ( mittengubbar.Y+mittengubbar.Height >= Game1.WINDOW_HEIGHT ){
+        if ( mittengubbar.Y+mittengubbar.Height >= Game1.ARENA_FLORE ){
             speed = rnd.Next(2,8);
             speed += (int)inspeed;
             speed *= -1;
@@ -111,8 +114,9 @@ namespace Pong_2
 
             timerpower -= 1f/60f;
         }
+
         if(timerpower<0)
-        aredod = true;
+            aredod = true;
 
 
         

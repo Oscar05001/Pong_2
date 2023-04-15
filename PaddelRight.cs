@@ -23,21 +23,21 @@ namespace Pong_2
         private SaveandLode settings;
         MouseState mouse;
         
-        public static int bolvar;
-        public static int hurstor = 100;
-        public static int hurbred = 15;
+        public static int bolvar{get; private set;}
+        public static int hurstor{get; set;} = 100;
+        public static int hurbred{get; set;} = 15;
 
 
-        public bool ai = true;
+        private bool ai = true;
 
-        public static int color = 0;
-
-        
-        
-        
+        private static int color = 0;
 
         
         
+        
+
+        
+        public static Rectangle kubeR = new Rectangle (Game1.rp.Paddle.X, Game1.rp.Paddle.Y,Game1.rp.Paddle.Width+20,Game1.rp.Paddle.Height);
 
         public Rectangle Paddle{
             get{return padel;}
@@ -46,7 +46,7 @@ namespace Pong_2
         
         // true left , falce right
         public PaddelRight( Texture2D pixel, int x, Keys up, Keys down,Keys toggle,Keys paus){
-            padel = new Rectangle(x, (int)(Game1.WINDOW_HEIGHT*0.5)-50,15,100);
+            padel = new Rectangle(x, (int)(Game1.ARENA_FLORE*0.5)-50,15,100);
             this.up = up;
             this.down = down;
             this.pixel = pixel;
@@ -63,6 +63,13 @@ namespace Pong_2
             KeyboardState kstate = Keyboard.GetState();
 
             mouse = Mouse.GetState();
+
+            //kör kube
+            kubeR.X = Paddle.X;
+            kubeR.Y = Paddle.Y;
+            kubeR.Height = Paddle.Height;
+            kubeR.Width = Paddle.Width+20;
+            //
             
             if(SettingScreen.settingwindoon==false){
                 
@@ -122,21 +129,21 @@ namespace Pong_2
             {   
 
 
-                if(Bolarna.bolspeedX>0 && Bolarna.bolarna.X >Game1.WINDOW_WHITE/2){
+                if(Bolarna.bolspeedX>0 && Bolarna.bolarna.X >Game1.ARENA_RIGHT_WALL/2){
                     bolvar = Bolarna.bolarna.Y;
                 }
                 else
-                    bolvar = Game1.WINDOW_HEIGHT/2;
+                    bolvar = Game1.ARENA_FLORE/2;
                 
-                if(Bolarna.bolspeedX<0 && Bolarna.bolarna.X<Game1.WINDOW_WHITE/2){
-                    bolvar = Game1.WINDOW_HEIGHT/2;
+                if(Bolarna.bolspeedX<0 && Bolarna.bolarna.X<Game1.ARENA_RIGHT_WALL/2){
+                    bolvar = Game1.ARENA_FLORE/2;
 
                 }
                 
-                if(bolvar >= Paddle.Y + Paddle.Height/2 && Paddle.Y <= Game1.WINDOW_HEIGHT-padel.Height)
+                if(bolvar >= Paddle.Y + Paddle.Height/2 && Paddle.Y <= Game1.ARENA_FLORE-padel.Height)
                     ChangeY((int)Game1.padelspeedR);
 
-                if(bolvar <= Paddle.Y + Paddle.Height/2 && Paddle.Y >=0)
+                if(bolvar <= Paddle.Y + Paddle.Height/2 && Paddle.Y >= Game1.ARENA_ROOF)
                     ChangeY((int)-Game1.padelspeedR);
 
 
@@ -159,9 +166,9 @@ namespace Pong_2
         private void HumanController(KeyboardState kstate)
         {
                 
-            if  (kstate.IsKeyDown(up) && padel.Y >= 0)
+            if  (kstate.IsKeyDown(up) && padel.Y >= Game1.ARENA_ROOF)
                 ChangeY(-(int)Game1.padelspeedR);
-            if  (kstate.IsKeyDown(down) && padel.Y <= Game1.WINDOW_HEIGHT-100)
+            if  (kstate.IsKeyDown(down) && padel.Y <= Game1.ARENA_FLORE-padel.Height)
                 ChangeY((int)Game1.padelspeedR);
 
         }
@@ -169,9 +176,9 @@ namespace Pong_2
         private void MouseController(MouseState mouse)
         {
                 
-            if  (mouse.Position.Y < padel.Y+(padel.Height/2)&& padel.Y >= 0)
+            if  (mouse.Position.Y < padel.Y+(padel.Height/2)&& padel.Y >= Game1.ARENA_ROOF)
                 ChangeY(-(int)Game1.padelspeedL);
-            if  (mouse.Position.Y > padel.Y+(padel.Height/2) && padel.Y <= Game1.WINDOW_HEIGHT-padel.Height)
+            if  (mouse.Position.Y > padel.Y+(padel.Height/2) && padel.Y <= Game1.ARENA_FLORE-padel.Height)
                 ChangeY((int)Game1.padelspeedL);
                 
         }

@@ -15,18 +15,29 @@ public class Game1 : Game
     public static PaddelRight rp;
     public static Powerup power;
     SettingScreen settscreen;
-    private SaveandLode settings;
+    public SaveandLode settings;
     private const string PATH = "setting.json";
 
     MouseState mouse;
     
+
+    //Arena box
+    public static int ARENA_ROOF = 0;
+
+    public static int ARENA_FLORE = WINDOW_HEIGHT;
+    
+    public static int ARENA_LEFT_WALL = 0;
+    
+    public static int ARENA_RIGHT_WALL = WINDOW_WHITE;
+    //
 
 
     //Y
     public const int WINDOW_HEIGHT = 800;
     //X
     public const int WINDOW_WHITE = 1400;
-    public int toutch = 0;
+
+
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
@@ -36,6 +47,8 @@ public class Game1 : Game
     public static List<Mittengubberod> mittengubbarrod = new List<Mittengubberod>();
 
     public static List<Bolarna> bolarna = new List<Bolarna>();
+
+    public static List<Powerupfigur> powerupfigur = new List<Powerupfigur>();
     
     
     KeyboardState bldState;
@@ -45,54 +58,39 @@ public class Game1 : Game
     static Texture2D pixel;
     Texture2D coin;
     SpriteFont font;
+    Random rnd = new Random();
     
     //SpriteFont meny;
 
     
     //(X,Y,Bred,Höjd)
-    public static Rectangle bol = new Rectangle((WINDOW_WHITE/2)-7, WINDOW_HEIGHT/2,15,15);
+    public static Rectangle bol = new Rectangle((ARENA_RIGHT_WALL/2)-7, ARENA_FLORE/2,15,15);
 
 
-    Rectangle strek = new Rectangle(WINDOW_WHITE/2, 5,2,WINDOW_HEIGHT-2);
+    Rectangle strek = new Rectangle(ARENA_RIGHT_WALL/2, 5,2,ARENA_FLORE-2);
 
-    public static Rectangle mi = new Rectangle(WINDOW_WHITE/2-6, (int)(Game1.WINDOW_HEIGHT*0.5)-50,15,100);
+    public static Rectangle mi = new Rectangle(ARENA_RIGHT_WALL/2-6, (int)(Game1.ARENA_FLORE*0.5)-50,15,100);
 
     //Padel speed
-    public  static double padelspeedR;
-    public  static double padelspeedL;
-    public  static double padelspeedM;
-    public static double bolspeed;
-
-    int speedmid = 8;
-    int randommidspeed;
-
+    public  static double padelspeedR{get; private set;}
+    public  static double padelspeedL{get; private set;}
+    public  static double padelspeedM{get; private set;}
     
 
-    
-    
+    private int speedmid = 8;
+    private int randommidspeed;
+
+    private static double speedboostL;
+    private static double speedboostR;
+    private static double speedboostbolar;
 
 
-
-    public static double speedboostL;
-    public static double speedboostR;
-    public static double speedboostbolar;
-
-    public static bool savemeny = false;
-
-    
-    
-    
-   
-    public static int bolspeedX = 4;
-    public static int bolspeedY = 4;
-    
-
-    Random rnd = new Random();
+    public static bool savemeny{get; set;} = false;    
 
 
-    public static int poengL = 0;
+    public static int poengL{get; set;} = 0;
 
-    public static int poengR = 0;
+    public static int poengR{get; set;} = 0;
 
     
 
@@ -152,14 +150,15 @@ public class Game1 : Game
 
 
         lp = new PaddelLeft(pixel, 50,Keys.W, Keys.S,Keys.T,Keys.P);
-        rp = new PaddelRight(pixel, WINDOW_WHITE-60,Keys.Up,Keys.Down,Keys.Y,Keys.P);
-        power = new Powerup(coin,pixel);
+        rp = new PaddelRight(pixel, ARENA_RIGHT_WALL-60,Keys.Up,Keys.Down,Keys.Y,Keys.P);
         settscreen = new SettingScreen(pixel,font);
+        power = new Powerup();
 
         settings = Load();
         lp.LoadContent();
         rp.LoadContent();
         settscreen.LoadContent();
+        
 
 
 
@@ -169,9 +168,11 @@ public class Game1 : Game
             bolen.LoadContent();
         }
 
-        if(bolarna.Count<1){
-            bolarna.Add(new Bolarna(pixel));
-        }
+        
+        
+        
+
+       
 
         
         
@@ -190,6 +191,22 @@ public class Game1 : Game
 
         mouse = Mouse.GetState();
 
+         //Lägger till en bol i början
+        if(bolarna.Count<1){
+            bolarna.Add(new Bolarna(pixel));
+        }
+
+        for (int i = 0; i < bolarna.Count; i++)
+        {
+            
+            if(bolarna[i].aredod)
+            {
+                bolarna.RemoveAt(i); 
+                i--;
+
+            }
+
+        }
        
         
 
@@ -231,7 +248,7 @@ public class Game1 : Game
 
         padelspeedM = settings.PaddelMittenStartSpeed;
         padelspeedM *= settings.MittenPaddelspeedboost;
-
+        //
         
 
         if (!SettingScreen.settingwindoon){
@@ -244,7 +261,7 @@ public class Game1 : Game
 
 
         //Mid padel
-        if (mi.Y <= 0 ){
+        if (mi.Y <= Game1.ARENA_ROOF ){
             randommidspeed = rnd.Next(4,8);
             mi.Height = rnd.Next(70,151);
             speedmid = randommidspeed * (int)settings.MittenPaddelspeedboost;
@@ -252,7 +269,7 @@ public class Game1 : Game
             
         }
 
-        if ( mi.Y+mi.Height >= WINDOW_HEIGHT ){
+        if ( mi.Y+mi.Height >= ARENA_FLORE ){
             randommidspeed = rnd.Next(4,8);
             mi.Height = rnd.Next(70,151);
             speedmid = randommidspeed * (int)settings.MittenPaddelspeedboost;
@@ -281,7 +298,7 @@ public class Game1 : Game
         
         
 
-        //Update andr obijekt
+        //Update andra obijekt
 
         lp.Update();
         rp.Update();
@@ -302,6 +319,13 @@ public class Game1 : Game
         {
 
             bolen.Update();
+
+        }
+
+        foreach (var figuren in powerupfigur)
+        {
+
+            figuren.Update();
 
         }
        
@@ -362,7 +386,7 @@ public class Game1 : Game
         _spriteBatch.Draw(pixel, strek, Color .White);  
         
         
-        power.Draw(_spriteBatch,font);
+        
     
         _spriteBatch.Draw(pixel, mi, Color .Yellow);
 
@@ -372,7 +396,7 @@ public class Game1 : Game
         
         
         _spriteBatch.DrawString(font,poengL.ToString(), new Vector2 (80,0), Color.White);
-        _spriteBatch.DrawString(font,poengR.ToString(), new Vector2 (WINDOW_WHITE-100,0), Color.White);
+        _spriteBatch.DrawString(font,poengR.ToString(), new Vector2 (ARENA_RIGHT_WALL-100,0), Color.White);
 
         
 
@@ -388,6 +412,12 @@ public class Game1 : Game
         {
             bolen.Draw(_spriteBatch);
         }
+        foreach (var figuren in powerupfigur)
+        {
+            figuren.Draw(_spriteBatch,coin);
+        }
+        
+        power.Draw(_spriteBatch,font);
         lp.Draw(_spriteBatch);
         rp.Draw(_spriteBatch);
 

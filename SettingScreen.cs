@@ -22,7 +22,7 @@ namespace Pong_2
         
 
 
-
+        
 
 
         Keys Left = Keys.Left;
@@ -302,6 +302,7 @@ namespace Pong_2
 
             oldState = kstate;
 
+            
             //
 
 

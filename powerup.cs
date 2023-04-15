@@ -3,27 +3,20 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+
 namespace Pong_2
 {
     public class Powerup
     {
  
-        Texture2D coin;
-        Texture2D pixel;
-        Rectangle power;
-
-        public Rectangle Power{
-            get{return power;}
-            set{power = value;}
-        }
         
 
+        Keys I = Keys.I;
+        KeyboardState oldState;
+        Random rnd = new Random();
 
 
-        int powerx;
-        int powery;
-        int speedx = 2;
-        int speedy = 1;
+
         private static float leftspeedboosttimer;
         private static float rightspeedboosttimer;
         private static float leftlengdtimer;
@@ -42,78 +35,58 @@ namespace Pong_2
         public static int rightspeedboost {get; private set;}
         public static int leftlengd {get; private set;}
         public static int rightlengd {get; private set;}
-
-
-
-        public static int ompower = 1;
         
-        private static float timerpower;
+        private static bool info = false;
 
-        Random rnd = new Random();
-
-
+        private static float timerpower = 5;
 
 
 
-    public Powerup(Texture2D coin,Texture2D pixel){
-        power = new Rectangle(500, 500,55,55);
-
-        this.pixel = pixel;
-        this.coin = coin;
     
+        
+        
+
+
+
+
     
-    }
 
     public void Update(){
+
+        
+
+        KeyboardState kstate = Keyboard.GetState();
+        
+
         
         if(SettingScreen.settingwindoon==false){
-        //när den kommer fram
-        timerpower -= 1f/60f;
+            //när den kommer fram
+            timerpower -= 1f/60f;
 
-        //speed boost tid
-        leftspeedboosttimer -= 1f/60f;
-        rightspeedboosttimer -= 1f/60f;
+            //speed boost tid
+            leftspeedboosttimer -= 1f/60f;
+            rightspeedboosttimer -= 1f/60f;
 
-        //Längd förståring tid
-        leftlengdtimer -= 1f/60f;
-        rightlengdtimer -= 1f/60f;
+            //Längd förståring tid
+            leftlengdtimer -= 1f/60f;
+            rightlengdtimer -= 1f/60f;
 
-        //Längd förminskning tid
-        leftkorttimer -= 1f/60f;
-        rightkorttimer -= 1f/60f;
+            //Längd förminskning tid
+            leftkorttimer -= 1f/60f;
+            rightkorttimer -= 1f/60f;
 
         }
-        
-        //power up
-        if(ompower==1){
-            timerpower = (float)rnd.Next(5,10);
-            powerx = rnd.Next(100,Game1.WINDOW_WHITE-100);
-            powery = rnd.Next(0,Game1.WINDOW_HEIGHT-Power.Height);
-            ompower = 0;
-        
-        }
 
-        if(SettingScreen.settingwindoon==false){
-            if(timerpower>0.2){
-                power.Y=Game1.WINDOW_HEIGHT+50;
-                power.X=powerx;
-
-
-            }
-            else if (timerpower<0.2&&timerpower>0){
-                power.Y=powery;
-                power.X=powerx;
-
-
-            }
-            else{
-
+            //power up
+            if(timerpower<0&&Game1.powerupfigur.Count<=4){
                 
-                    power.Y += speedy;
-                    power.X += speedx;
-                
-
+                timerpower = (float)rnd.Next(10,15);
+                Game1.powerupfigur.Add(new Powerupfigur());
+            
             }
+        
+        
+
 
             leftlengd = 100;
             leftlengd += leftlengre;
@@ -160,29 +133,15 @@ namespace Pong_2
             }
             
 
-        }
-
-
-
-        //Kör Y
-
-        if (power.Y <= 0 ){
-            speedy *= -1;
-        }
-
-        if ( power.Y+power.Height >= Game1.WINDOW_HEIGHT ){
-            speedy *= -1;
-        }
         
-        //Kör X
 
-        if (power.X <= 70 ){
-            speedx *= -1;
+        if(oldState.IsKeyUp(I) && kstate.IsKeyDown(I)){
+            info = !info;
+        
         }
 
-        if ( power.X+power.Height >= Game1.WINDOW_WHITE-70){
-            speedx *= -1;
-        }
+        oldState = kstate;
+
 
 
         RemovMiten();
@@ -298,8 +257,6 @@ namespace Pong_2
     public static void SpawnVeg(Texture2D pixel,int vem){    
 
 
-
-
         if(Game1.mittengubbarrod.Count<=100){
             Random rnd = new Random();        
             Game1.mittengubbar.Add(new Mittengubbe(pixel,(float)rnd.Next(20,40),vem));
@@ -319,9 +276,6 @@ namespace Pong_2
                 i--;
 
             }
-
-            
-
 
         }
 
@@ -364,28 +318,33 @@ namespace Pong_2
 
         public void Draw(SpriteBatch spriteBatch,SpriteFont font){
             
-            spriteBatch.Draw(coin,power,Color.Yellow);
-            spriteBatch.DrawString(font,"Kortare "+leftkort.ToString(), new Vector2 (120,0), Color.White);
-            spriteBatch.DrawString(font,"Lengre "+leftlengre.ToString(), new Vector2 (120,20), Color.White);
-            spriteBatch.DrawString(font,"Speedboost "+leftspeedboost.ToString(), new Vector2 (120,40), Color.White);
             
 
-            spriteBatch.DrawString(font,"Kortare "+rightkort.ToString(), new Vector2 (250,0), Color.White);
-            spriteBatch.DrawString(font,"Lengre "+rightlengre.ToString(), new Vector2 (250,20), Color.White);
-            spriteBatch.DrawString(font,"Speedboost "+rightspeedboost.ToString(), new Vector2 (250,40), Color.White);
+            if(info){
+                spriteBatch.DrawString(font,"Kortare "+leftkort.ToString()+" tid "+((int)leftkorttimer).ToString(), new Vector2 (120,0), Color.LightSkyBlue);
+                spriteBatch.DrawString(font,"Lengre "+leftlengre.ToString()+" tid "+((int)leftlengdtimer).ToString(), new Vector2 (120,25), Color.LightSkyBlue);
+                spriteBatch.DrawString(font,"Speedboost "+leftspeedboost.ToString()+" tid "+((int)leftspeedboosttimer).ToString(), new Vector2 (120,50), Color.LightSkyBlue);
+                spriteBatch.DrawString(font,"Hur manga bollar "+Game1.bolarna.Count.ToString(), new Vector2 (120,100), Color.LightSkyBlue);
+                spriteBatch.DrawString(font,"Hur manga midrod "+Game1.mittengubbarrod.Count.ToString(), new Vector2 (120,125), Color.LightSkyBlue);
 
-            foreach (var bolen in Game1.bolarna)
-            {
+                spriteBatch.DrawString(font,"Kortare "+rightkort.ToString()+" tid "+((int)rightkorttimer).ToString(), new Vector2 (340,0), Color.LightSkyBlue);
+                spriteBatch.DrawString(font,"Lengre "+rightlengre.ToString()+" tid "+((int)rightlengdtimer).ToString(), new Vector2 (340,25), Color.LightSkyBlue);
+                spriteBatch.DrawString(font,"Speedboost "+rightspeedboost.ToString()+" tid "+((int)rightspeedboosttimer).ToString(), new Vector2 (340,50), Color.LightSkyBlue);
+                spriteBatch.DrawString(font,"Hur manga midgul "+Game1.mittengubbar.Count.ToString(), new Vector2 (340,100), Color.LightSkyBlue);
 
-                spriteBatch.DrawString(font,"Vem "+Bolarna.toutch.ToString(), new Vector2 (120,60), Color.White);
+                foreach (var bolen in Game1.bolarna)
+                {
 
-            }
+                    spriteBatch.DrawString(font,"Vem "+Bolarna.toutch.ToString(), new Vector2 (120,75), Color.LightSkyBlue);
 
-            foreach (var bolen in Game1.bolarna)
-            {
+                }
 
-                spriteBatch.DrawString(font,"SpeedX "+Bolarna.bolspeedX.ToString(), new Vector2 (250,60), Color.White);
+                foreach (var bolen in Game1.bolarna)
+                {
 
+                    spriteBatch.DrawString(font,"SpeedX "+Bolarna.bolspeedX.ToString()+" Y "+Bolarna.bolspeedY.ToString(), new Vector2 (340,75), Color.LightSkyBlue);
+
+                }
             }
                 
         }

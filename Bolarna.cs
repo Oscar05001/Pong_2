@@ -27,10 +27,11 @@ namespace Pong_2
             }
         
 
-        public static int bolspeedX = 4;
-        public static int bolspeedY = 4;
-        public static int toutch = 4;
-        public static bool vetej = false;
+        public static int bolspeedX{get; private set;} = 4;
+        public static int bolspeedY{get; private set;} = 4;
+        public static int toutch{get; private set;} = 4;
+        public static bool vetej{get; private set;} = false;
+        public bool aredod{get; private set;} = false;
 
         private float väntatimermid;
         private float väntatimermidrod;
@@ -40,13 +41,15 @@ namespace Pong_2
         Random rnd = new Random();
 
         //(X,Y,Bred,Höjd)
-        Rectangle kubeR = new Rectangle (Game1.rp.Paddle.X, Game1.rp.Paddle.Y,Game1.rp.Paddle.Width+20,Game1.rp.Paddle.Height);
         
-        Rectangle kubeL = new Rectangle (Game1.lp.Paddle.X-10, Game1.lp.Paddle.Y,Game1.lp.Paddle.Width+20,Game1.lp.Paddle.Height);
+        
+        
 
         public Bolarna(Texture2D pixel){
-                
-            bolarna = new Rectangle((Game1.WINDOW_WHITE/2)-7, Game1.WINDOW_HEIGHT/2,15,15);
+
+            Random rnd = new Random();
+
+            bolarna = new Rectangle((Game1.ARENA_RIGHT_WALL/2)-7,rnd.Next(10,Game1.ARENA_FLORE-10),15,15);
                 
             this.pixel = pixel;
             
@@ -59,15 +62,9 @@ namespace Pong_2
         public void Update(){
 
             
-            kubeR.X = Game1.rp.Paddle.X;
-            kubeR.Y = Game1.rp.Paddle.Y;
-            kubeR.Height = Game1.rp.Paddle.Height;
-            kubeR.Width = Game1.rp.Paddle.Width+20;
+            
 
-            kubeL.X = Game1.lp.Paddle.X-20;
-            kubeL.Y = Game1.lp.Paddle.Y;
-            kubeL.Height = Game1.lp.Paddle.Height;
-            kubeL.Width = Game1.lp.Paddle.Width+20;
+            
 
             väntatimermid -= 1f/60f;
             väntatimermidrod -= 1f/60f;
@@ -86,7 +83,7 @@ namespace Pong_2
             }
 
             //Ändra bol Y
-            if(bolarna.Y <= 0 || bolarna.Y+bolarna.Height >= Game1.WINDOW_HEIGHT ){
+            if(bolarna.Y <= Game1.ARENA_ROOF || bolarna.Y+bolarna.Height >= Game1.ARENA_FLORE ){
                 bolspeedY *= -1;
                 
                 
@@ -96,34 +93,38 @@ namespace Pong_2
 
 
 
-
-            if(bolarna.X <= 0 ){
+            //Poeng
+            if(bolarna.X <= Game1.ARENA_LEFT_WALL ){
                 
                 Game1.poengR ++;
                 bolspeedX = -5;
-                bolarna.X = Game1.WINDOW_WHITE/2;
-                bolarna.Y = Game1.WINDOW_HEIGHT/2;
+                bolarna.X = Game1.ARENA_RIGHT_WALL/2;
+                bolarna.Y = Game1.ARENA_FLORE/2;
                 bolspeedX *= -1;
-                Game1.mi.Y = 2;
-                toutch = 4;
+                aredod = true;
+                
+                
                 
             }
 
 
-            if(bolarna.X+bolarna.Height >= Game1.WINDOW_WHITE){
+            if(bolarna.X+bolarna.Height >= Game1.ARENA_RIGHT_WALL){
+                
                 Game1.poengL++;
                 bolspeedX = 5;
-                bolarna.X = Game1.WINDOW_WHITE/2;
-                bolarna.Y = Game1.WINDOW_HEIGHT/2;
+                bolarna.X = Game1.ARENA_RIGHT_WALL/2;
+                bolarna.Y = Game1.ARENA_FLORE/2;
                 bolspeedX *= -1;
-                Game1.mi.Y = 2;
-                toutch = 4;
+                aredod = true;
+                
+                
         
             }
+            //
 
 
             //boll rör padel ädnar X
-            if(bolarna.Intersects(kubeR)&&väntatimerrightpdel <= 0)
+            if(bolarna.Intersects(PaddelRight.kubeR)&&väntatimerrightpdel <= 0)
             {   
                 if(toutch==0)
                     bolspeedX += 1;
@@ -133,7 +134,7 @@ namespace Pong_2
                 
             }
 
-            if(bolarna.Intersects(kubeL)&&väntatimerleftpadel <= 0)
+            if(bolarna.Intersects(PaddelLeft.kubeL)&&väntatimerleftpadel <= 0)
             {
                 if(toutch==1)
                     bolspeedX -= 1;
@@ -173,28 +174,34 @@ namespace Pong_2
                     
                 } 
 
-
-
-
             }
             //
 
-
-
-
-            if(Game1.power.Power.Intersects(bolarna))
+            //Powerup kör
+            for (int i = 0; i < Game1.powerupfigur.Count; i++)
             {
-                Powerup.ompower = 1;
                 
-                Powerup.Powerupsen(toutch,pixel);
-            
+                if(Game1.powerupfigur[i].Power.Intersects(bolarna))
+                {   
+                    Powerup.Powerupsen(toutch,pixel);
+                    Game1.powerupfigur.RemoveAt(i); 
+                    i--;
+
+                }
+
             }
+
+
+            
+
+
+            
 
             if(vetej){
 
                 bolspeedX = 5;
-                bolarna.X = (Game1.WINDOW_WHITE/2)-7;
-                bolarna.Y = Game1.WINDOW_HEIGHT/2;
+                bolarna.X = (Game1.ARENA_RIGHT_WALL/2)-7;
+                bolarna.Y = Game1.ARENA_FLORE/2;
                 Game1.mi.Y = 2;
                 toutch = 4;
 
