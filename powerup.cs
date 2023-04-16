@@ -332,19 +332,9 @@ namespace Pong_2
                 spriteBatch.DrawString(font,"Speedboost "+rightspeedboost.ToString()+" tid "+((int)rightspeedboosttimer).ToString(), new Vector2 (340,50), Color.LightSkyBlue);
                 spriteBatch.DrawString(font,"Hur manga midgul "+Game1.mittengubbar.Count.ToString(), new Vector2 (340,100), Color.LightSkyBlue);
 
-                foreach (var bolen in Game1.bolarna)
-                {
+                
 
-                    spriteBatch.DrawString(font,"Vem "+Bolarna.toutch.ToString(), new Vector2 (120,75), Color.LightSkyBlue);
-
-                }
-
-                foreach (var bolen in Game1.bolarna)
-                {
-
-                    spriteBatch.DrawString(font,"SpeedX "+Bolarna.bolspeedX.ToString()+" Y "+Bolarna.bolspeedY.ToString(), new Vector2 (340,75), Color.LightSkyBlue);
-
-                }
+                
             }
                 
         }

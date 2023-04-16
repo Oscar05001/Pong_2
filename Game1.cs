@@ -51,8 +51,13 @@ public class Game1 : Game
     public static List<Powerupfigur> powerupfigur = new List<Powerupfigur>();
     
     
-    KeyboardState bldState;
-    Keys O = Keys.O;
+    
+    
+    
+    Keys C = Keys.C;
+    KeyboardState oldState;
+
+    
 
     
     static Texture2D pixel;
@@ -80,8 +85,7 @@ public class Game1 : Game
     private int speedmid = 8;
     private int randommidspeed;
 
-    private static double speedboostL;
-    private static double speedboostR;
+    
     private static double speedboostbolar;
 
 
@@ -191,6 +195,8 @@ public class Game1 : Game
 
         mouse = Mouse.GetState();
 
+        KeyboardState kstate = Keyboard.GetState();
+
          //Lägger till en bol i början
         if(bolarna.Count<1){
             bolarna.Add(new Bolarna(pixel));
@@ -207,6 +213,8 @@ public class Game1 : Game
             }
 
         }
+
+       
        
         
 
@@ -237,12 +245,10 @@ public class Game1 : Game
 
         //Set speed allting
         padelspeedL = settings.PaddelLeftStartSpeed;
-        padelspeedL += speedboostL;
         padelspeedL += Powerup.leftspeedboost;
         padelspeedL *= settings.Paddelspeedboost;
 
         padelspeedR = settings.PaddelRightStartSpeed;
-        padelspeedR += speedboostR;
         padelspeedR += Powerup.rightspeedboost;
         padelspeedR *= settings.Paddelspeedboost;
 
@@ -278,23 +284,13 @@ public class Game1 : Game
         }
 
 
-    	
-        foreach (var bolen in bolarna)
-        {
 
-            if(bldState.IsKeyUp(O) && jstate.IsKeyDown(O)){
-            
-                Powerup.Powerupsen(Bolarna.toutch,pixel);  
-            
+        if(oldState.IsKeyUp(C) && kstate.IsKeyDown(C)){
+            bolarna.Add(new Bolarna(pixel));
+
             }
-            bldState = jstate;
 
-        }
-
-        
-
-            
-
+            oldState = kstate;
         
         
 

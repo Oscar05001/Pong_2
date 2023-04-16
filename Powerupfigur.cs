@@ -40,9 +40,10 @@ namespace Pong_2
 
         public void Update(){
       
+            if(!SettingScreen.settingwindoon){
             power.Y += speedy;
             power.X += speedx;
-                
+            }
 
 
 

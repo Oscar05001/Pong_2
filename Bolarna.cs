@@ -12,7 +12,7 @@ namespace Pong_2
     {
 
         Texture2D pixel;
-        public static Rectangle bolarna;
+        private Rectangle bolarna;
 
         
 
@@ -27,12 +27,14 @@ namespace Pong_2
             }
         
 
-        public static int bolspeedX{get; private set;} = 4;
-        public static int bolspeedY{get; private set;} = 4;
-        public static int toutch{get; private set;} = 4;
+        public  int bolspeedX{get; private set;} = 4;
+        public int bolspeedY{get; private set;} = 4;
+        public int toutch{get; private set;} = 4;
         public static bool vetej{get; private set;} = false;
         public bool aredod{get; private set;} = false;
-
+        
+        private int speedX = 4;
+        private int speedY = 4;
         private float väntatimermid;
         private float väntatimermidrod;
         private float väntatimerleftpadel;
@@ -63,7 +65,8 @@ namespace Pong_2
 
             
             
-
+            bolspeedX = speedX;
+            bolspeedY = speedY;
             
 
             väntatimermid -= 1f/60f;
@@ -76,15 +79,15 @@ namespace Pong_2
 
         
                 //Kör bol mid paddel
-                bolarna.Y += bolspeedY;
-                bolarna.X += bolspeedX;
+                bolarna.Y += speedY;
+                bolarna.X += speedX;
 
                 
             }
 
             //Ändra bol Y
             if(bolarna.Y <= Game1.ARENA_ROOF || bolarna.Y+bolarna.Height >= Game1.ARENA_FLORE ){
-                bolspeedY *= -1;
+                speedY *= -1;
                 
                 
             }
@@ -97,10 +100,10 @@ namespace Pong_2
             if(bolarna.X <= Game1.ARENA_LEFT_WALL ){
                 
                 Game1.poengR ++;
-                bolspeedX = -5;
+                speedX = -5;
                 bolarna.X = Game1.ARENA_RIGHT_WALL/2;
                 bolarna.Y = Game1.ARENA_FLORE/2;
-                bolspeedX *= -1;
+                speedX *= -1;
                 aredod = true;
                 
                 
@@ -111,10 +114,10 @@ namespace Pong_2
             if(bolarna.X+bolarna.Height >= Game1.ARENA_RIGHT_WALL){
                 
                 Game1.poengL++;
-                bolspeedX = 5;
+                speedX = 5;
                 bolarna.X = Game1.ARENA_RIGHT_WALL/2;
                 bolarna.Y = Game1.ARENA_FLORE/2;
-                bolspeedX *= -1;
+                speedX *= -1;
                 aredod = true;
                 
                 
@@ -127,8 +130,8 @@ namespace Pong_2
             if(bolarna.Intersects(PaddelRight.kubeR)&&väntatimerrightpdel <= 0)
             {   
                 if(toutch==0)
-                    bolspeedX += 1;
-                bolspeedX *= -1;
+                    speedX += 1;
+                speedX *= -1;
                 toutch = 1;
                 väntatimerrightpdel = 0.2f;
                 
@@ -137,8 +140,8 @@ namespace Pong_2
             if(bolarna.Intersects(PaddelLeft.kubeL)&&väntatimerleftpadel <= 0)
             {
                 if(toutch==1)
-                    bolspeedX -= 1;
-                bolspeedX *= -1;
+                    speedX -= 1;
+                speedX *= -1;
                 toutch = 0;
                 väntatimerleftpadel = 0.2f;
                 
@@ -146,7 +149,7 @@ namespace Pong_2
 
             if(bolarna.Intersects(Game1.mi)&&väntatimerensammid<=0)
             {
-                bolspeedX *= -1;
+                speedX *= -1;
                 
                 väntatimerensammid = 0.2f;
                     
@@ -158,7 +161,7 @@ namespace Pong_2
             {
                 if(mittengubbe.Mittengubar.Intersects(bolarna)&&väntatimermidrod<=0)
                 {
-                    bolspeedX *= -1;
+                    speedX *= -1;
 
                     väntatimermidrod = 0.2f;
 
@@ -169,7 +172,7 @@ namespace Pong_2
             {
                 if(mittengubberod.Mittengubbarrod.Intersects(bolarna)&&väntatimermid<=0)
                 {
-                    bolspeedX *= -1;
+                    speedX *= -1;
                     väntatimermid = 0.2f; 
                     
                 } 
@@ -199,7 +202,7 @@ namespace Pong_2
 
             if(vetej){
 
-                bolspeedX = 5;
+                speedX = 5;
                 bolarna.X = (Game1.ARENA_RIGHT_WALL/2)-7;
                 bolarna.Y = Game1.ARENA_FLORE/2;
                 Game1.mi.Y = 2;

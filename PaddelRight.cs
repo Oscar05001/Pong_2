@@ -127,18 +127,15 @@ namespace Pong_2
 
             foreach (var bolar in Game1.bolarna)
             {   
+                
 
-
-                if(Bolarna.bolspeedX>0 && Bolarna.bolarna.X >Game1.ARENA_RIGHT_WALL/2){
-                    bolvar = Bolarna.bolarna.Y;
+                if(bolar.Bollarna.X > Game1.ARENA_RIGHT_WALL/2){
+                    bolvar = bolar.Bollarna.Y;
                 }
                 else
                     bolvar = Game1.ARENA_FLORE/2;
                 
-                if(Bolarna.bolspeedX<0 && Bolarna.bolarna.X<Game1.ARENA_RIGHT_WALL/2){
-                    bolvar = Game1.ARENA_FLORE/2;
-
-                }
+                
                 
                 if(bolvar >= Paddle.Y + Paddle.Height/2 && Paddle.Y <= Game1.ARENA_FLORE-padel.Height)
                     ChangeY((int)Game1.padelspeedR);
