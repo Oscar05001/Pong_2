@@ -75,7 +75,7 @@ namespace Pong_2
             väntatimerrightpdel -= 1f/60f;
             väntatimerensammid -= 1f/60f;
 
-            if (!SettingScreen.settingwindoon){
+            if (!SettingScreen.settingwindoon&&!Startmenu.startmenyon){
 
         
                 //Kör bol mid paddel

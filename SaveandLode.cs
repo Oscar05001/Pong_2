@@ -14,6 +14,7 @@ namespace Pong_2
         public  int PaddelRightStartSpeed {get; set;}
         public  int BolStartSpeed {get; set;}
         public  int PaddelMittenStartSpeed {get; set;}
+        public  int volym {get; set;}
         
         
         

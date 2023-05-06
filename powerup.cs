@@ -59,7 +59,7 @@ namespace Pong_2
         
 
         
-        if(SettingScreen.settingwindoon==false){
+        if(!SettingScreen.settingwindoon&&!Startmenu.startmenyon){
             //när den kommer fram
             timerpower -= 1f/60f;
 

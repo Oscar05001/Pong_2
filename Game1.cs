@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.IO;
+using Microsoft.Xna.Framework.Media;
 
 namespace Pong_2;
 
@@ -15,6 +16,9 @@ public class Game1 : Game
     public static PaddelRight rp;
     public static Powerup power;
     SettingScreen settscreen;
+    Startmenu meny;
+
+
     public SaveandLode settings;
     private const string PATH = "setting.json";
 
@@ -57,12 +61,15 @@ public class Game1 : Game
     Keys C = Keys.C;
     KeyboardState oldState;
 
-    
+    Song music;
+    Song song;
 
     
     static Texture2D pixel;
     Texture2D coin;
     SpriteFont font;
+    SpriteFont poengtext;
+    SpriteFont menytext;
     Random rnd = new Random();
     
     //SpriteFont meny;
@@ -137,6 +144,7 @@ public class Game1 : Game
         PaddelRightStartSpeed = 5,
         BolStartSpeed = 4,
         PaddelMittenStartSpeed = 8, 
+        volym = 100,
 
         };
 
@@ -147,16 +155,22 @@ public class Game1 : Game
 
         
 
-        coin = Content.Load<Texture2D>("Coin");
+        coin = Content.Load<Texture2D>("Powerupcoin");
         pixel = Content.Load<Texture2D>("Namnlspixel");
         font = Content.Load<SpriteFont>("File");
-        //meny = Content.Load<SpriteFont>("Meny");
-
+        menytext = Content.Load<SpriteFont>("Menytext");
+        poengtext = Content.Load<SpriteFont>("Text_poeng");
+        music = Content.Load<Song>("Juhani Junkala");
+        song = Content.Load<Song>("Juhani Junkala music");
+        
+        MediaPlayer.Play(music);
+        
 
         lp = new PaddelLeft(pixel, 50,Keys.W, Keys.S,Keys.T,Keys.P);
         rp = new PaddelRight(pixel, ARENA_RIGHT_WALL-60,Keys.Up,Keys.Down,Keys.Y,Keys.P);
         settscreen = new SettingScreen(pixel,font);
         power = new Powerup();
+        meny = new Startmenu(pixel,menytext);
 
         settings = Load();
         lp.LoadContent();
@@ -214,6 +228,12 @@ public class Game1 : Game
 
         }
 
+        if (MediaPlayer.State == MediaState.Stopped&&Startmenu.startmenyon) MediaPlayer.Play(music); 
+        else if (MediaPlayer.State == MediaState.Paused&&Startmenu.startmenyon) MediaPlayer.Resume(); 
+        
+        if (MediaPlayer.State == MediaState.Stopped&&!Startmenu.startmenyon) MediaPlayer.Play(song); 
+        else if (MediaPlayer.State == MediaState.Paused&&!Startmenu.startmenyon) MediaPlayer.Resume(); 
+
        
        
         
@@ -257,7 +277,7 @@ public class Game1 : Game
         //
         
 
-        if (!SettingScreen.settingwindoon){
+        if (!SettingScreen.settingwindoon&&!Startmenu.startmenyon){
             mi.Y += speedmid;
 
         }
@@ -300,6 +320,7 @@ public class Game1 : Game
         rp.Update();
         power.Update();
         settscreen.Update();
+        meny.Update();
 
         foreach (var mittengubbe in mittengubbar)
         {
@@ -378,6 +399,7 @@ public class Game1 : Game
 
         _spriteBatch.Begin();
         
+        
 
         _spriteBatch.Draw(pixel, strek, Color .White);  
         
@@ -391,8 +413,8 @@ public class Game1 : Game
         
         
         
-        _spriteBatch.DrawString(font,poengL.ToString(), new Vector2 (80,0), Color.White);
-        _spriteBatch.DrawString(font,poengR.ToString(), new Vector2 (ARENA_RIGHT_WALL-100,0), Color.White);
+        _spriteBatch.DrawString(poengtext,poengL.ToString(), new Vector2 (80,0), Color.White);
+        _spriteBatch.DrawString(poengtext,poengR.ToString(), new Vector2 (ARENA_RIGHT_WALL-100,0), Color.White);
 
         
 
@@ -417,7 +439,9 @@ public class Game1 : Game
         lp.Draw(_spriteBatch);
         rp.Draw(_spriteBatch);
 
+        meny.Draw(_spriteBatch);
         settscreen.Draw(_spriteBatch);
+        
 
         _spriteBatch.End();
 

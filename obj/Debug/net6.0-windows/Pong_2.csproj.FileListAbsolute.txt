@@ -135,3 +135,10 @@ C:\Users\Admin\Documents\GitHub\ok\Pong_2\bin\Debug\net6.0-windows\runtimes\win-
 C:\Users\Admin\Documents\GitHub\ok\Pong_2\bin\Debug\net6.0-windows\runtimes\win-x86\native\soft_oal.dll
 C:\Users\Admin\Documents\GitHub\ok\Pong_2\bin\Debug\net6.0-windows\Content\Coin.xnb
 C:\Users\ludde\OneDrive\Dokument\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\Coin.xnb
+C:\Users\ludde\OneDrive\Dokument\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\Menytext.xnb
+C:\Users\ludde\OneDrive\Dokument\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\Text_poeng.xnb
+C:\Users\ludde\OneDrive\Dokument\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\Powerupcoin.xnb
+C:\Users\ludde\OneDrive\Dokument\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\Juhani Junkala.xnb
+C:\Users\ludde\OneDrive\Dokument\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\Juhani Junkala.ogg
+C:\Users\ludde\OneDrive\Dokument\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\Juhani Junkala music.ogg
+C:\Users\ludde\OneDrive\Dokument\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\Juhani Junkala music.xnb

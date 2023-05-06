@@ -18,7 +18,7 @@ namespace Pong_2
         Keys down;
         Keys toggle;
         Keys paus;
-
+        
         Rectangle padel;
         private SaveandLode settings;
         MouseState mouse;
@@ -71,7 +71,7 @@ namespace Pong_2
             kubeL.Width = Paddle.Width+20;
             //
 
-            if(SettingScreen.settingwindoon==false){
+            if(!SettingScreen.settingwindoon&&!Startmenu.startmenyon){
                
                 
                 if(!ai){

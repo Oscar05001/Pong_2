@@ -1,3 +1,10 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/Users/Admin/Documents/GitHub/Pong_2/Content/File.spritefont","C:/Users/Admin/Documents/GitHub/Pong_2/Content/bin/Windows/text.xnb","FontDescriptionProcessor","SpriteFontContent",2008,21521,0,2874855
-"C:/Users/Admin/Documents/GitHub/Pong_2/Content/Namnlspixel.png","C:/Users/Admin/Documents/GitHub/Pong_2/Content/bin/Windows/Namnlspixel.xnb","TextureProcessor","Texture2DContent",124,421,0,3163578
+"C:/Users/ludde/OneDrive/Dokument/GitHub/Pong_2/Content/Coin.fx","C:/Users/ludde/OneDrive/Dokument/GitHub/Pong_2/Content/bin/Windows/Coin.xnb","EffectProcessor","CompiledEffectContent",888,1320,0,2816565
+"C:/Users/ludde/OneDrive/Dokument/GitHub/Pong_2/Content/Coin.png","C:/Users/ludde/OneDrive/Dokument/GitHub/Pong_2/Content/bin/Windows/Coin.xnb","TextureProcessor","Texture2DContent",408,6485,0,0257642
+"C:/Users/ludde/OneDrive/Dokument/GitHub/Pong_2/Content/File.spritefont","C:/Users/ludde/OneDrive/Dokument/GitHub/Pong_2/Content/bin/Windows/File.xnb","FontDescriptionProcessor","SpriteFontContent",2068,37919,0,0791046
+"C:/Users/ludde/OneDrive/Dokument/GitHub/Pong_2/Content/Juhani Junkala music.mp3","C:/Users/ludde/OneDrive/Dokument/GitHub/Pong_2/Content/bin/Windows/Juhani Junkala music.xnb","SongProcessor","SongContent",1193188,138,3,1560812
+"C:/Users/ludde/OneDrive/Dokument/GitHub/Pong_2/Content/Juhani Junkala.mp3","C:/Users/ludde/OneDrive/Dokument/GitHub/Pong_2/Content/bin/Windows/Juhani Junkala.xnb","SongProcessor","SongContent",185907,132,2,6839538
+"C:/Users/ludde/OneDrive/Dokument/GitHub/Pong_2/Content/Menytext.spritefont","C:/Users/ludde/OneDrive/Dokument/GitHub/Pong_2/Content/bin/Windows/Menytext.xnb","FontDescriptionProcessor","SpriteFontContent",2073,70687,0,0221949
+"C:/Users/ludde/OneDrive/Dokument/GitHub/Pong_2/Content/Namnlspixel.png","C:/Users/ludde/OneDrive/Dokument/GitHub/Pong_2/Content/bin/Windows/Namnlspixel.xnb","TextureProcessor","Texture2DContent",124,421,0,0011008
+"C:/Users/ludde/OneDrive/Dokument/GitHub/Pong_2/Content/Powerupcoin.png","C:/Users/ludde/OneDrive/Dokument/GitHub/Pong_2/Content/bin/Windows/Powerupcoin.xnb","TextureProcessor","Texture2DContent",1550,14237,0,0018687
+"C:/Users/ludde/OneDrive/Dokument/GitHub/Pong_2/Content/Text_poeng.spritefont","C:/Users/ludde/OneDrive/Dokument/GitHub/Pong_2/Content/bin/Windows/Text_poeng.xnb","FontDescriptionProcessor","SpriteFontContent",2068,70687,0,0235278

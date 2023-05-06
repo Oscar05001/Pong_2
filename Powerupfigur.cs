@@ -75,7 +75,7 @@ namespace Pong_2
 
         public void Draw(SpriteBatch spriteBatch,Texture2D coin){
             
-            spriteBatch.Draw(coin,power,Color.Yellow);
+            spriteBatch.Draw(coin,power,Color.White);
 
 
         }

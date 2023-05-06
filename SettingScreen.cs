@@ -5,6 +5,7 @@ using System.Text.Json;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace Pong_2
 {
@@ -51,6 +52,11 @@ namespace Pong_2
         double paddelBoostSetting = 1;
         double paddelMidBoostSetting = 1;
 
+        private int volym = 100;
+        private float sendit = 0;
+        
+
+
         int mouseXstratPos;
         int mouseYstartPos;
         bool screenmove = false;
@@ -87,6 +93,8 @@ namespace Pong_2
 
             mouse = Mouse.GetState();
 
+            sendit -= 1f/60f;
+
             //rutan går efter musen när mna ska flyta den
             if(whitescreen.Contains(mouse.Position) && (int)mouse.LeftButton==1&&screenmove==false&&settingwindoon==true){
                 mouseXstratPos = mouse.Position.X-whitescreen.X;
@@ -122,7 +130,7 @@ namespace Pong_2
                 vilkenRutaY = 1;
             }
 
-
+            
 
             blackscreen.X = whitescreen.X+2;
             blackscreen.Y = whitescreen.Y+2;
@@ -145,11 +153,21 @@ namespace Pong_2
 
 
             //styr run i settings menyn
-            if(lldState.IsKeyUp(Left) && lstate.IsKeyDown(Left) && vilkenRutaX > 1){
+            if(lldState.IsKeyUp(Left) && lstate.IsKeyDown(Left)||(lstate.IsKeyDown(Left)&&sendit<=0)){
                 
                 if(vilkenRutaY == 1){
                     vilkenRutaX -= 1;
  
+                }
+
+                if(lldState.IsKeyUp(Left) && lstate.IsKeyDown(Left))
+                    sendit = 1;
+
+
+                
+
+                if(vilkenRutaX == 1 && vilkenRutaY == 5 && volym>0){
+                    volym -= 1;
                 }
                 
                 if(vilkenRutaX == 2 &&vilkenRutaY == 2 && paddelLeftStartSpeedSetting>1){
@@ -180,11 +198,19 @@ namespace Pong_2
 
     	
 
-            if(rldState.IsKeyUp(Right) && rstate.IsKeyDown(Right) && vilkenRutaX < 4){
+            if(rldState.IsKeyUp(Right) && rstate.IsKeyDown(Right) && vilkenRutaX < 4||(rstate.IsKeyDown(Right)&&sendit<=0)){
                 
                 if(vilkenRutaY == 1){
                     vilkenRutaX += 1;  
  
+                }
+
+                if(rldState.IsKeyUp(Right) && rstate.IsKeyDown(Right))
+                    sendit = 1;
+
+
+                if(vilkenRutaX == 1 && vilkenRutaY == 5 && volym<=99){
+                    volym += 1;
                 }
                 
                 if(vilkenRutaX == 2 && vilkenRutaY == 2 && paddelLeftStartSpeedSetting<15){
@@ -206,6 +232,8 @@ namespace Pong_2
                 if(vilkenRutaX == 3 && vilkenRutaY == 3 && paddelMidBoostSetting<5){
                     paddelMidBoostSetting += 0.5f;
                 }
+
+               
             
             
             }
@@ -225,9 +253,13 @@ namespace Pong_2
 
     	
 
-            if(nldState.IsKeyUp(Down) && nstate.IsKeyDown(Down) && vilkenRutaY < 4 && vilkenRutaX !=4){
+            if(nldState.IsKeyUp(Down) && nstate.IsKeyDown(Down) && vilkenRutaY < 5 && vilkenRutaX !=4){
                 
                 if(vilkenRutaX == 3 && vilkenRutaY == 3){
+
+
+                }
+                else if(vilkenRutaX == 2 && vilkenRutaY == 4){
 
 
                 }
@@ -265,6 +297,7 @@ namespace Pong_2
                     settings.PaddelMittenStartSpeed = paddelMidStartSpeedSetting;
                     settings.Paddelspeedboost = paddelBoostSetting;
                     settings.MittenPaddelspeedboost = paddelMidBoostSetting;
+                    settings.volym = volym;
                     settings.SettingScreenX = whitescreen.X;
                     settings.SettingScreenY = whitescreen.Y;
                     Save(settings);
@@ -287,6 +320,7 @@ namespace Pong_2
                     paddelMidStartSpeedSetting = settings.PaddelMittenStartSpeed;
                     paddelBoostSetting = settings.Paddelspeedboost;
                     paddelMidBoostSetting = settings.MittenPaddelspeedboost;
+                    volym = settings.volym;
                     whitescreen.X = settings.SettingScreenX;
                     whitescreen.Y = settings.SettingScreenY;
                     
@@ -305,11 +339,13 @@ namespace Pong_2
             
             //
 
-
+            SetMusicVolume(volym/100f);
         }
 
         public  void LoadContent(){
+            
             settings = Load();
+            volym = settings.volym;
             
             
         }
@@ -331,6 +367,13 @@ namespace Pong_2
 
 
 
+        }
+
+        
+        void SetMusicVolume(float vol)
+        {
+            MediaPlayer.Volume = vol;  
+            // or use: MediaPlayer.Volume = vol * g.master_volume_factor; 
         }
 
 
@@ -382,6 +425,10 @@ namespace Pong_2
                         spriteBatch.DrawString(font,("<Clear mid>"), new Vector2 (whitescreen.X+25,whitescreen.Y+130), Color.White);
                     else
                         spriteBatch.DrawString(font,("Clear mid"), new Vector2 (whitescreen.X+34,whitescreen.Y+130), Color.White);
+                    if(vilkenRutaY==5)
+                        spriteBatch.DrawString(font,("Volym "+"<"+volym.ToString()+">"), new Vector2 (whitescreen.X+25,whitescreen.Y+160), Color.White);
+                    else
+                        spriteBatch.DrawString(font,("Volym "+volym.ToString()), new Vector2 (whitescreen.X+34,whitescreen.Y+160), Color.White);
 
                 }
 
@@ -421,14 +468,15 @@ namespace Pong_2
                 }
 
 
-                
+               
 
             
             }
 
-            
+             spriteBatch.DrawString(font,sendit.ToString(), new Vector2 (100,100), Color.Blue);
             
         }
 
+        
     }
 }

@@ -107,7 +107,7 @@ namespace Pong_2
         
 
         
-        if (SettingScreen.settingwindoon == false)
+        if (!SettingScreen.settingwindoon&&!Startmenu.startmenyon)
         { 
             if(vem == 3)
                 mittengubbar.Y += speed;

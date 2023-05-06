@@ -89,7 +89,7 @@ namespace Pong_2
 
         
 
-        if(SettingScreen.settingwindoon == false)
+        if(!SettingScreen.settingwindoon &&!Startmenu.startmenyon)
         {
             mittengubbarrod.X += speedx;
             mittengubbarrod.Y += speedy;

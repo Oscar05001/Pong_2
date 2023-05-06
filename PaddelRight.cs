@@ -71,7 +71,7 @@ namespace Pong_2
             kubeR.Width = Paddle.Width+20;
             //
             
-            if(SettingScreen.settingwindoon==false){
+            if(!SettingScreen.settingwindoon&&!Startmenu.startmenyon){
                 
                 if(!ai){
 
