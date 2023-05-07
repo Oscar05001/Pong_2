@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Pong_2;
 
@@ -63,6 +64,10 @@ public class Game1 : Game
 
     Song music;
     Song song;
+
+    SoundEffect måleffect;
+    SoundEffect powereffect;
+    SoundEffect hiteffect;
 
     
     static Texture2D pixel;
@@ -162,6 +167,9 @@ public class Game1 : Game
         poengtext = Content.Load<SpriteFont>("Text_poeng");
         music = Content.Load<Song>("Juhani Junkala");
         song = Content.Load<Song>("Juhani Junkala music");
+        måleffect = Content.Load<SoundEffect>("explosion1");
+        powereffect = Content.Load<SoundEffect>("1up");
+        hiteffect = Content.Load<SoundEffect>("Hit");
         
         MediaPlayer.Play(music);
         
@@ -213,7 +221,7 @@ public class Game1 : Game
 
          //Lägger till en bol i början
         if(bolarna.Count<1){
-            bolarna.Add(new Bolarna(pixel));
+            bolarna.Add(new Bolarna(pixel,måleffect,powereffect,hiteffect));
         }
 
         for (int i = 0; i < bolarna.Count; i++)
@@ -306,7 +314,7 @@ public class Game1 : Game
 
 
         if(oldState.IsKeyUp(C) && kstate.IsKeyDown(C)){
-            bolarna.Add(new Bolarna(pixel));
+            bolarna.Add(new Bolarna(pixel,måleffect,powereffect,hiteffect));
 
             }
 

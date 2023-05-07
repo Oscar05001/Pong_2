@@ -1,9 +1,10 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 using System.Text.Json;
 using System.IO;
+
 
 namespace Pong_2
 {
@@ -13,6 +14,10 @@ namespace Pong_2
 
         Texture2D pixel;
         private Rectangle bolarna;
+
+        SoundEffect måleffect;
+        SoundEffect powereffect;
+        SoundEffect hiteffect;
 
         
 
@@ -47,13 +52,17 @@ namespace Pong_2
         
         
 
-        public Bolarna(Texture2D pixel){
+        public Bolarna(Texture2D pixel,SoundEffect effect,SoundEffect powereffect,SoundEffect hiteffect){
 
             Random rnd = new Random();
 
             bolarna = new Rectangle((Game1.ARENA_RIGHT_WALL/2)-7,rnd.Next(10,Game1.ARENA_FLORE-10),15,15);
                 
             this.pixel = pixel;
+            this.måleffect = effect;
+            this.powereffect = powereffect;
+            this.hiteffect = hiteffect;
+
             
                 
             
@@ -88,6 +97,7 @@ namespace Pong_2
             //Ändra bol Y
             if(bolarna.Y <= Game1.ARENA_ROOF || bolarna.Y+bolarna.Height >= Game1.ARENA_FLORE ){
                 speedY *= -1;
+                hiteffect.Play();
                 
                 
             }
@@ -95,103 +105,112 @@ namespace Pong_2
 
 
 
-
-            //Poeng
-            if(bolarna.X <= Game1.ARENA_LEFT_WALL ){
-                
-                Game1.poengR ++;
-                speedX = -5;
-                bolarna.X = Game1.ARENA_RIGHT_WALL/2;
-                bolarna.Y = Game1.ARENA_FLORE/2;
-                speedX *= -1;
-                aredod = true;
-                
-                
-                
-            }
-
-
-            if(bolarna.X+bolarna.Height >= Game1.ARENA_RIGHT_WALL){
-                
-                Game1.poengL++;
-                speedX = 5;
-                bolarna.X = Game1.ARENA_RIGHT_WALL/2;
-                bolarna.Y = Game1.ARENA_FLORE/2;
-                speedX *= -1;
-                aredod = true;
-                
-                
-        
-            }
-            //
-
-
-            //boll rör padel ädnar X
-            if(bolarna.Intersects(PaddelRight.kubeR)&&väntatimerrightpdel <= 0)
-            {   
-                if(toutch==0)
-                    speedX += 1;
-                speedX *= -1;
-                toutch = 1;
-                väntatimerrightpdel = 0.2f;
-                
-            }
-
-            if(bolarna.Intersects(PaddelLeft.kubeL)&&väntatimerleftpadel <= 0)
-            {
-                if(toutch==1)
-                    speedX -= 1;
-                speedX *= -1;
-                toutch = 0;
-                väntatimerleftpadel = 0.2f;
-                
-            }
-
-            if(bolarna.Intersects(Game1.mi)&&väntatimerensammid<=0)
-            {
-                speedX *= -1;
-                
-                väntatimerensammid = 0.2f;
+            if(Startmenu.startmenyon==false){
+                //Poeng
+                if(bolarna.X <= Game1.ARENA_LEFT_WALL ){
                     
-            }  
-
-
-
-            foreach (var mittengubbe in Game1.mittengubbar)
-            {
-                if(mittengubbe.Mittengubar.Intersects(bolarna)&&väntatimermidrod<=0)
-                {
+                    måleffect.Play();
+                    Game1.poengR ++;
+                    speedX = -5;
+                    bolarna.X = Game1.ARENA_RIGHT_WALL/2;
+                    bolarna.Y = Game1.ARENA_FLORE/2;
                     speedX *= -1;
-
-                    väntatimermidrod = 0.2f;
-
+                    aredod = true;
+                    
+                    
+                    
                 }
-            }
 
-            foreach (var mittengubberod in Game1.mittengubbarrod)
-            {
-                if(mittengubberod.Mittengubbarrod.Intersects(bolarna)&&väntatimermid<=0)
-                {
-                    speedX *= -1;
-                    väntatimermid = 0.2f; 
+
+                if(bolarna.X+bolarna.Height >= Game1.ARENA_RIGHT_WALL){
                     
-                } 
+                    måleffect.Play();
+                    Game1.poengL++;
+                    speedX = 5;
+                    bolarna.X = Game1.ARENA_RIGHT_WALL/2;
+                    bolarna.Y = Game1.ARENA_FLORE/2;
+                    speedX *= -1;
+                    aredod = true;
+                    
+                    
+            
+                }
+                //
 
-            }
-            //
 
-            //Powerup kör
-            for (int i = 0; i < Game1.powerupfigur.Count; i++)
-            {
-                
-                if(Game1.powerupfigur[i].Power.Intersects(bolarna))
+                //boll rör padel ädnar X
+                if(bolarna.Intersects(PaddelRight.kubeR)&&väntatimerrightpdel <= 0)
                 {   
-                    Powerup.Powerupsen(toutch,pixel);
-                    Game1.powerupfigur.RemoveAt(i); 
-                    i--;
-
+                    hiteffect.Play();
+                    if(toutch==0)
+                        speedX += 1;
+                    speedX *= -1;
+                    toutch = 1;
+                    väntatimerrightpdel = 0.1f;
+                    
                 }
 
+                if(bolarna.Intersects(PaddelLeft.kubeL)&&väntatimerleftpadel <= 0)
+                {
+                    hiteffect.Play();
+                    if(toutch==1)
+                        speedX -= 1;
+                    speedX *= -1;
+                    toutch = 0;
+                    väntatimerleftpadel = 0.1f;
+                    
+                }
+
+                if(bolarna.Intersects(Game1.mi)&&väntatimerensammid<=0)
+                {
+                    hiteffect.Play();
+                    speedX *= -1;
+                    
+                    väntatimerensammid = 0.1f;
+                        
+                }  
+
+
+
+                foreach (var mittengubbe in Game1.mittengubbar)
+                {
+                    if(mittengubbe.Mittengubar.Intersects(bolarna)&&väntatimermidrod<=0)
+                    {
+                        hiteffect.Play();
+                        speedX *= -1;
+
+                        väntatimermidrod = 0.1f;
+
+                    }
+                }
+
+                foreach (var mittengubberod in Game1.mittengubbarrod)
+                {
+                    if(mittengubberod.Mittengubbarrod.Intersects(bolarna)&&väntatimermid<=0)
+                    {
+                        hiteffect.Play();
+                        speedX *= -1;
+                        väntatimermid = 0.1f; 
+                        
+                    } 
+
+                }
+                //
+
+                //Powerup kör
+                for (int i = 0; i < Game1.powerupfigur.Count; i++)
+                {
+                    
+                    if(Game1.powerupfigur[i].Power.Intersects(bolarna))
+                    {   
+                        powereffect.Play();
+                        Powerup.Powerupsen(toutch,pixel);
+                        Game1.powerupfigur.RemoveAt(i); 
+                        i--;
+
+                    }
+
+                }
             }
 
 

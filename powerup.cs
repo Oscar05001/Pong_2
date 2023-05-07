@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 
 namespace Pong_2
@@ -13,6 +14,7 @@ namespace Pong_2
 
         Keys I = Keys.I;
         KeyboardState oldState;
+        SoundEffect effect;
         Random rnd = new Random();
 
 
@@ -42,6 +44,13 @@ namespace Pong_2
 
 
 
+        
+
+        public Powerup(){
+
+            
+
+        }
     
         
         
@@ -309,6 +318,28 @@ namespace Pong_2
 
 
         }
+
+    }
+
+    public static void ResetPowerup(){
+        timerpower = 5;
+        leftspeedboosttimer = 0;
+        rightspeedboosttimer = 0;
+        leftlengdtimer = 0;
+        rightlengdtimer = 0;
+        leftkorttimer = 0;
+        rightkorttimer = 0;
+
+        if(Game1.powerupfigur.Count>0){
+            for (int i = Game1.powerupfigur.Count; i < 1; i--)
+            {
+
+                Game1.powerupfigur.RemoveAt(i);
+                
+            }
+        }
+
+
 
     }
 

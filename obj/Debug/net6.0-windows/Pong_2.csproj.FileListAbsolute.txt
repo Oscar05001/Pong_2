@@ -142,3 +142,7 @@ C:\Users\ludde\OneDrive\Dokument\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\
 C:\Users\ludde\OneDrive\Dokument\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\Juhani Junkala.ogg
 C:\Users\ludde\OneDrive\Dokument\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\Juhani Junkala music.ogg
 C:\Users\ludde\OneDrive\Dokument\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\Juhani Junkala music.xnb
+C:\Users\ludde\OneDrive\Dokument\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\explosion1.xnb
+C:\Users\ludde\OneDrive\Dokument\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\1up.ogg
+C:\Users\ludde\OneDrive\Dokument\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\1up.xnb
+C:\Users\ludde\OneDrive\Dokument\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\Hit.xnb

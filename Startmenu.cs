@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Pong_2
 {
@@ -19,6 +20,8 @@ namespace Pong_2
         MouseState mouse;
         MouseState oldmouse;
         MouseState oldmousetwo;
+        
+        
 
 
         public static int tillhurmånga{get;private set;} = 1;
@@ -69,6 +72,9 @@ namespace Pong_2
                 startmenyon = false;
                 sek = 0;
                 min = 0;
+                SettingScreen.clearmid = true;
+                Powerup.ResetPowerup();
+                Game1.Resetpoint();
                 MediaPlayer.Stop();
             }
             sendit -= 1f/60f;
@@ -115,8 +121,17 @@ namespace Pong_2
             //
 
 
-            if(Game1.poengL==tillhurmånga||Game1.poengR==tillhurmånga){
+            if(Game1.poengL==tillhurmånga||Game1.poengR==tillhurmånga&&startmenyon==false){
                 startmenyon = true;
+                MediaPlayer.Stop();
+
+            
+                for (int i = 0; i < Game1.powerupfigur.Count; i++)
+                {
+                        Game1.powerupfigur.RemoveAt(i); 
+                        i--;
+
+                }
 
 
             }

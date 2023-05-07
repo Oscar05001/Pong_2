@@ -288,23 +288,7 @@ namespace Pong_2
                 }
                 
                 
-                if(vilkenRutaX == 4){
-                    settingwindoon = false;
-                    vilkenRutaY = 1;
-                    vilkenRutaX = 1;
-                    settings.PaddelLeftStartSpeed = paddelLeftStartSpeedSetting;
-                    settings.PaddelRightStartSpeed = paddelRightStartSpeedSetting;
-                    settings.PaddelMittenStartSpeed = paddelMidStartSpeedSetting;
-                    settings.Paddelspeedboost = paddelBoostSetting;
-                    settings.MittenPaddelspeedboost = paddelMidBoostSetting;
-                    settings.volym = volym;
-                    settings.SettingScreenX = whitescreen.X;
-                    settings.SettingScreenY = whitescreen.Y;
-                    Save(settings);
-                    Game1.savemeny= true;
-                    LoadContent();
-                    
-                }
+                
 
             }
                 
@@ -320,14 +304,24 @@ namespace Pong_2
                     paddelMidStartSpeedSetting = settings.PaddelMittenStartSpeed;
                     paddelBoostSetting = settings.Paddelspeedboost;
                     paddelMidBoostSetting = settings.MittenPaddelspeedboost;
-                    volym = settings.volym;
                     whitescreen.X = settings.SettingScreenX;
                     whitescreen.Y = settings.SettingScreenY;
                     
                 }
                 else{
+                    vilkenRutaY = 1;
+                    vilkenRutaX = 1;
+                    settings.PaddelLeftStartSpeed = paddelLeftStartSpeedSetting;
+                    settings.PaddelRightStartSpeed = paddelRightStartSpeedSetting;
+                    settings.PaddelMittenStartSpeed = paddelMidStartSpeedSetting;
+                    settings.Paddelspeedboost = paddelBoostSetting;
+                    settings.MittenPaddelspeedboost = paddelMidBoostSetting;
+                    settings.volym = volym;
                     settings.SettingScreenX = whitescreen.X;
                     settings.SettingScreenY = whitescreen.Y;
+                    Save(settings);
+                    Game1.savemeny= true;
+                    LoadContent();
 
                 }
             
@@ -404,9 +398,9 @@ namespace Pong_2
 
 
                 if(vilkenRutaX==4)
-                    spriteBatch.DrawString(font,("Save"), new Vector2 (whitescreen.X+306,whitescreen.Y+28), Color.Black);
+                    spriteBatch.DrawString(font,("Info"), new Vector2 (whitescreen.X+310,whitescreen.Y+28), Color.Black);
                 else
-                    spriteBatch.DrawString(font,("Save"), new Vector2 (whitescreen.X+306,whitescreen.Y+28), Color.White);
+                    spriteBatch.DrawString(font,("Info"), new Vector2 (whitescreen.X+310,whitescreen.Y+28), Color.White);
 
                 //Game
                 if(vilkenRutaX==1){
@@ -467,13 +461,28 @@ namespace Pong_2
         
                 }
 
+                if(vilkenRutaX==4){
+
+                    
+                    spriteBatch.DrawString(font,("Toggel AI Left = T"), new Vector2 (whitescreen.X+25,whitescreen.Y+70), Color.White);
+                    spriteBatch.DrawString(font,("Toggel AI Right = Y"), new Vector2 (whitescreen.X+25,whitescreen.Y+100), Color.White);
+                    spriteBatch.DrawString(font,("If AI On you can move padel whid mouse"), new Vector2 (whitescreen.X+25,whitescreen.Y+130), Color.White);
+                    spriteBatch.DrawString(font,("Left button for left padel"), new Vector2 (whitescreen.X+25,whitescreen.Y+160), Color.White);
+                    spriteBatch.DrawString(font,("Right button for Right padel"), new Vector2 (whitescreen.X+25,whitescreen.Y+190), Color.White);
+                    
+                   
+
+
+
+                }
+
 
                
 
             
             }
 
-             spriteBatch.DrawString(font,sendit.ToString(), new Vector2 (100,100), Color.Blue);
+             
             
         }
 
