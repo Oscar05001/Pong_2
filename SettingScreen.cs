@@ -155,7 +155,7 @@ namespace Pong_2
             //styr run i settings menyn
             if(lldState.IsKeyUp(Left) && lstate.IsKeyDown(Left)||(lstate.IsKeyDown(Left)&&sendit<=0)){
                 
-                if(vilkenRutaY == 1){
+                if(vilkenRutaY == 1&&vilkenRutaX>=2){
                     vilkenRutaX -= 1;
  
                 }
