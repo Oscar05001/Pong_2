@@ -79,6 +79,7 @@ namespace Pong_2
 
         public void Update()
         {
+            SetMusicVolume(volym/100f);
             KeyboardState lstate = Keyboard.GetState();
 
             KeyboardState rstate = Keyboard.GetState();
@@ -110,15 +111,15 @@ namespace Pong_2
             else{
                 screenmove = false;
             
-            }
-            //
+            }   
+            // 
 
             //ifal rutan utanför rutan gå in i rutan 
-            if (whitescreen.Y > Game1.WINDOW_HEIGHT-50){
+            if (whitescreen.Y > Mindrebana.ARENA_FLORE-50){
                 whitescreen.Y = 100;
             }
 
-            if (whitescreen.X > Game1.WINDOW_WHITE-50){
+            if (whitescreen.X > Mindrebana.ARENA_RIGHT_WALL-50){
                 whitescreen.X = 100;
             }
             //
@@ -190,6 +191,8 @@ namespace Pong_2
                     paddelMidBoostSetting -= 0.5f;
                 }
 
+                sendit = 0.1f;
+
 
 
             }
@@ -233,7 +236,7 @@ namespace Pong_2
                     paddelMidBoostSetting += 0.5f;
                 }
 
-               
+               sendit = 0.1f;
             
             
             }
@@ -333,7 +336,7 @@ namespace Pong_2
             
             //
 
-            SetMusicVolume(volym/100f);
+            
         }
 
         public  void LoadContent(){

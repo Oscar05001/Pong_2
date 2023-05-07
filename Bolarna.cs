@@ -42,8 +42,6 @@ namespace Pong_2
         private int speedY = 4;
         private float väntatimermid;
         private float väntatimermidrod;
-        private float väntatimerleftpadel;
-        private float väntatimerrightpdel;
         private float väntatimerensammid;
         Random rnd = new Random();
 
@@ -56,7 +54,7 @@ namespace Pong_2
 
             Random rnd = new Random();
 
-            bolarna = new Rectangle((Game1.ARENA_RIGHT_WALL/2)-7,rnd.Next(10,Game1.ARENA_FLORE-10),15,15);
+            bolarna = new Rectangle((Mindrebana.ARENA_RIGHT_WALL/2)-7,rnd.Next(10,Mindrebana.ARENA_FLORE-10),15,15);
                 
             this.pixel = pixel;
             this.måleffect = effect;
@@ -74,14 +72,11 @@ namespace Pong_2
 
             
             
-            bolspeedX = speedX;
-            bolspeedY = speedY;
+            
             
 
             väntatimermid -= 1f/60f;
             väntatimermidrod -= 1f/60f;
-            väntatimerleftpadel -= 1f/60f;
-            väntatimerrightpdel -= 1f/60f;
             väntatimerensammid -= 1f/60f;
 
             if (!SettingScreen.settingwindoon&&!Startmenu.startmenyon){
@@ -95,8 +90,16 @@ namespace Pong_2
             }
 
             //Ändra bol Y
-            if(bolarna.Y <= Game1.ARENA_ROOF || bolarna.Y+bolarna.Height >= Game1.ARENA_FLORE ){
-                speedY *= -1;
+            if(bolarna.Y <= Mindrebana.ARENA_ROOF){
+                speedY = bolspeedY;
+                hiteffect.Play();
+                
+                
+            }
+
+            
+            if(bolarna.Y+bolarna.Height >= Mindrebana.ARENA_FLORE ){
+                speedY = bolspeedY * -1;
                 hiteffect.Play();
                 
                 
@@ -107,13 +110,13 @@ namespace Pong_2
 
             if(Startmenu.startmenyon==false){
                 //Poeng
-                if(bolarna.X <= Game1.ARENA_LEFT_WALL ){
+                if(bolarna.X <= Mindrebana.ARENA_LEFT_WALL ){
                     
                     måleffect.Play();
                     Game1.poengR ++;
                     speedX = -5;
-                    bolarna.X = Game1.ARENA_RIGHT_WALL/2;
-                    bolarna.Y = Game1.ARENA_FLORE/2;
+                    bolarna.X = Mindrebana.ARENA_RIGHT_WALL/2;
+                    bolarna.Y = Mindrebana.ARENA_FLORE/2;
                     speedX *= -1;
                     aredod = true;
                     
@@ -122,13 +125,13 @@ namespace Pong_2
                 }
 
 
-                if(bolarna.X+bolarna.Height >= Game1.ARENA_RIGHT_WALL){
+                if(bolarna.X+bolarna.Height >= Mindrebana.ARENA_RIGHT_WALL){
                     
                     måleffect.Play();
                     Game1.poengL++;
                     speedX = 5;
-                    bolarna.X = Game1.ARENA_RIGHT_WALL/2;
-                    bolarna.Y = Game1.ARENA_FLORE/2;
+                    bolarna.X = Mindrebana.ARENA_RIGHT_WALL/2;
+                    bolarna.Y = Mindrebana.ARENA_FLORE/2;
                     speedX *= -1;
                     aredod = true;
                     
@@ -139,25 +142,25 @@ namespace Pong_2
 
 
                 //boll rör padel ädnar X
-                if(bolarna.Intersects(PaddelRight.kubeR)&&väntatimerrightpdel <= 0)
+                if(bolarna.Intersects(PaddelRight.kubeR))
                 {   
                     hiteffect.Play();
                     if(toutch==0)
-                        speedX += 1;
-                    speedX *= -1;
+                        bolspeedX += 1;
+                    speedX = bolspeedX * -1;
                     toutch = 1;
-                    väntatimerrightpdel = 0.1f;
+                    
                     
                 }
 
-                if(bolarna.Intersects(PaddelLeft.kubeL)&&väntatimerleftpadel <= 0)
+                if(bolarna.Intersects(PaddelLeft.kubeL))
                 {
                     hiteffect.Play();
                     if(toutch==1)
-                        speedX -= 1;
-                    speedX *= -1;
+                        bolspeedX -= 1;
+                    speedX = bolspeedX;
                     toutch = 0;
-                    väntatimerleftpadel = 0.1f;
+                    
                     
                 }
 
@@ -166,7 +169,7 @@ namespace Pong_2
                     hiteffect.Play();
                     speedX *= -1;
                     
-                    väntatimerensammid = 0.1f;
+                    väntatimerensammid = 0.15f;
                         
                 }  
 
@@ -179,7 +182,7 @@ namespace Pong_2
                         hiteffect.Play();
                         speedX *= -1;
 
-                        väntatimermidrod = 0.1f;
+                        väntatimermidrod = 0.15f;
 
                     }
                 }
@@ -190,7 +193,7 @@ namespace Pong_2
                     {
                         hiteffect.Play();
                         speedX *= -1;
-                        väntatimermid = 0.1f; 
+                        väntatimermid = 0.15f; 
                         
                     } 
 
@@ -222,8 +225,8 @@ namespace Pong_2
             if(vetej){
 
                 speedX = 5;
-                bolarna.X = (Game1.ARENA_RIGHT_WALL/2)-7;
-                bolarna.Y = Game1.ARENA_FLORE/2;
+                bolarna.X = (Mindrebana.ARENA_RIGHT_WALL/2)-7;
+                bolarna.Y = Mindrebana.ARENA_FLORE/2;
                 Game1.mi.Y = 2;
                 toutch = 4;
 

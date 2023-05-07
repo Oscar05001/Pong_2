@@ -18,7 +18,8 @@ public class Game1 : Game
     public static Powerup power;
     SettingScreen settscreen;
     Startmenu meny;
-
+    
+    Mindrebana arena;
 
     public SaveandLode settings;
     private const string PATH = "setting.json";
@@ -27,14 +28,10 @@ public class Game1 : Game
     
 
     //Arena box
-    public static int ARENA_ROOF = 0;
-
-    public static int ARENA_FLORE = WINDOW_HEIGHT;
     
-    public static int ARENA_LEFT_WALL = 0;
-    
-    public static int ARENA_RIGHT_WALL = WINDOW_WHITE;
     //
+
+    
 
 
     //Y
@@ -81,12 +78,12 @@ public class Game1 : Game
 
     
     //(X,Y,Bred,Höjd)
-    public static Rectangle bol = new Rectangle((ARENA_RIGHT_WALL/2)-7, ARENA_FLORE/2,15,15);
+    public static Rectangle bol = new Rectangle((Mindrebana.ARENA_RIGHT_WALL/2)-7, Mindrebana.ARENA_FLORE/2,15,15);
 
 
-    Rectangle strek = new Rectangle(ARENA_RIGHT_WALL/2, 5,2,ARENA_FLORE-2);
+    Rectangle strek = new Rectangle(Mindrebana.ARENA_RIGHT_WALL/2, 1,2,Mindrebana.ARENA_FLORE-2);
 
-    public static Rectangle mi = new Rectangle(ARENA_RIGHT_WALL/2-6, (int)(Game1.ARENA_FLORE*0.5)-50,15,100);
+    public static Rectangle mi = new Rectangle(Mindrebana.ARENA_RIGHT_WALL/2-6, (int)(Mindrebana.ARENA_FLORE*0.5)-50,15,100);
 
     //Padel speed
     public  static double padelspeedR{get; private set;}
@@ -97,8 +94,7 @@ public class Game1 : Game
     private int speedmid = 8;
     private int randommidspeed;
 
-    
-    private static double speedboostbolar;
+
 
 
     public static bool savemeny{get; set;} = false;    
@@ -175,10 +171,12 @@ public class Game1 : Game
         
 
         lp = new PaddelLeft(pixel, 50,Keys.W, Keys.S,Keys.T,Keys.P);
-        rp = new PaddelRight(pixel, ARENA_RIGHT_WALL-60,Keys.Up,Keys.Down,Keys.Y,Keys.P);
+        rp = new PaddelRight(pixel, Mindrebana.ARENA_RIGHT_WALL-50,Keys.Up,Keys.Down,Keys.Y,Keys.P);
         settscreen = new SettingScreen(pixel,font);
         power = new Powerup();
         meny = new Startmenu(pixel,menytext);
+        arena = new Mindrebana(pixel);
+
 
         settings = Load();
         lp.LoadContent();
@@ -218,6 +216,7 @@ public class Game1 : Game
         mouse = Mouse.GetState();
 
         KeyboardState kstate = Keyboard.GetState();
+        KeyboardState jstate = Keyboard.GetState();
 
          //Lägger till en bol i början
         if(bolarna.Count<1){
@@ -259,15 +258,18 @@ public class Game1 : Game
             savemeny = false;
 
         }
-            
+
+
+        //Flytar Strek
+        strek.Y = Mindrebana.ARENA_ROOF+2;
+        strek.X = (int)((Mindrebana.ARENA_RIGHT_WALL-Mindrebana.ARENA_LEFT_WALL)/2);
+        strek.Height = Mindrebana.ARENA_FLORE-Mindrebana.ARENA_ROOF-2;
+
+       
 
         
 
-        KeyboardState jstate = Keyboard.GetState();
-
-        // TODO: Add your update logic here
-
-        base.Update(gameTime);
+        
 
 
 
@@ -295,7 +297,7 @@ public class Game1 : Game
 
 
         //Mid padel
-        if (mi.Y <= Game1.ARENA_ROOF ){
+        if (mi.Y <= Mindrebana.ARENA_ROOF ){
             randommidspeed = rnd.Next(4,8);
             mi.Height = rnd.Next(70,151);
             speedmid = randommidspeed * (int)settings.MittenPaddelspeedboost;
@@ -303,7 +305,7 @@ public class Game1 : Game
             
         }
 
-        if ( mi.Y+mi.Height >= ARENA_FLORE ){
+        if ( mi.Y+mi.Height >= Mindrebana.ARENA_FLORE ){
             randommidspeed = rnd.Next(4,8);
             mi.Height = rnd.Next(70,151);
             speedmid = randommidspeed * (int)settings.MittenPaddelspeedboost;
@@ -314,7 +316,9 @@ public class Game1 : Game
 
 
         if(oldState.IsKeyUp(C) && kstate.IsKeyDown(C)){
-            bolarna.Add(new Bolarna(pixel,måleffect,powereffect,hiteffect));
+
+            Mindrebana.Storlek();
+            //bolarna.Add(new Bolarna(pixel,måleffect,powereffect,hiteffect));
 
             }
 
@@ -329,6 +333,7 @@ public class Game1 : Game
         power.Update();
         settscreen.Update();
         meny.Update();
+        arena.Update();
 
         foreach (var mittengubbe in mittengubbar)
         {
@@ -353,7 +358,9 @@ public class Game1 : Game
             figuren.Update();
 
         }
-       
+
+
+        base.Update(gameTime);
 
     }
 
@@ -406,23 +413,17 @@ public class Game1 : Game
         
 
         _spriteBatch.Begin();
-        
-        
 
-        _spriteBatch.Draw(pixel, strek, Color .White);  
+        _spriteBatch.Draw(pixel, strek, Color .White); 
         
-        
-        
-    
+        arena.Draw(_spriteBatch);
+
+         
+
         _spriteBatch.Draw(pixel, mi, Color .Yellow);
-
-        
-
-        
-        
         
         _spriteBatch.DrawString(poengtext,poengL.ToString(), new Vector2 (80,0), Color.White);
-        _spriteBatch.DrawString(poengtext,poengR.ToString(), new Vector2 (ARENA_RIGHT_WALL-100,0), Color.White);
+        _spriteBatch.DrawString(poengtext,poengR.ToString(), new Vector2 (WINDOW_WHITE-100,0), Color.White);
 
         
 
@@ -449,6 +450,7 @@ public class Game1 : Game
 
         meny.Draw(_spriteBatch);
         settscreen.Draw(_spriteBatch);
+        
         
 
         _spriteBatch.End();

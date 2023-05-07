@@ -49,14 +49,14 @@ namespace Pong_2
                 h = 200;
                 if(vem == 0)
                 {
-                    x = rnd.Next(Game1.ARENA_LEFT_WALL+120,(Game1.ARENA_RIGHT_WALL/2)-20);
-                    y = rnd.Next(Game1.ARENA_ROOF,(Game1.ARENA_FLORE)-200);
+                    x = rnd.Next(Mindrebana.ARENA_LEFT_WALL+120,(Mindrebana.ARENA_RIGHT_WALL/2)-20);
+                    y = rnd.Next(Mindrebana.ARENA_ROOF,(Mindrebana.ARENA_FLORE)-200);
 
                 }
                 else
                 {
-                    x = rnd.Next((Game1.ARENA_RIGHT_WALL/2)+20,Game1.ARENA_RIGHT_WALL-120);
-                    y = rnd.Next(Game1.ARENA_ROOF,(Game1.ARENA_FLORE)-200);
+                    x = rnd.Next((Mindrebana.ARENA_RIGHT_WALL/2)+20,Mindrebana.ARENA_RIGHT_WALL-120);
+                    y = rnd.Next(Mindrebana.ARENA_ROOF,(Mindrebana.ARENA_FLORE)-200);
 
                 }
 
@@ -65,7 +65,7 @@ namespace Pong_2
             }
             else
             {
-               x =  rnd.Next(Game1.ARENA_LEFT_WALL+120,(Game1.ARENA_RIGHT_WALL)-120);
+               x =  rnd.Next(Mindrebana.ARENA_LEFT_WALL+120,(Mindrebana.ARENA_RIGHT_WALL)-120);
                h = 100;
 
             }
@@ -93,12 +93,12 @@ namespace Pong_2
        
         inspeed = Game1.padelspeedM; 
 
-        if (mittengubbar.Y <= Game1.ARENA_ROOF ){
+        if (mittengubbar.Y <= Mindrebana.ARENA_ROOF ){
         speed = rnd.Next(2,8);
         speed += (int)inspeed;
         }
 
-        if ( mittengubbar.Y+mittengubbar.Height >= Game1.ARENA_FLORE ){
+        if ( mittengubbar.Y+mittengubbar.Height >= Mindrebana.ARENA_FLORE ){
             speed = rnd.Next(2,8);
             speed += (int)inspeed;
             speed *= -1;

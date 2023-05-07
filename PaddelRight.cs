@@ -46,7 +46,7 @@ namespace Pong_2
         
         // true left , falce right
         public PaddelRight( Texture2D pixel, int x, Keys up, Keys down,Keys toggle,Keys paus){
-            padel = new Rectangle(x, (int)(Game1.ARENA_FLORE*0.5)-50,15,100);
+            padel = new Rectangle(x, (int)(Mindrebana.ARENA_FLORE*0.5)-50,15,100);
             this.up = up;
             this.down = down;
             this.pixel = pixel;
@@ -67,9 +67,15 @@ namespace Pong_2
             //kör kube
             kubeR.X = Paddle.X;
             kubeR.Y = Paddle.Y;
+            padel.X = Mindrebana.ARENA_RIGHT_WALL-50;
             kubeR.Height = Paddle.Height;
             kubeR.Width = Paddle.Width+20;
             //
+
+            if(padel.Y<Mindrebana.ARENA_ROOF)
+                padel.Y = Mindrebana.ARENA_ROOF;
+            else if(padel.Y+padel.Height>Mindrebana.ARENA_FLORE)
+                padel.Y = Mindrebana.ARENA_FLORE-padel.Height;
             
             if(!SettingScreen.settingwindoon&&!Startmenu.startmenyon){
                 
@@ -129,32 +135,27 @@ namespace Pong_2
             {   
                 
 
-                if(bolar.Bollarna.X > Game1.ARENA_RIGHT_WALL/2){
+                if(bolar.Bollarna.X > Mindrebana.ARENA_RIGHT_WALL/2){
                     bolvar = bolar.Bollarna.Y;
                 }
                 else
-                    bolvar = Game1.ARENA_FLORE/2;
+                    bolvar = Mindrebana.ARENA_FLORE/2;
                 
+
+
+
+                if(bolvar <= Paddle.Y + Paddle.Height/2 && Paddle.Y >= Mindrebana.ARENA_ROOF)
+                    ChangeY((int)-Game1.padelspeedR);
                 
-                
-                if(bolvar >= Paddle.Y + Paddle.Height/2 && Paddle.Y <= Game1.ARENA_FLORE-padel.Height)
+                if(bolvar >= Paddle.Y + Paddle.Height/2 && Paddle.Y <= Mindrebana.ARENA_FLORE-padel.Height)
                     ChangeY((int)Game1.padelspeedR);
 
-                if(bolvar <= Paddle.Y + Paddle.Height/2 && Paddle.Y >= Game1.ARENA_ROOF)
-                    ChangeY((int)-Game1.padelspeedR);
+                
 
 
                 
             }
-
             
-
-            
-            
-            
-        
-            
-                
       
                 
         }
@@ -163,9 +164,9 @@ namespace Pong_2
         private void HumanController(KeyboardState kstate)
         {
                 
-            if  (kstate.IsKeyDown(up) && padel.Y >= Game1.ARENA_ROOF)
+            if  (kstate.IsKeyDown(up) && padel.Y >= Mindrebana.ARENA_ROOF)
                 ChangeY(-(int)Game1.padelspeedR);
-            if  (kstate.IsKeyDown(down) && padel.Y <= Game1.ARENA_FLORE-padel.Height)
+            if  (kstate.IsKeyDown(down) && padel.Y <= Mindrebana.ARENA_FLORE-padel.Height)
                 ChangeY((int)Game1.padelspeedR);
 
         }
@@ -173,9 +174,9 @@ namespace Pong_2
         private void MouseController(MouseState mouse)
         {
                 
-            if  (mouse.Position.Y < padel.Y+(padel.Height/2)&& padel.Y >= Game1.ARENA_ROOF)
+            if  (mouse.Position.Y < padel.Y+(padel.Height/2)&& padel.Y >= Mindrebana.ARENA_ROOF)
                 ChangeY(-(int)Game1.padelspeedL);
-            if  (mouse.Position.Y > padel.Y+(padel.Height/2) && padel.Y <= Game1.ARENA_FLORE-padel.Height)
+            if  (mouse.Position.Y > padel.Y+(padel.Height/2) && padel.Y <= Mindrebana.ARENA_FLORE-padel.Height)
                 ChangeY((int)Game1.padelspeedL);
                 
         }

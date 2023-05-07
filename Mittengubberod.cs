@@ -35,7 +35,7 @@ namespace Pong_2
 
         public Mittengubberod(Texture2D pixel,float timerpower){
             
-            mittengubbarrod = new Rectangle(rnd.Next(Game1.ARENA_LEFT_WALL+120,(Game1.ARENA_RIGHT_WALL)-120),10,15,100);
+            mittengubbarrod = new Rectangle(rnd.Next(Mindrebana.ARENA_LEFT_WALL+120,(Mindrebana.ARENA_RIGHT_WALL)-120),10,15,100);
             
             this.pixel = pixel;
             this.timerpower = timerpower;
@@ -55,12 +55,12 @@ namespace Pong_2
         
            
 
-        if (mittengubbarrod.Y <= Game1.ARENA_ROOF ){
+        if (mittengubbarrod.Y <= Mindrebana.ARENA_ROOF ){
             speedy = rnd.Next(2,8);
             speedy += (int)inspeed;
         }
 
-        if ( mittengubbarrod.Y+mittengubbarrod.Height >= Game1.ARENA_FLORE ){
+        if ( mittengubbarrod.Y+mittengubbarrod.Height >= Mindrebana.ARENA_FLORE ){
             speedy = rnd.Next(2,8);
             speedy += (int)inspeed;
             speedy *= -1;
@@ -75,12 +75,12 @@ namespace Pong_2
         }
        
 
-        if (mittengubbarrod.X <= Game1.ARENA_LEFT_WALL+150 ){
+        if (mittengubbarrod.X <= Mindrebana.ARENA_LEFT_WALL+150 ){
         speedx = rnd.Next(2,5);
         speedx += (int)inspeed;
         }
 
-        if ( mittengubbarrod.X >= Game1.ARENA_RIGHT_WALL-150 ){
+        if ( mittengubbarrod.X >= Mindrebana.ARENA_RIGHT_WALL-150 ){
             speedx = rnd.Next(2,5);
             speedx += (int)inspeed;
             speedx *= -1;

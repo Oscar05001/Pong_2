@@ -14,7 +14,6 @@ namespace Pong_2
 
         Keys I = Keys.I;
         KeyboardState oldState;
-        SoundEffect effect;
         Random rnd = new Random();
 
 
@@ -176,16 +175,18 @@ namespace Pong_2
         int num = vilken.Next(0,101);
         if(num>=0&&num<=20)
             Speed(vem);
-        if(num>=20&&num<=40)
+        else if(num>=20&&num<=40)
             Lengre(vem);
-        if(num>=41&&num<=50)
+        else if(num>=41&&num<=50)
             Kortare(vem);
-        if(num>=51&&num<=80)
+        else if(num>=51&&num<=70)
             SpawnVeg(pixel,vem);
-        if(num>=81&&num<=90)
+        else if(num>=71&&num<=85)
             SpawnMiten(pixel);
-        if(num>=90&&num<=100)
+        else if(num>=85&&num<=95)
             SpawnRod(pixel);
+        else if(num>=96&&num<=100)
+            Mindrebana.Storlek();
 
 
 
@@ -330,14 +331,7 @@ namespace Pong_2
         leftkorttimer = 0;
         rightkorttimer = 0;
 
-        if(Game1.powerupfigur.Count>0){
-            for (int i = Game1.powerupfigur.Count; i < 1; i--)
-            {
-
-                Game1.powerupfigur.RemoveAt(i);
-                
-            }
-        }
+        
 
 
 
@@ -362,6 +356,9 @@ namespace Pong_2
                 spriteBatch.DrawString(font,"Lengre "+rightlengre.ToString()+" tid "+((int)rightlengdtimer).ToString(), new Vector2 (340,25), Color.LightSkyBlue);
                 spriteBatch.DrawString(font,"Speedboost "+rightspeedboost.ToString()+" tid "+((int)rightspeedboosttimer).ToString(), new Vector2 (340,50), Color.LightSkyBlue);
                 spriteBatch.DrawString(font,"Hur manga midgul "+Game1.mittengubbar.Count.ToString(), new Vector2 (340,100), Color.LightSkyBlue);
+                spriteBatch.DrawString(font,"Tid Arena "+Mindrebana.tidarena.ToString(), new Vector2 (340,130), Color.LightSkyBlue);
+                spriteBatch.DrawString(font,"Roof Floor Left Right "+Mindrebana.ARENA_ROOF.ToString()+" "+Mindrebana.ARENA_FLORE.ToString()+" "+Mindrebana.ARENA_LEFT_WALL.ToString()+" "+Mindrebana.ARENA_RIGHT_WALL.ToString(), new Vector2 (340,160), Color.LightSkyBlue);
+                spriteBatch.DrawString(font,"Roof Floor Left Right "+Mindrebana.BörRoof.ToString()+" "+Mindrebana.BörFlore.ToString()+" "+Mindrebana.BörLeft.ToString()+" "+Mindrebana.BörRight.ToString(), new Vector2 (340,190), Color.LightSkyBlue);
 
                 
 

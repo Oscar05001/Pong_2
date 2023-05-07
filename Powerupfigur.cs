@@ -15,7 +15,7 @@ namespace Pong_2
 
 
         int speedx = 2;
-        int speedy = 1;
+        int speedy = 2;
 
 
         public static int ompower = 1;
@@ -33,7 +33,7 @@ namespace Pong_2
         
         public Powerupfigur(){ 
             
-            power = new Rectangle(Game1.ARENA_RIGHT_WALL/2, Game1.ARENA_FLORE/2,55,55);
+            power = new Rectangle(Mindrebana.ARENA_RIGHT_WALL/2, Mindrebana.ARENA_FLORE/2,55,55);
             
         }
 
@@ -49,22 +49,22 @@ namespace Pong_2
 
             //Kör Y
 
-            if (power.Y <= Game1.ARENA_ROOF ){
-                speedy *= -1;
+            if (power.Y <= Mindrebana.ARENA_ROOF ){
+                speedy = 2;
             }
 
-            if ( power.Y+power.Height >= Game1.ARENA_FLORE ){
-                speedy *= -1;
+            if ( power.Y+power.Height >= Mindrebana.ARENA_FLORE ){
+                speedy = -2;
             }
             
             //Kör X
 
-            if (power.X <= Game1.ARENA_LEFT_WALL+70 ){
-                speedx *= -1;
+            if (power.X <= Mindrebana.ARENA_LEFT_WALL+70 ){
+                speedx = 2;
             }
 
-            if ( power.X+power.Height >= Game1.ARENA_RIGHT_WALL-70){
-                speedx *= -1;
+            if ( power.X+power.Height >= Mindrebana.ARENA_RIGHT_WALL-70){
+                speedx = -2;
             }
 
             

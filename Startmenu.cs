@@ -1,12 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Audio;
+
 
 namespace Pong_2
 {
@@ -32,12 +29,12 @@ namespace Pong_2
         private float sek=0;
         private float min=0;
 
-        public static bool startmenyon{get;private set;} = true;
+        public static bool startmenyon{get;private set;} = true; 
 
-        private Rectangle startknapp = new Rectangle ((Game1.WINDOW_WHITE/2)-50,(Game1.WINDOW_HEIGHT/2)-50,100,50);
+        private Rectangle startknapp = new Rectangle ((Mindrebana.ARENA_RIGHT_WALL/2)-50,(Mindrebana.ARENA_FLORE/2)-50,100,50);
         
-        private Rectangle plus = new Rectangle ((Game1.WINDOW_WHITE/2)-50,(Game1.WINDOW_HEIGHT/2)+45,25,25);
-        private Rectangle minus = new Rectangle ((Game1.WINDOW_WHITE/2)+20,(Game1.WINDOW_HEIGHT/2)+45,25,25);
+        private Rectangle plus = new Rectangle ((Mindrebana.ARENA_RIGHT_WALL/2)-50,(Mindrebana.ARENA_FLORE/2)+45,25,25);
+        private Rectangle minus = new Rectangle ((Mindrebana.ARENA_RIGHT_WALL/2)+20,(Mindrebana.ARENA_FLORE/2)+45,25,25);
         
 
 
@@ -51,7 +48,7 @@ namespace Pong_2
 
             Random rnd = new Random();
 
-            meny = new Rectangle((Game1.WINDOW_WHITE/2)-100,(Game1.WINDOW_HEIGHT/2)-100,200,200);
+            meny = new Rectangle((Mindrebana.ARENA_RIGHT_WALL/2)-100,(Mindrebana.ARENA_FLORE/2)-100,200,200);
                 
             this.pixel = pixel;
             this.menytext = menytext;
@@ -65,16 +62,17 @@ namespace Pong_2
             mouse = Mouse.GetState();
 
 
-            if(!startmenyon)
+            if(!startmenyon&&!SettingScreen.settingwindoon)
                 sek += 1f/60f;
 
-            if(startknapp.Contains(mouse.Position) && (int)mouse.LeftButton==1){
+            if(startknapp.Contains(mouse.Position) && (int)mouse.LeftButton==1&&startmenyon){
                 startmenyon = false;
                 sek = 0;
                 min = 0;
                 SettingScreen.clearmid = true;
                 Powerup.ResetPowerup();
                 Game1.Resetpoint();
+                Mindrebana.Reset();
                 MediaPlayer.Stop();
             }
             sendit -= 1f/60f;
@@ -91,7 +89,7 @@ namespace Pong_2
 
 
             //Ändra hur många man kör till
-            if(plus.Contains(mouse.Position) && (int)mouse.LeftButton==1&&((int)oldmouse.LeftButton==0||sendit<=0)&&tillhurmånga<99){
+            if(plus.Contains(mouse.Position) && (int)mouse.LeftButton==1&&((int)oldmouse.LeftButton==0||sendit<=0)&&tillhurmånga<99&&startmenyon){
                 
                 if((int)mouse.LeftButton==1&&(int)oldmouse.LeftButton==0)
                     sendit = 1;
@@ -105,7 +103,7 @@ namespace Pong_2
 
 
 
-            if(minus.Contains(mouse.Position) && (int)mouse.LeftButton==1&&((int)oldmousetwo.LeftButton==0||sendit<=0)&&tillhurmånga>1){
+            if(minus.Contains(mouse.Position) && (int)mouse.LeftButton==1&&((int)oldmousetwo.LeftButton==0||sendit<=0)&&tillhurmånga>1&&startmenyon){
                 
                 if((int)mouse.LeftButton==1&&(int)oldmousetwo.LeftButton==0)
                     sendit = 1;
@@ -166,12 +164,15 @@ namespace Pong_2
 
 
             //Time game
+
+            spriteBatch.DrawString(menytext,"Min Sek ", new Vector2 ((Game1.WINDOW_WHITE/2)-55,0), Color.White);
+
             if(min<=10)
-                spriteBatch.DrawString(menytext,"Min/Sek "+((int)min).ToString(), new Vector2 ((Game1.WINDOW_WHITE/2)-145,0), Color.White);
+                spriteBatch.DrawString(menytext,((int)min).ToString(), new Vector2 ((Game1.WINDOW_WHITE/2)-20,30), Color.White);
             else
-                spriteBatch.DrawString(menytext,"Min/Sek"+((int)min).ToString(), new Vector2 ((Game1.WINDOW_WHITE/2)-155,0), Color.White);
+                spriteBatch.DrawString(menytext,((int)min).ToString(), new Vector2 ((Game1.WINDOW_WHITE/2)-45,30), Color.White);
             
-            spriteBatch.DrawString(menytext,((int)sek).ToString(), new Vector2 ((Game1.WINDOW_WHITE/2)+8,0), Color.White);
+            spriteBatch.DrawString(menytext,((int)sek).ToString(), new Vector2 ((Game1.WINDOW_WHITE/2)+7,30), Color.White);
             
 
 
