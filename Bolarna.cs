@@ -43,6 +43,7 @@ namespace Pong_2
         private float väntatimermid;
         private float väntatimermidrod;
         private float väntatimerensammid;
+        private int morespeed=0;
         Random rnd = new Random();
 
         //(X,Y,Bred,Höjd)
@@ -118,6 +119,7 @@ namespace Pong_2
                     bolarna.X = Mindrebana.ARENA_RIGHT_WALL/2;
                     bolarna.Y = Mindrebana.ARENA_FLORE/2;
                     speedX *= -1;
+                    morespeed = 0;
                     aredod = true;
                     
                     
@@ -133,6 +135,7 @@ namespace Pong_2
                     bolarna.X = Mindrebana.ARENA_RIGHT_WALL/2;
                     bolarna.Y = Mindrebana.ARENA_FLORE/2;
                     speedX *= -1;
+                    morespeed = 0;
                     aredod = true;
                     
                     
@@ -146,8 +149,8 @@ namespace Pong_2
                 {   
                     hiteffect.Play();
                     if(toutch==0)
-                        bolspeedX += 1;
-                    speedX = bolspeedX * -1;
+                        morespeed += 1;
+                    speedX = (bolspeedX+morespeed) * -1;
                     toutch = 1;
                     
                     
@@ -157,8 +160,8 @@ namespace Pong_2
                 {
                     hiteffect.Play();
                     if(toutch==1)
-                        bolspeedX -= 1;
-                    speedX = bolspeedX;
+                        morespeed += 1;
+                    speedX = bolspeedX+morespeed;
                     toutch = 0;
                     
                     

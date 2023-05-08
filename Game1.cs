@@ -35,9 +35,9 @@ public class Game1 : Game
 
 
     //Y
-    public const int WINDOW_HEIGHT = 800;
+    public const int WINDOW_HEIGHT = 1000;
     //X
-    public const int WINDOW_WHITE = 1400;
+    public const int WINDOW_WHITE = 1600;
 
 
     private GraphicsDeviceManager _graphics;
@@ -125,6 +125,9 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
+
+        _graphics.IsFullScreen = false;
+        _graphics.ApplyChanges();
         // TODO: Add your initialization logic here
 
         base.Initialize();
