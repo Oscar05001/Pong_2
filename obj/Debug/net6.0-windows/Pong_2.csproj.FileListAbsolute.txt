@@ -35,9 +35,7 @@ C:\Users\Admin\Documents\GitHub\Pong_2\obj\Debug\net6.0-windows\refint\Pong_2.dl
 C:\Users\Admin\Documents\GitHub\Pong_2\obj\Debug\net6.0-windows\Pong_2.pdb
 C:\Users\Admin\Documents\GitHub\Pong_2\obj\Debug\net6.0-windows\Pong_2.genruntimeconfig.cache
 C:\Users\Admin\Documents\GitHub\Pong_2\obj\Debug\net6.0-windows\ref\Pong_2.dll
-C:\Users\Admin\Documents\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\Namnlöspixel.xnb
 C:\Users\Admin\Documents\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\Namnlspixel.xnb
-C:\Users\Admin\Documents\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\text.xnb
 C:\Users\Admin\Documents\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\File.xnb
 C:\Users\Admin\Documents\GitHub\ok\Pong_2\bin\Debug\net6.0-windows\Content\File.xnb
 C:\Users\Admin\Documents\GitHub\ok\Pong_2\bin\Debug\net6.0-windows\Content\Namnlspixel.xnb
@@ -146,3 +144,23 @@ C:\Users\ludde\OneDrive\Dokument\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\
 C:\Users\ludde\OneDrive\Dokument\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\1up.ogg
 C:\Users\ludde\OneDrive\Dokument\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\1up.xnb
 C:\Users\ludde\OneDrive\Dokument\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\Hit.xnb
+C:\Users\Admin\Documents\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\1up.ogg
+C:\Users\Admin\Documents\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\1up.xnb
+C:\Users\Admin\Documents\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\Coin.xnb
+C:\Users\Admin\Documents\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\explosion1.xnb
+C:\Users\Admin\Documents\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\Hit.xnb
+C:\Users\Admin\Documents\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\Juhani Junkala music.ogg
+C:\Users\Admin\Documents\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\Juhani Junkala music.xnb
+C:\Users\Admin\Documents\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\Juhani Junkala.ogg
+C:\Users\Admin\Documents\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\Juhani Junkala.xnb
+C:\Users\Admin\Documents\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\Menytext.xnb
+C:\Users\Admin\Documents\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\Powerupcoin.xnb
+C:\Users\Admin\Documents\GitHub\Pong_2\bin\Debug\net6.0-windows\Content\Text_poeng.xnb
+C:\Users\Admin\Documents\GitHub\Pong_2\bin\Debug\net6.0-windows\runtimes\linux-x64\native\libSDL2-2.0.so.0
+C:\Users\Admin\Documents\GitHub\Pong_2\bin\Debug\net6.0-windows\runtimes\linux-x64\native\libopenal.so.1
+C:\Users\Admin\Documents\GitHub\Pong_2\bin\Debug\net6.0-windows\runtimes\osx\native\libSDL2.dylib
+C:\Users\Admin\Documents\GitHub\Pong_2\bin\Debug\net6.0-windows\runtimes\osx\native\libopenal.1.dylib
+C:\Users\Admin\Documents\GitHub\Pong_2\bin\Debug\net6.0-windows\runtimes\win-x64\native\SDL2.dll
+C:\Users\Admin\Documents\GitHub\Pong_2\bin\Debug\net6.0-windows\runtimes\win-x64\native\soft_oal.dll
+C:\Users\Admin\Documents\GitHub\Pong_2\bin\Debug\net6.0-windows\runtimes\win-x86\native\SDL2.dll
+C:\Users\Admin\Documents\GitHub\Pong_2\bin\Debug\net6.0-windows\runtimes\win-x86\native\soft_oal.dll

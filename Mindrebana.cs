@@ -92,10 +92,10 @@ namespace Pong_2
             tidarena =  (float)rnd.Next(20,40);
             float prosent = rnd.Next(50,90)*0.01f;
             
-            BörRoof = (int)(((Game1.WINDOW_HEIGHT/2)/100)*(prosent*100));
+            BörRoof = (int)((Game1.WINDOW_HEIGHT/2)-((Game1.WINDOW_HEIGHT/2)*prosent));
             BörFlore = (int)((Game1.WINDOW_HEIGHT/2)+((Game1.WINDOW_HEIGHT/2)*prosent));
 
-            BörLeft = (int)(((Game1.WINDOW_WHITE/2)/100)*(prosent*100));
+            BörLeft = (int)((Game1.WINDOW_WHITE/2)-((Game1.WINDOW_WHITE/2)*prosent)) ;
             BörRight = (int)((Game1.WINDOW_WHITE/2)+((Game1.WINDOW_WHITE/2)*prosent));
 
 
@@ -104,31 +104,31 @@ namespace Pong_2
         private void Change(){
 
             if(saktaner<=0){
-                if(linjeuppe.Y<BörRoof-linjeuppe.Height){
+                if(ARENA_ROOF<BörRoof){
                     ARENA_ROOF += 1;
                 }
-                else if(linjeuppe.Y>BörRoof-linjeuppe.Height){
+                else if(ARENA_ROOF>BörRoof){
                     ARENA_ROOF -= 1;
                 }
 
-                if(linjenere.Y<BörFlore){
+                if(ARENA_FLORE<BörFlore){
                     ARENA_FLORE += 1;
                 }
-                else if(linjenere.Y>BörFlore){
+                else if(ARENA_FLORE>BörFlore){
                     ARENA_FLORE -= 1;
                 }
 
-                if(linjehöger.X-linjehöger.Width<BörRight){
+                if(ARENA_RIGHT_WALL<BörRight){
                     ARENA_RIGHT_WALL += 1;
                 }
-                else if(linjehöger.X-linjehöger.Width>BörRight){
+                else if(ARENA_RIGHT_WALL>BörRight){
                     ARENA_RIGHT_WALL -= 1;
                 }
 
-                if(linjevänster.X<BörLeft-linjevänster.Width){
+                if(ARENA_LEFT_WALL<BörLeft){
                     ARENA_LEFT_WALL += 1;
                 }
-                else if(linjevänster.X>BörLeft-linjevänster.Width){
+                else if(ARENA_LEFT_WALL>BörLeft){
                     ARENA_LEFT_WALL -= 1;
                 }
 

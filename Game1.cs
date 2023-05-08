@@ -261,9 +261,9 @@ public class Game1 : Game
 
 
         //Flytar Strek
-        strek.Y = Mindrebana.ARENA_ROOF+2;
-        strek.X = (int)((Mindrebana.ARENA_RIGHT_WALL-Mindrebana.ARENA_LEFT_WALL)/2);
-        strek.Height = Mindrebana.ARENA_FLORE-Mindrebana.ARENA_ROOF-2;
+        strek.Y = Mindrebana.ARENA_ROOF-2;
+        strek.X = (int)(Mindrebana.ARENA_LEFT_WALL+(Mindrebana.ARENA_RIGHT_WALL-Mindrebana.ARENA_LEFT_WALL)/2);
+        strek.Height = Mindrebana.ARENA_FLORE-Mindrebana.ARENA_ROOF+2;
 
        
 
